@@ -2,40 +2,73 @@
 
 import { Component } from '@angular/core';
 import { AuthService } from '../auth.service';
-import { Router } from '@angular/router'; // Import Router for navigation
+import { Router } from '@angular/router'; // Import Router pour la navigation
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html'
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css'] 
 })
 export class LoginComponent {
-  credentials = { email: '', password: '' };
-  token: string | null = null;
+  credentials = { email: '', password: '' }; // Initialisation des champs email et password
+  token: string | null = null; // Initialisation du token
 
   constructor(private authService: AuthService, private router: Router) {}
 
   login() {
+    // Vérifier que les champs email et password ne sont pas vides
+    if (!this.credentials.email || !this.credentials.password) {
+      Swal.fire({
+        title: 'Erreur!',
+        text: 'Veuillez remplir tous les champs.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+      return; // Arrêter l'exécution de la fonction
+    }
+
+    // Appeler le service d'authentification
     this.authService.login(this.credentials).subscribe(
       (response) => {
-        this.token = response.token; // Store the token in the component
-        localStorage.setItem('token', response.token); // Store the token in local storage
-        
-        // Fetch user roles to determine redirection
+        // Stocker le token dans le localStorage
+        localStorage.setItem('token', response.token);
+
+        // Récupérer les rôles de l'utilisateur pour la redirection
         this.authService.getUserRoles().subscribe(
           (roles) => {
             if (roles.includes('admin')) {
-              this.router.navigate(['/addUser']); // Redirect to addUser if admin
+              this.router.navigate(['/admin']); 
+            } else if (roles.includes('manager')) {
+              this.router.navigate(['/manager']); 
+            } else if (roles.includes('employee')) { 
+              this.router.navigate(['/employee']); 
             } else {
-              this.router.navigate(['/dashboard']); // Redirect to dashboard or another page
+              Swal.fire({
+                title: 'Erreur!',
+                text: 'Aucun rôle correspondant trouvé.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+              });
             }
           },
           (error) => {
-            console.error('Error fetching user roles', error);
+            Swal.fire({
+              title: 'Erreur!',
+              text: 'Erreur lors de la récupération des rôles.',
+              icon: 'error',
+              confirmButtonText: 'OK'
+            });
           }
         );
       },
       (error) => {
-        console.error('Login failed', error);
+        Swal.fire({
+          title: 'Erreur!',
+          text: 'Identifiants incorrects.',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
       }
     );
   }

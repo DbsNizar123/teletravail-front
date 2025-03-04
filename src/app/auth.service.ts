@@ -29,4 +29,10 @@ export class AuthService {
     });
     return this.http.post(`${this.apiUrl}/addUser`, userData, { headers });
   }
+  getAllUsers(): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    });
+    return this.http.get(`${this.apiUrl}/users`, { headers });
+  }
 }

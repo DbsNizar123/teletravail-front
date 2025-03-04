@@ -1,15 +1,72 @@
-<div>
-    <h2>Add User</h2>
-    <form (ngSubmit)="addUser()">
-      <input type="text" [(ngModel)]="userData.name" name="name" placeholder="Name" required />
-      <input type="email" [(ngModel)]="userData.email" name="email" placeholder="Email" required />
-      <input type="password" [(ngModel)]="userData.password" name="password" placeholder="Password" required />
-      <select [(ngModel)]="userData.role" name="role" required>
-        <option value="" disabled>Select Role</option>
-        <option value="admin">Admin</option>
-        <option value="manager">Manager</option>
-        <option value="employee">Employee</option>
-      </select>
-      <button type="submit">Add User</button>
-    </form>
+<div class="container mt-5">
+  <div class="card">
+    <div class="card-header">
+      <h2 class="card-title">Add User</h2>
+    </div>
+    <div class="card-body">
+      <form (ngSubmit)="addUser()">
+        <!-- Champ Name -->
+        <div class="mb-3">
+          <label for="name" class="form-label">Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            [(ngModel)]="userData.name"
+            name="name"
+            placeholder="Name"
+            required
+          />
+        </div>
+
+        <!-- Champ Email -->
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            [(ngModel)]="userData.email"
+            name="email"
+            placeholder="Email"
+            required
+          />
+        </div>
+
+        <!-- Champ Password -->
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            [(ngModel)]="userData.password"
+            name="password"
+            placeholder="Password"
+            required
+          />
+        </div>
+
+        <!-- Champ Role -->
+        <div class="mb-3">
+          <label for="role" class="form-label">Role</label>
+          <select
+            class="form-select"
+            id="role"
+            [(ngModel)]="userData.role"
+            name="role"
+            required
+          >
+            <option value="" disabled>Select Role</option>
+            <option value="admin">Admin</option>
+            <option value="manager">Manager</option>
+            <option value="employee">Employee</option>
+          </select>
+        </div>
+
+        <!-- Bouton Submit -->
+        <button type="submit" class="btn btn-primary">Add User</button>
+      </form>
+    </div>
   </div>
+</div>
