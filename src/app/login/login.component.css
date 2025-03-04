@@ -1,0 +1,53 @@
+/* Styles pour réduire la taille du formulaire */
+
+/* Réduire la taille de la carte */
+.card {
+    max-width: 400px; /* Limiter la largeur de la carte */
+    margin: 0 auto; /* Centrer la carte */
+  }
+  
+  /* Réduire la taille des champs de formulaire */
+  .form-control-lg {
+    padding: 0.5rem 1rem; /* Réduire le padding */
+    font-size: 0.9rem; /* Réduire la taille de la police */
+  }
+  
+  /* Réduire la taille des labels */
+  .form-label {
+    font-size: 0.9rem; /* Réduire la taille de la police */
+    margin-bottom: 0.5rem; /* Réduire l'espace entre le label et le champ */
+  }
+  
+  /* Réduire la taille du bouton */
+  .btn-outline-light {
+    padding: 0.5rem 1rem; /* Réduire le padding */
+    font-size: 0.9rem; /* Réduire la taille de la police */
+  }
+  
+  /* Réduire la taille du titre */
+  h2.fw-bold {
+    font-size: 1.5rem; /* Réduire la taille du titre */
+  }
+  
+  /* Réduire la taille du texte descriptif */
+  .text-white-50 {
+    font-size: 0.9rem; /* Réduire la taille de la police */
+  }
+  
+  /* Réduire l'espace entre les éléments du formulaire */
+  .form-outline {
+    margin-bottom: 1rem; /* Réduire l'espace entre les champs */
+  }
+  
+  /* Réduire l'espace autour du formulaire */
+  .mb-md-5 {
+    margin-bottom: 1.5rem !important; /* Réduire l'espace en bas */
+  }
+  
+  .mt-md-4 {
+    margin-top: 1rem !important; /* Réduire l'espace en haut */
+  }
+  
+  .pb-5 {
+    padding-bottom: 1.5rem !important; /* Réduire l'espace en bas */
+  }

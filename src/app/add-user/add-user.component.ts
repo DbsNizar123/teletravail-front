@@ -1,7 +1,6 @@
-// src/app/components/add-user/add-user.component.ts
-
 import { Component } from '@angular/core';
 import { AuthService } from '../auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-user',
@@ -9,18 +8,34 @@ import { AuthService } from '../auth.service';
 })
 export class AddUserComponent {
   userData = { name: '', email: '', password: '', role: '' };
+  successMessage: string = '';
+  errorMessage: string = '';
 
   constructor(private authService: AuthService) {}
 
   addUser() {
     this.authService.addUser(this.userData).subscribe(
       (response) => {
-        console.log('User registered successfully', response);
-        // Optionally reset the form or navigate
+        // Afficher une alerte de succès avec SweetAlert2
+        Swal.fire({
+          title: 'Success!',
+          text: 'User added successfully!',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
+
+        // Réinitialiser le formulaire
+        this.userData = { name: '', email: '', password: '', role: '' };
       },
       (error) => {
-        console.error('User registration failed', error);
+        // Afficher une alerte d'erreur avec SweetAlert2
+        Swal.fire({
+          title: 'Error!',
+          text: 'Failed to add user. Please try again.',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
       }
-    );
-  }
+    ); // Fermer la méthode subscribe
+  } // Fermer la méthode addUser
 }
