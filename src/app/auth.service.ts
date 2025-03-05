@@ -15,6 +15,13 @@ export class AuthService {
   login(credentials: { email: string; password: string }): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, credentials);
   }
+  
+  logout(): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    });
+    return this.http.post(`${this.apiUrl}/logout`, {}, { headers });
+  }
 
   getUserRoles(): Observable<any> {
     const headers = new HttpHeaders({

@@ -1,13 +1,14 @@
+<!-- src/app/dashboard/employee/employee.component.html -->
+
 <div class="dashboard-container">
-    <div class="sidebar">
-      <h2>Employe Dashboard</h2>
-      <ul>
-     
-        <li><a routerLink="/dashboard/ajouterdemande">ajouter demande</a></li>
-    
-      </ul>
-    </div>
-    <div class="main-content">
-      <router-outlet></router-outlet>
-    </div>
+  <div class="sidebar">
+    <h2>Employee Dashboard</h2>
+    <ul>
+      <li><a routerLink="/dashboard/ajouterdemande">Ajouter Demande</a></li>
+      <button class="logout-button" (click)="confirmLogout()">Logout</button>
+    </ul>
   </div>
+  <div class="main-content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule} from '@angular/forms';
 import { HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
+import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { AddUserComponent } from './add-user/add-user.component';
@@ -26,8 +27,8 @@ import { UserListComponent } from './user-list/user-list.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    RouterModule,
     FormsModule,
-    
     HttpClientModule
   ],
   providers: [provideHttpClient()],
