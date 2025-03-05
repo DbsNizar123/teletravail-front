@@ -12,6 +12,8 @@ import { ManagerComponent } from './dashboard/manager/manager.component';
 import { EmployeComponent } from './dashboard/employe/employe.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { ProfileComponent } from './profile/profile.component';
+import { ModifierUserComponent } from './modifier-user/modifier-user.component';
+import { SupprimerUserComponent } from './supprimer-user/supprimer-user.component';
 
 
 @NgModule({
@@ -24,7 +26,9 @@ import { ProfileComponent } from './profile/profile.component';
     ManagerComponent,
     EmployeComponent,
     UserListComponent,
-    ProfileComponent
+    ProfileComponent,
+    ModifierUserComponent,
+    SupprimerUserComponent
   ],
   imports: [
     BrowserModule,

@@ -7,22 +7,36 @@ import { ManagerComponent } from './dashboard/manager/manager.component';
 import { EmployeComponent } from './dashboard/employe/employe.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { ProfileComponent } from './profile/profile.component';
+import { ModifierUserComponent } from './modifier-user/modifier-user.component'; // Import the ModifierUserComponent
+import { SupprimerUserComponent } from './supprimer-user/supprimer-user.component'; // Import the SupprimerUserComponent
 
 const routes: Routes = [
-  { path: 'admin', component: AdminComponent, children: [
+  { 
+    path: 'admin', 
+    component: AdminComponent, 
+    children: [
       { path: 'add-user', component: AddUserComponent },
       { path: 'user-list', component: UserListComponent },
-      { path: 'profile', component: ProfileComponent }, // Add profile route
-  ]},
-  
-  { path: 'manager', component: ManagerComponent, children: [
-      { path: 'profile', component: ProfileComponent }, // Add profile route
-  ]},
-
-  { path: 'employee', component: EmployeComponent, children: [
-      { path: 'profile', component: ProfileComponent }, // Add profile route
-  ]},
-
+      { path: 'profile', component: ProfileComponent },
+     
+    ]
+  },
+  { path: 'modifier-user/:id', component: ModifierUserComponent }, // Add route for modifier-user
+      { path: 'supprimer-user/:id', component: SupprimerUserComponent }, // Add route for supprimer-user
+  { 
+    path: 'manager', 
+    component: ManagerComponent, 
+    children: [
+      { path: 'profile', component: ProfileComponent },
+    ]
+  },
+  { 
+    path: 'employee', 
+    component: EmployeComponent, 
+    children: [
+      { path: 'profile', component: ProfileComponent },
+    ]
+  },
   { path: 'login', component: LoginComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];
