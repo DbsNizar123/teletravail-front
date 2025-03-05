@@ -1,14 +1,16 @@
+<!-- src/app/dashboard/manager/manager.component.html -->
+
 <div class="dashboard-container">
-    <div class="sidebar">
-      <h2>Manager Dashboard</h2>
-      <ul>
-     
-        <li><a routerLink="/dashboard/users">Users</a></li>
-     
-      
-      </ul>
-    </div>
-    <div class="main-content">
-      <router-outlet></router-outlet>
-    </div>
+  <div class="sidebar">
+    <h2>Manager Dashboard</h2>
+    <ul>
+      <li><a routerLink="/dashboard/users">Users</a></li>
+      <li><a routerLink="profile">Update Profile</a></li>
+      <button class="logout-button" (click)="confirmLogout()">Logout</button>
+    </ul>
   </div>
+  <div class="main-content">
+    <h3>Welcome, {{ user?.name }}</h3>
+    <router-outlet></router-outlet>
+  </div>
+</div>

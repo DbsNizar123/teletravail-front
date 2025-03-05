@@ -15,6 +15,13 @@ export class AuthService {
   login(credentials: { email: string; password: string }): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, credentials);
   }
+  
+  logout(): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    });
+    return this.http.post(`${this.apiUrl}/logout`, {}, { headers });
+  }
 
   getUserRoles(): Observable<any> {
     const headers = new HttpHeaders({
@@ -34,5 +41,18 @@ export class AuthService {
       'Authorization': `Bearer ${localStorage.getItem('token')}`
     });
     return this.http.get(`${this.apiUrl}/users`, { headers });
+  }
+  getProfile(): Observable<any> {
+    const token = localStorage.getItem('token'); // Retrieve the token from local storage
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.get(`${this.apiUrl}/profile`, { headers }); // Include headers in the request
+  }
+
+  updateProfile(data: any): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.put(`${this.apiUrl}/profile`, data, { headers }); // Include headers in the request
   }
 }
