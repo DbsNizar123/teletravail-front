@@ -42,4 +42,17 @@ export class AuthService {
     });
     return this.http.get(`${this.apiUrl}/users`, { headers });
   }
+  getProfile(): Observable<any> {
+    const token = localStorage.getItem('token'); // Retrieve the token from local storage
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.get(`${this.apiUrl}/profile`, { headers }); // Include headers in the request
+  }
+
+  updateProfile(data: any): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.put(`${this.apiUrl}/profile`, data, { headers }); // Include headers in the request
+  }
 }

@@ -5,10 +5,12 @@
     <h2>Employee Dashboard</h2>
     <ul>
       <li><a routerLink="/dashboard/ajouterdemande">Ajouter Demande</a></li>
+      <li><a routerLink="profile">Update Profile</a></li>
       <button class="logout-button" (click)="confirmLogout()">Logout</button>
     </ul>
   </div>
   <div class="main-content">
+    <h3>Welcome, {{ user?.name }}</h3>
     <router-outlet></router-outlet>
   </div>
 </div>

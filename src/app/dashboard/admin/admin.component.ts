@@ -11,6 +11,23 @@ import Swal from 'sweetalert2';
 export class AdminComponent {
 
   constructor(private authService: AuthService, private router: Router) {}
+
+  user: any;
+
+  ngOnInit(): void {
+    this.loadProfile();
+  }
+
+  loadProfile() {
+    this.authService.getProfile().subscribe(
+      response => {
+        this.user = response; // Store the user profile data
+      },
+      error => {
+        console.error('Error fetching profile:', error);
+      }
+    );
+  } 
   confirmLogout() {
     Swal.fire({
       title: 'Are you sure?',

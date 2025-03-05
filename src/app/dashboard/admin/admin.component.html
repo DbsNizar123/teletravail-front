@@ -7,12 +7,14 @@
       <li><a routerLink="user-list">Users</a></li>
       <li><a routerLink="/dashboard/settings">Settings</a></li>
       <li><a routerLink="add-user">Add User</a></li>
+      <li><a routerLink="profile">Update Profile</a></li>
       <li>
         <button class="logout-button" (click)="confirmLogout()">Logout</button>
       </li> <!-- Logout button -->
     </ul>
   </div>
   <div class="main-content">
+    <h3>Welcome, {{ user?.name }}</h3>
     <router-outlet></router-outlet>
   </div>
 </div>
