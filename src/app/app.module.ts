@@ -11,6 +11,7 @@ import { AdminComponent } from './dashboard/admin/admin.component';
 import { ManagerComponent } from './dashboard/manager/manager.component';
 import { EmployeComponent } from './dashboard/employe/employe.component';
 import { UserListComponent } from './user-list/user-list.component';
+import { ProfileComponent } from './profile/profile.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { UserListComponent } from './user-list/user-list.component';
     AdminComponent,
     ManagerComponent,
     EmployeComponent,
-    UserListComponent
+    UserListComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
