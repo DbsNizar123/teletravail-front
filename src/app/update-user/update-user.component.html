@@ -1,0 +1,26 @@
+<div class="container">
+    <h2 class="page-title">Update User</h2>
+    <form (ngSubmit)="updateUser()" class="update-form">
+      <div class="form-group">
+        <label for="name">Nom :</label>
+        <input type="text" id="name" [(ngModel)]="user.name" name="name" required class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="email">Email :</label>
+        <input type="email" id="email" [(ngModel)]="user.email" name="email" required class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="role">Rôle :</label>
+        <select id="role" [(ngModel)]="user.role" name="role" required class="form-control">
+          <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="password">Mot de passe :</label>
+        <input type="password" id="password" [(ngModel)]="user.password" name="password" class="form-control" />
+        <small class="form-text text-muted">Laissez vide pour conserver le mot de passe actuel</small>
+      </div>
+      <button type="submit" class="btn btn-primary">Update User</button>
+      <button type="button" class="btn btn-secondary" (click)="router.navigate(['/admin/user-list'])">Annuler</button>
+    </form>
+  </div>

@@ -12,11 +12,10 @@ import { ManagerComponent } from './dashboard/manager/manager.component';
 import { EmployeComponent } from './dashboard/employe/employe.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { ProfileComponent } from './profile/profile.component';
-import { ModifierUserComponent } from './modifier-user/modifier-user.component';
-import { SupprimerUserComponent } from './supprimer-user/supprimer-user.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
-import { ReactiveFormsModule } from '@angular/forms'; // Importer ReactiveFormsModule
+import { ReactiveFormsModule } from '@angular/forms';
+import { UpdateUserComponent } from './update-user/update-user.component'; // Importer ReactiveFormsModule
 
 
 
@@ -32,10 +31,9 @@ import { ReactiveFormsModule } from '@angular/forms'; // Importer ReactiveFormsM
     EmployeComponent,
     UserListComponent,
     ProfileComponent,
-    ModifierUserComponent,
-    SupprimerUserComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
+    UpdateUserComponent
 
  
   ],

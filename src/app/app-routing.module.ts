@@ -7,10 +7,9 @@ import { ManagerComponent } from './dashboard/manager/manager.component';
 import { EmployeComponent } from './dashboard/employe/employe.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { ProfileComponent } from './profile/profile.component';
-import { ModifierUserComponent } from './modifier-user/modifier-user.component'; // Import the ModifierUserComponent
-import { SupprimerUserComponent } from './supprimer-user/supprimer-user.component'; // Import the SupprimerUserComponent
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { UpdateUserComponent } from './update-user/update-user.component';
 
 
 const routes: Routes = [
@@ -20,13 +19,13 @@ const routes: Routes = [
     children: [
       { path: 'add-user', component: AddUserComponent },
       { path: 'user-list', component: UserListComponent },
+      { path: 'update-user/:id', component: UpdateUserComponent },
       { path: 'profile', component: ProfileComponent },
      
     ]
   },
- 
-  { path: 'modifier-user/:id', component: ModifierUserComponent }, // Add route for modifier-user
-      { path: 'supprimer-user/:id', component: SupprimerUserComponent }, // Add route for supprimer-user
+
+
   { 
     path: 'manager', 
     component: ManagerComponent, 
