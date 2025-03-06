@@ -3,7 +3,7 @@
 <div class="container">
   <div class="card">
     <div *ngFor="let user of users" class="user-item">
-      <p><b>- Nom</b> : {{ user.name }} <br>- <b>Email</b> : {{ user.email }}</p>
+      <details><summary><b>- Nom</b> : {{ user.name }}</summary>   <p>- <b>Email</b> : {{ user.email }}</p> <p>- <b>Role</b> : {{ user.roles[0]?.name }}</p> </details>
       <div class="actions">
         <!-- Correction ici : supprimez ":id" et passez directement l'ID -->
         <button class="btn-edit" [routerLink]="['/modifier-user', user.id]">Modifier</button>

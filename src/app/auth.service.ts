@@ -77,4 +77,11 @@ export class AuthService {
     });
     return this.http.get(`${this.apiUrl}/users/${userId}`, { headers });
   }
+  sendResetLinkEmail(email: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/forgot-password`, { email });
+  }
+
+  resetPassword(data: { token: string, email: string, password: string, password_confirmation: string }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/reset-password`, data);
+  }
 }

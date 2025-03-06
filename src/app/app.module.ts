@@ -14,6 +14,11 @@ import { UserListComponent } from './user-list/user-list.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ModifierUserComponent } from './modifier-user/modifier-user.component';
 import { SupprimerUserComponent } from './supprimer-user/supprimer-user.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ReactiveFormsModule } from '@angular/forms'; // Importer ReactiveFormsModule
+
+
 
 
 @NgModule({
@@ -28,9 +33,14 @@ import { SupprimerUserComponent } from './supprimer-user/supprimer-user.componen
     UserListComponent,
     ProfileComponent,
     ModifierUserComponent,
-    SupprimerUserComponent
+    SupprimerUserComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent,
+
+ 
   ],
   imports: [
+    ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule,
     RouterModule,
