@@ -55,4 +55,33 @@ export class AuthService {
 
     return this.http.put(`${this.apiUrl}/profile`, data, { headers }); // Include headers in the request
   }
+  // src/app/services/auth.service.ts
+
+  updateUser(userId: number, userData: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    });
+    return this.http.put(`${this.apiUrl}/updateUser/${userId}`, userData, { headers });
+  }
+
+  deleteUser(userId: number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    });
+    return this.http.delete(`${this.apiUrl}/deleteUser/${userId}`, { headers });
+  }
+
+  getUserById(userId: number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    });
+    return this.http.get(`${this.apiUrl}/users/${userId}`, { headers });
+  }
+  sendResetLinkEmail(email: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/forgot-password`, { email });
+  }
+
+  resetPassword(data: { token: string, email: string, password: string, password_confirmation: string }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/reset-password`, data);
+  }
 }

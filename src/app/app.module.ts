@@ -12,6 +12,13 @@ import { ManagerComponent } from './dashboard/manager/manager.component';
 import { EmployeComponent } from './dashboard/employe/employe.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { ProfileComponent } from './profile/profile.component';
+import { ModifierUserComponent } from './modifier-user/modifier-user.component';
+import { SupprimerUserComponent } from './supprimer-user/supprimer-user.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ReactiveFormsModule } from '@angular/forms'; // Importer ReactiveFormsModule
+
+
 
 
 @NgModule({
@@ -24,9 +31,16 @@ import { ProfileComponent } from './profile/profile.component';
     ManagerComponent,
     EmployeComponent,
     UserListComponent,
-    ProfileComponent
+    ProfileComponent,
+    ModifierUserComponent,
+    SupprimerUserComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent,
+
+ 
   ],
   imports: [
+    ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule,
     RouterModule,

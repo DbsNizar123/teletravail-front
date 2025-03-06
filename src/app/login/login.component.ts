@@ -15,7 +15,10 @@ export class LoginComponent {
   token: string | null = null; // Initialisation du token
 
   constructor(private authService: AuthService, private router: Router) {}
-
+  onForgotPassword() {
+    // Rediriger vers la page de réinitialisation de mot de passe
+    this.router.navigate(['/forgot-password']);
+  }
   login() {
     // Vérifier que les champs email et password ne sont pas vides
     if (!this.credentials.email || !this.credentials.password) {

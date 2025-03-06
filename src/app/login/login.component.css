@@ -51,3 +51,13 @@
   .pb-5 {
     padding-bottom: 1.5rem !important; /* Réduire l'espace en bas */
   }
+  .hover-link {
+  text-decoration: none; /* Supprime la sous-ligne par défaut */
+  transition: color 0.3s ease, text-decoration 0.3s ease; /* Transition pour un effet fluide */
+}
+
+.hover-link:hover {
+  color: #ffffff; /* Couleur dorée au survol */
+  text-decoration: underline; /* Ajoute une sous-ligne au survol */
+  cursor: pointer;
+}
