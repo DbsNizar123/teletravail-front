@@ -1,14 +1,15 @@
-<!-- src/app/user-list/user-list.component.html -->
-
 <div class="container">
+  <h2>User List</h2>
   <div class="card">
     <div *ngFor="let user of users" class="user-item">
-      <details><summary><b>- Nom</b> : {{ user.name }}</summary>   <p>- <b>Email</b> : {{ user.email }}</p> <p>- <b>Role</b> : {{ user.roles[0]?.name }}</p> </details>
+      <details>
+        <summary><b>- Nom</b>: {{ user.name }}</summary>
+        <p>- <b>Email</b>: {{ user.email }}</p>
+        <p>- <b>Role</b>: {{ user.roles[0]?.name }}</p>
+      </details>
       <div class="actions">
-        <!-- Correction ici : supprimez ":id" et passez directement l'ID -->
-        <button class="btn-edit" [routerLink]="['/modifier-user', user.id]">Modifier</button>
-        <!-- Correction ici : supprimez ":id" et passez directement l'ID -->
-        <button class="btn-delete" [routerLink]="['/supprimer-user', user.id]">Supprimer</button>
+        <button class="btn-edit" (click)="updateUser(user)">Modifier</button>
+        <button class="btn-delete" (click)="deleteUser(user)">Supprimer</button>
       </div>
     </div>
   </div>

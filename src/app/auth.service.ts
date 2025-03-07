@@ -42,6 +42,18 @@ export class AuthService {
     });
     return this.http.get(`${this.apiUrl}/users`, { headers });
   }
+  updateUser(userId: number, userData: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    });
+    return this.http.put(`${this.apiUrl}/users/${userId}`, userData, { headers });
+  }
+  deleteUser(userId: number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    });
+    return this.http.delete(`${this.apiUrl}/users/${userId}`, { headers });
+  }
   getProfile(): Observable<any> {
     const token = localStorage.getItem('token'); // Retrieve the token from local storage
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
@@ -57,26 +69,12 @@ export class AuthService {
   }
   // src/app/services/auth.service.ts
 
-  updateUser(userId: number, userData: any): Observable<any> {
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
-    });
-    return this.http.put(`${this.apiUrl}/updateUser/${userId}`, userData, { headers });
-  }
-
-  deleteUser(userId: number): Observable<any> {
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
-    });
-    return this.http.delete(`${this.apiUrl}/deleteUser/${userId}`, { headers });
-  }
-
-  getUserById(userId: number): Observable<any> {
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
-    });
-    return this.http.get(`${this.apiUrl}/users/${userId}`, { headers });
-  }
+ getUserById(userId: number): Observable<any> {
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
+  });
+  return this.http.get(`${this.apiUrl}/users/${userId}`, { headers });
+}
   sendResetLinkEmail(email: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/forgot-password`, { email });
   }
