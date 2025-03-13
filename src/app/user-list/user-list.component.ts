@@ -42,7 +42,7 @@ export class UserListComponent implements OnInit {
         this.authService.deleteUser(user.id).subscribe(
           (response) => {
             Swal.fire('Supprimé!', 'L\'utilisateur a été supprimé.', 'success');
-            this.users = this.users.filter(u => u.id !== user.id); // Mettre à jour la liste
+            this.users = this.users.filter(u => u.id !== user.id); 
           },
           (error) => {
             console.error('Erreur lors de la suppression de l\'utilisateur', error);

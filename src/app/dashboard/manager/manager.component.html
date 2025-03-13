@@ -1,16 +1,40 @@
-<!-- src/app/dashboard/manager/manager.component.html -->
-
 <div class="dashboard-container">
   <div class="sidebar">
     <h2>Manager Dashboard</h2>
     <ul>
-      <li><a routerLink="/dashboard/users">Users</a></li>
-      <li><a routerLink="profile">Update Profile</a></li>
-      <button class="logout-button" (click)="confirmLogout()">Logout</button>
+      <li>
+        <a routerLink="/dashboard/ajouterdemande">
+          <i class="fas fa-plus-circle"></i> Ajouter Demande
+        </a>
+      </li>
+      <li>
+        <a routerLink="profile">
+          <i class="fas fa-user-edit"></i> Update Profile
+        </a>
+      </li>
+      <li>
+        <button class="logout-button position-absolute bottom-0 start-0" (click)="confirmLogout()">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+    </li>
     </ul>
   </div>
   <div class="main-content">
-    <h3>Welcome, {{ user?.name }}</h3>
+    <nav class="navbar bg-body-tertiary">
+      <div class="container-fluid">
+        <h4 class="welcome-message">Welcome {{ user?.name }}</h4>
+        <div class="notification-icon" (click)="toggleNotifications()">
+          <i class="fas fa-bell"></i>
+         
+          <div class="notification-dropdown" *ngIf="showNotifications">
+            <div *ngFor="let notification of notifications" class="notification-item">
+              {{ notification.message }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <br>
     <router-outlet></router-outlet>
   </div>
 </div>

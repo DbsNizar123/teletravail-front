@@ -1,11 +1,11 @@
 <div class="container">
-  <h2>User List</h2>
+  <h2 class="user-list-title"><b>User List</b></h2>
   <div class="card">
     <div *ngFor="let user of users" class="user-item">
       <details>
-        <summary><b>- Nom</b>: {{ user.name }}</summary>
-        <p>- <b>Email</b>: {{ user.email }}</p>
-        <p>- <b>Role</b>: {{ user.roles[0]?.name }}</p>
+        <summary><b> Nom</b>: {{ user.name }}</summary>
+        <p> <b>Email</b>: {{ user.email }}</p>
+        <p> <b>Role</b>: {{ user.roles[0]?.name }}</p>
       </details>
       <div class="actions">
         <button class="btn-edit" (click)="updateUser(user)">Modifier</button>
