@@ -1,4 +1,4 @@
-// src/app/services/auth.service.ts
+
 
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -65,9 +65,9 @@ export class AuthService {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    return this.http.put(`${this.apiUrl}/profile`, data, { headers }); // Include headers in the request
+    return this.http.put(`${this.apiUrl}/profile`, data, { headers }); 
   }
-  // src/app/services/auth.service.ts
+
 
  getUserById(userId: number): Observable<any> {
   const headers = new HttpHeaders({

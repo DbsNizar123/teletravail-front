@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../auth.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
@@ -8,26 +8,39 @@ import Swal from 'sweetalert2';
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css']
 })
-export class AdminComponent {
+export class AdminComponent implements OnInit {
+
+  user: any;
+  notifications: any[] = [];
+  showNotifications: boolean = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
-  user: any;
-
   ngOnInit(): void {
     this.loadProfile();
+    this.loadNotifications();
   }
 
   loadProfile() {
     this.authService.getProfile().subscribe(
       response => {
-        this.user = response; // Store the user profile data
+        this.user = response;
       },
       error => {
         console.error('Error fetching profile:', error);
       }
     );
-  } 
+  }
+
+  loadNotifications() {
+   
+   
+  }
+
+  toggleNotifications() {
+    this.showNotifications = !this.showNotifications;
+  }
+
   confirmLogout() {
     Swal.fire({
       title: 'Are you sure?',
@@ -49,14 +62,13 @@ export class AdminComponent {
     this.authService.logout().subscribe(
       response => {
         console.log('Logout successful:', response);
-        localStorage.removeItem('token'); // Remove token from local storage
+        localStorage.removeItem('token');
         Swal.fire('Logged out!', 'You have been logged out.', 'success');
-        this.router.navigate(['/login']); // Redirect to login page
+        this.router.navigate(['/login']);
       },
       error => {
         console.error('Logout failed:', error);
       }
     );
   }
-  
 }

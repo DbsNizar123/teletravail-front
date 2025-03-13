@@ -1,20 +1,34 @@
-<!-- src/app/dashboard/admin/admin.component.html -->
-
 <div class="dashboard-container">
   <div class="sidebar">
     <h2>Admin Dashboard</h2>
     <ul>
-      <li><a routerLink="user-list">Users</a></li>
-      <li><a routerLink="/dashboard/settings">Settings</a></li>
-      <li><a routerLink="add-user">Add User</a></li>
-      <li><a routerLink="profile">Update Profile</a></li>
+      <li><a routerLink="user-list"><i class="fas fa-users"></i> Users</a></li>
+      <li><a routerLink="add-user"><i class="fas fa-user-plus"></i> Add User</a></li>
+      <li><a routerLink="profile"><i class="fas fa-user-edit"></i> Update Profile</a></li>
+      <li><a routerLink="/dashboard/settings"><i class="fas fa-cog"></i> Settings</a></li>
       <li>
-        <button class="logout-button" (click)="confirmLogout()">Logout</button>
-      </li> <!-- Logout button -->
+        <button class="logout-button position-absolute bottom-0 start-0" (click)="confirmLogout()">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+    </li>
     </ul>
   </div>
   <div class="main-content">
-    <h3>Welcome, {{ user?.name }}</h3>
+    <nav class="navbar bg-body-tertiary">
+      <div class="container-fluid">
+        <h4 class="welcome-message">Welcome {{ user?.name }}</h4>
+        <div class="notification-icon" (click)="toggleNotifications()">
+          <i class="fas fa-bell"></i>
+         
+          <div class="notification-dropdown" *ngIf="showNotifications">
+            <div *ngFor="let notification of notifications" class="notification-item">
+              {{ notification.message }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <br>
     <router-outlet></router-outlet>
   </div>
 </div>
