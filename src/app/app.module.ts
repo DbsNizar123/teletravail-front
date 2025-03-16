@@ -15,7 +15,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { UpdateUserComponent } from './update-user/update-user.component'; // Importer ReactiveFormsModule
+import { UpdateUserComponent } from './update-user/update-user.component';
+import { SubmitTeletravailRequestComponent } from './submit-teletravail-request/submit-teletravail-request.component';
 
 
 
@@ -33,7 +34,9 @@ import { UpdateUserComponent } from './update-user/update-user.component'; // Im
     ProfileComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
-    UpdateUserComponent
+    UpdateUserComponent,
+    SubmitTeletravailRequestComponent,
+   
 
  
   ],
