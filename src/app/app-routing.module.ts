@@ -10,7 +10,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { UpdateUserComponent } from './update-user/update-user.component';
-
+import { SubmitTeletravailRequestComponent } from './submit-teletravail-request/submit-teletravail-request.component';
 
 const routes: Routes = [
   { 
@@ -22,6 +22,7 @@ const routes: Routes = [
       { path: 'update-user/:id', component: UpdateUserComponent },
       { path: 'profile', component: ProfileComponent },
      
+     
     ]
   },
 
@@ -31,6 +32,7 @@ const routes: Routes = [
     component: ManagerComponent, 
     children: [
       { path: 'profile', component: ProfileComponent },
+      { path: 'ajouterdemande', component: SubmitTeletravailRequestComponent },
     ]
   },
   { path: 'forgot-password', component: ForgotPasswordComponent },
@@ -40,6 +42,8 @@ const routes: Routes = [
     component: EmployeComponent, 
     children: [
       { path: 'profile', component: ProfileComponent },
+      { path: 'ajouterdemande', component: SubmitTeletravailRequestComponent },
+     
     ]
   },
   { path: 'login', component: LoginComponent },

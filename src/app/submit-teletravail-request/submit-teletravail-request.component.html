@@ -1,0 +1,39 @@
+<div class="container mt-5">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">Soumettre une demande de télétravail</h2>
+      </div>
+      <div class="card-body">
+        <form (ngSubmit)="onSubmit()">
+          <!-- Champ Date -->
+          <div class="mb-3">
+            <label for="date" class="form-label">Date</label>
+            <input
+              type="date"
+              class="form-control"
+              id="date"
+              [(ngModel)]="requestData.date"
+              name="date"
+              required
+            />
+          </div>
+  
+          <!-- Champ Raison -->
+          <div class="mb-3">
+            <label for="reason" class="form-label">Raison</label>
+            <textarea
+              class="form-control"
+              id="reason"
+              [(ngModel)]="requestData.reason"
+              name="reason"
+              placeholder="Entrez la raison de votre demande"
+              required
+            ></textarea>
+          </div>
+  
+          <!-- Bouton Soumettre -->
+          <button type="submit" class="btn btn-primary">Soumettre</button>
+        </form>
+      </div>
+    </div>
+  </div>
