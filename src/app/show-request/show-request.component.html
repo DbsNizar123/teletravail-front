@@ -1,14 +1,19 @@
 <div class="container mt-5">
-    <h2>Mes Demandes de Télétravail</h2>
-    <div *ngIf="requests.length === 0">
-      <p>Aucune demande trouvée.</p>
-    </div>
-    <ul *ngIf="requests.length > 0">
-      <li *ngFor="let request of requests">
-        <strong>Date:</strong> {{ request.date }} <br />
-        <strong>Raison:</strong> {{ request.reason }} <br />
-        <strong>Statut:</strong> {{ request.status }} <br /> <!-- Affiche le statut -->
-        <hr />
-      </li>
-    </ul>
+  <h2 class="request-list-title"><b>Mes Demandes de Télétravail</b></h2>
+  <div *ngIf="requests.length === 0">
+    <p>Aucune demande trouvée.</p>
   </div>
+  <div *ngIf="requests.length > 0" class="card">
+    <div *ngFor="let request of requests" class="request-item">
+      <details>
+        <summary><b>Date</b>: {{ request.date }}</summary>
+        <p><b>Raison</b>: {{ request.reason }}</p>
+        <p><b>Statut</b>: {{ request.status }}</p><br>
+      </details>
+      <div class="actions">
+        <button class="btn-edit" >Modifier</button>
+      
+      </div>
+    </div>
+  </div>
+</div>
