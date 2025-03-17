@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-show-request',
   templateUrl: './show-request.component.html',
+  styleUrls: ['./show-request.component.css']
 })
 export class ShowRequestComponent implements OnInit {
   requests: any[] = [];

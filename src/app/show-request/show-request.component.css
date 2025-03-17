@@ -1,0 +1,105 @@
+.container {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #f1f1f1;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .request-list-title {
+    text-align: center;
+    font-size: 2em;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .request-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .request-item:hover {
+    background-color: #f1f1f1;
+    transform: scale(1.05);
+  }
+  
+  .request-item p {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .actions {
+    display: none;
+  }
+  
+  .request-item:hover .actions {
+    display: flex;
+  }
+  
+  .btn-edit, .btn-delete {
+    padding: 5px 10px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-edit {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .btn-edit:hover {
+    background-color: #45a049;
+  }
+  
+  .btn-delete {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .btn-delete:hover {
+    background-color: #e53935;
+  }
+  
+  details summary {
+    list-style: none;
+    cursor: pointer;
+    position: relative;
+    padding-left: 20px;
+  }
+  
+  details summary::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #007bff;
+    transition: transform 0.3s ease;
+  }
+  
+  details[open] summary::before {
+    transform: translateY(-50%) rotate(90deg);
+  }
+  
+  details p {
+    margin: 10px 0;
+    color: #555;
+  }
