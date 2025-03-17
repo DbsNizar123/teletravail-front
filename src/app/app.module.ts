@@ -17,6 +17,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { ReactiveFormsModule } from '@angular/forms';
 import { UpdateUserComponent } from './update-user/update-user.component';
 import { SubmitTeletravailRequestComponent } from './submit-teletravail-request/submit-teletravail-request.component';
+import { ShowRequestComponent } from './show-request/show-request.component';
 
 
 
@@ -36,6 +37,7 @@ import { SubmitTeletravailRequestComponent } from './submit-teletravail-request/
     ResetPasswordComponent,
     UpdateUserComponent,
     SubmitTeletravailRequestComponent,
+    ShowRequestComponent,
    
 
  
