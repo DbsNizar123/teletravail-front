@@ -23,6 +23,18 @@ export class TeletravailRequestService {
     );
   }
 
+  getRequests(): Observable<any> {
+    const token = localStorage.getItem('token'); // Récupérer le token depuis le localStorage
+    const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`, // Inclure le token dans les en-têtes
+    });
+
+    return this.http.get(`${this.apiUrl}/teletravail-requests`, { headers }).pipe(
+        catchError(this.handleError) // Gestion des erreurs
+    );
+}
+
  
 
 

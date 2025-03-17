@@ -1,0 +1,13 @@
+<div class="container mt-5">
+    <h2>Mes Demandes de Télétravail</h2>
+    <div *ngIf="requests.length === 0">
+      <p>Aucune demande trouvée.</p>
+    </div>
+    <ul *ngIf="requests.length > 0">
+      <li *ngFor="let request of requests">
+        <strong>Date:</strong> {{ request.date }} <br />
+        <strong>Raison:</strong> {{ request.reason }} <br />
+        <hr />
+      </li>
+    </ul>
+  </div>
