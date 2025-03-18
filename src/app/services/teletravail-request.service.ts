@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { Observable, catchError, throwError } from 'rxjs'; // Importez catchError et throwError
+import { Observable, catchError, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,33 +10,38 @@ export class TeletravailRequestService {
 
   constructor(private http: HttpClient) {}
 
-  // Soumettre une demande de télétravail
-  submitRequest(data: { date: string; reason: string }): Observable<any> {
-    const token = localStorage.getItem('token'); // Récupérer le token depuis le localStorage
-    const headers = new HttpHeaders({
+  // Configurer les en-têtes avec le token d'authentification
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`, // Inclure le token dans les en-têtes
+      Authorization: `Bearer ${token}`,
     });
-
-    return this.http.post(`${this.apiUrl}/teletravail-requests`, data, { headers }).pipe(
-      catchError(this.handleError) // Gestion des erreurs
-    );
   }
 
+  // Soumettre une demande de télétravail
+  submitRequest(data: { date: string; reason: string }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/teletravail-requests`, data, { headers: this.getHeaders() })
+      .pipe(catchError(this.handleError));
+  }
+
+  // Obtenir toutes les demandes de télétravail
   getRequests(): Observable<any> {
-    const token = localStorage.getItem('token'); // Récupérer le token depuis le localStorage
-    const headers = new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`, // Inclure le token dans les en-têtes
-    });
+    return this.http.get(`${this.apiUrl}/teletravail-requests`, { headers: this.getHeaders() })
+      .pipe(catchError(this.handleError));
+  }
 
-    return this.http.get(`${this.apiUrl}/teletravail-requests`, { headers }).pipe(
-        catchError(this.handleError) // Gestion des erreurs
-    );
-}
+  // Obtenir une demande spécifique par ID
+  getRequestById(id: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/teletravail-requests/${id}`, { headers: this.getHeaders() })
+      .pipe(catchError(this.handleError));
+  }
 
- 
-
+  // Mettre à jour une demande de télétravail
+  updateRequest(id: string, data: { date?: string; reason?: string }): Observable<any> {
+    return this.http.put(`${this.apiUrl}/teletravail-requests/${id}`, data, { headers: this.getHeaders() })
+      .pipe(catchError(this.handleError));
+  }
 
   // Gestion des erreurs
   private handleError(error: HttpErrorResponse) {

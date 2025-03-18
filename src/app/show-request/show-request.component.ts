@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TeletravailRequestService } from '../services/teletravail-request.service';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-show-request',
@@ -10,7 +11,7 @@ import Swal from 'sweetalert2';
 export class ShowRequestComponent implements OnInit {
   requests: any[] = [];
 
-  constructor(private teletravailRequestService: TeletravailRequestService) {}
+  constructor(private teletravailRequestService: TeletravailRequestService,  private router: Router) {}
 
   ngOnInit(): void {
     this.loadRequests();
@@ -30,5 +31,8 @@ export class ShowRequestComponent implements OnInit {
         console.error(error);
       },
     });
+  }
+  editRequest(requestId: string) {
+    this.router.navigate([`/employee/modifierdemande/${requestId}`]);
   }
 }

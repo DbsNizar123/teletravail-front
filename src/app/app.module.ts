@@ -18,6 +18,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { UpdateUserComponent } from './update-user/update-user.component';
 import { SubmitTeletravailRequestComponent } from './submit-teletravail-request/submit-teletravail-request.component';
 import { ShowRequestComponent } from './show-request/show-request.component';
+import { UpdateRequestComponent } from './update-request/update-request.component';
 
 
 
@@ -38,6 +39,7 @@ import { ShowRequestComponent } from './show-request/show-request.component';
     UpdateUserComponent,
     SubmitTeletravailRequestComponent,
     ShowRequestComponent,
+    UpdateRequestComponent,
    
 
  

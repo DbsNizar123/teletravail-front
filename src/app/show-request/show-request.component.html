@@ -11,8 +11,7 @@
         <p><b>Statut</b>: {{ request.status }}</p><br>
       </details>
       <div class="actions">
-        <button class="btn-edit" >Modifier</button>
-      
+        <button class="btn-edit" (click)="editRequest(request.id)">Modifier</button>
       </div>
     </div>
   </div>
