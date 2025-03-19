@@ -1,0 +1,81 @@
+.container {
+    max-width: 1200px; /* Augmentation de la largeur maximale */
+    margin: 30px auto; /* Centrage horizontal */
+    padding: 30px; /* Augmentation du padding */
+    border: 1px solid #f1f1f1;
+    border-radius: 12px; /* Augmentation du rayon de bordure */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Ombre plus prononcée */
+    background-color: #fff;
+    text-align: center; /* Centrage du texte */
+}
+
+.department-list-title {
+    text-align: center;
+    font-size: 2.5em; /* Augmentation de la taille de la police */
+    color: #333;
+    margin-bottom: 30px; /* Augmentation de la marge */
+}
+
+.department-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centrage des éléments */
+    width: 100%;
+}
+
+.department-item {
+    position: relative; /* Permet de positionner les boutons correctement */
+    padding: 20px; /* Espacement interne */
+    margin-bottom: 15px; /* Espacement entre les départements */
+    background-color: #f9f9f9; /* Couleur de fond */
+    border: 1px solid #eee; /* Bordure */
+    border-radius: 8px; /* Coins arrondis */
+    transition: background-color 0.3s ease; /* Transition fluide */
+    width: 80%; /* Largeur des éléments */
+    max-width: 800px; /* Largeur maximale */
+}
+
+.department-item:hover {
+    background-color: #f1f1f1; /* Changement de couleur au survol */
+}
+
+.actions {
+    display: none; /* Masquer les boutons par défaut */
+    position: absolute; /* Position absolue pour les boutons */
+    top: 50%; /* Centrer verticalement */
+    right: 20px; /* Aligner à droite */
+    transform: translateY(-50%); /* Ajuster la position verticale */
+    gap: 10px; /* Espacement entre les boutons */
+}
+
+.department-item:hover .actions {
+    display: flex; /* Afficher les boutons au survol */
+}
+
+.btn-edit,
+.btn-delete {
+    padding: 8px 15px; /* Taille des boutons */
+    border: none;
+    border-radius: 4px; /* Coins arrondis */
+    cursor: pointer;
+    font-size: 14px; /* Taille de la police */
+    transition: background-color 0.3s ease, opacity 0.3s ease; /* Transition fluide */
+}
+
+.btn-edit {
+    background-color: #4caf50; /* Couleur de fond pour le bouton Edit */
+    color: white; /* Couleur du texte */
+}
+
+.btn-edit:hover {
+    background-color: #45a049; /* Changement de couleur au survol */
+}
+
+.btn-delete {
+    background-color: #f44336; /* Couleur de fond pour le bouton Delete */
+    color: white; /* Couleur du texte */
+}
+
+.btn-delete:hover {
+    background-color: #e53935; /* Changement de couleur au survol */
+}
