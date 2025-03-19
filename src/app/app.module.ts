@@ -19,6 +19,8 @@ import { UpdateUserComponent } from './update-user/update-user.component';
 import { SubmitTeletravailRequestComponent } from './submit-teletravail-request/submit-teletravail-request.component';
 import { ShowRequestComponent } from './show-request/show-request.component';
 import { UpdateRequestComponent } from './update-request/update-request.component';
+import { AddDepartmentComponent } from './add-department/add-department.component';
+import { ShowDepartmentComponent } from './show-department/show-department.component';
 
 
 
@@ -40,9 +42,11 @@ import { UpdateRequestComponent } from './update-request/update-request.componen
     SubmitTeletravailRequestComponent,
     ShowRequestComponent,
     UpdateRequestComponent,
+    AddDepartmentComponent,
+    ShowDepartmentComponent,
    
 
- 
+    
   ],
   imports: [
     ReactiveFormsModule,

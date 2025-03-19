@@ -13,6 +13,8 @@ import { UpdateUserComponent } from './update-user/update-user.component';
 import { SubmitTeletravailRequestComponent } from './submit-teletravail-request/submit-teletravail-request.component';
 import { ShowRequestComponent } from './show-request/show-request.component';
 import { UpdateRequestComponent } from './update-request/update-request.component';
+import { AddDepartmentComponent } from './add-department/add-department.component';
+import { ShowDepartmentComponent } from './show-department/show-department.component';
 
 const routes: Routes = [
   { 
@@ -22,8 +24,10 @@ const routes: Routes = [
       { path: 'add-user', component: AddUserComponent },
       { path: 'user-list', component: UserListComponent },
       { path: 'update-user/:id', component: UpdateUserComponent },
-      { path: 'profile', component: ProfileComponent },
-     
+      { path: 'profile', component: ProfileComponent }, 
+      { path: 'add-department', component: AddDepartmentComponent },
+      { path: 'show-department', component: ShowDepartmentComponent },
+      { path: 'delete-department/:id', component: ShowDepartmentComponent }, 
      
     ]
   },
