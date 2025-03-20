@@ -6,8 +6,7 @@
     <div *ngIf="departments.length > 0" class="card department-list">
         <div *ngFor="let department of departments; let i = index" class="department-item">
             <details>
-                <summary><strong>Department {{ i + 1 }}</strong></summary>
-                <p>  </p>
+                <summary><strong>Department {{ i + 1 + (currentPage - 1) * limit }}</strong></summary>
                 <p><b>Name</b>: {{ department.name }}</p>
                 <p><b>Description</b>: {{ department.description }}</p>
             </details>
@@ -16,5 +15,11 @@
                 <button class="btn-delete" (click)="deleteDepartment(department.id)">Delete</button>
             </div>
         </div>
+    </div>
+
+    <div class="pagination-controls">
+        <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+        <span>Page {{ currentPage }} of {{ totalPages }}</span>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
     </div>
 </div>
