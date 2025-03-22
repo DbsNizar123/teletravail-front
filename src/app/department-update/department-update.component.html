@@ -1,0 +1,36 @@
+<div class="container">
+    <h2>Update Department</h2>
+  
+    <!-- Afficher les messages d'erreur -->
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+  
+    <!-- Afficher les messages de succès -->
+    <div *ngIf="successMessage" class="alert alert-success">
+      {{ successMessage }}
+    </div>
+  
+    <form [formGroup]="departmentForm" (ngSubmit)="updateDepartment()">
+      <!-- Champ pour le nom -->
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input id="name" type="text" formControlName="name" class="form-control" />
+        <small *ngIf="departmentForm.get('name')?.invalid && departmentForm.get('name')?.touched" class="text-danger">
+          Name is required and must not exceed 255 characters.
+        </small>
+      </div>
+  
+      <!-- Champ pour la description -->
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" formControlName="description" class="form-control"></textarea>
+      </div>
+  
+      <!-- Boutons d'action -->
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" [disabled]="departmentForm.invalid">Update</button>
+        <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+      </div>
+    </form>
+  </div>

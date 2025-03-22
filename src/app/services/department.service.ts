@@ -30,10 +30,8 @@ export class DepartmentService {
   }
 
   // Get all departments
-  getDepartments(page: number = 1, limit: number = 6): Observable<any> {
-    return this.http
-        .get(`${this.apiUrl}?page=${page}&limit=${limit}`, { headers: this.getHeaders() })
-        .pipe(catchError(this.handleError));
+ getDepartments(page: number, limit: number): Observable<any> {
+  return this.http.get(`${this.apiUrl}?page=${page}&limit=${limit}`, { headers: this.getHeaders() });
 }
 
   // Delete a department by ID
@@ -42,6 +40,20 @@ export class DepartmentService {
       .delete(`${this.apiUrl}/${id}`, { headers: this.getHeaders() })
       .pipe(catchError(this.handleError));
   }
+  
+ // Récupérer un département par son ID
+getDepartmentById(id: string): Observable<any> {
+  return this.http.get(`${this.apiUrl}/${id}`, { headers: this.getHeaders() }).pipe(
+    catchError(this.handleError)
+  );
+}
+
+// Mettre à jour un département
+updateDepartment(id: string, data: { name: string; description: string }): Observable<any> {
+  return this.http.put(`${this.apiUrl}/${id}`, data, { headers: this.getHeaders() }).pipe(
+    catchError(this.handleError)
+  );
+}
 
   // Error handling method
   private handleError(error: HttpErrorResponse) {

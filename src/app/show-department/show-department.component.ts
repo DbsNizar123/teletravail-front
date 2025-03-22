@@ -39,10 +39,10 @@ export class ShowDepartmentComponent implements OnInit {
       },
     });
   }
-
-  editDepartment(departmentId: string) {
-    this.router.navigate([`/edit-department/${departmentId}`]);
-  }
+  editDepartment(id: string): void {
+    console.log('Editing department with ID:', id);
+    this.router.navigate(['/admin/departments/update', id]);
+}
 
   deleteDepartment(departmentId: string) {
     Swal.fire({
