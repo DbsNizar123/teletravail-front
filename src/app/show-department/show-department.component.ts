@@ -9,7 +9,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./show-department.component.css'],
 })
 export class ShowDepartmentComponent implements OnInit {
-  departments: any[] = []; // Array to store the list of departments
+  departments: any[] = [];
+  currentPage: number = 1;
+  totalPages: number = 0;
+  limit: number = 10; // Number of departments per page
 
   constructor(
     private departmentService: DepartmentService,
@@ -17,14 +20,14 @@ export class ShowDepartmentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadDepartments(); // Load departments when the component initializes
+    this.loadDepartments();
   }
 
-  // Load all departments from the backend
   loadDepartments() {
-    this.departmentService.getDepartments().subscribe({
+    this.departmentService.getDepartments(this.currentPage, this.limit).subscribe({
       next: (response) => {
-        this.departments = response.departments; // Ensure the response has this structure
+        this.departments = response.data; // Adjust based on your API response
+        this.totalPages = response.last_page; // Adjust based on your API response
       },
       error: (error) => {
         Swal.fire({
@@ -37,12 +40,10 @@ export class ShowDepartmentComponent implements OnInit {
     });
   }
 
-  // Navigate to the edit department page
   editDepartment(departmentId: string) {
     this.router.navigate([`/edit-department/${departmentId}`]);
   }
 
-  // Delete a department
   deleteDepartment(departmentId: string) {
     Swal.fire({
       title: 'Are you sure?',
@@ -73,5 +74,19 @@ export class ShowDepartmentComponent implements OnInit {
         });
       }
     });
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.loadDepartments();
+    }
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.loadDepartments();
+    }
   }
 }

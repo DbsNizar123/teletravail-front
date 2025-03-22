@@ -26,8 +26,8 @@ export class TeletravailRequestService {
   }
 
   // Obtenir toutes les demandes de télétravail
-  getRequests(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/teletravail-requests`, { headers: this.getHeaders() })
+  getRequests(page: number = 1, limit: number = 6): Observable<any> {
+    return this.http.get(`${this.apiUrl}/teletravail-requests?page=${page}&limit=${limit}`, { headers: this.getHeaders() })
       .pipe(catchError(this.handleError));
   }
 

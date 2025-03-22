@@ -30,11 +30,11 @@ export class DepartmentService {
   }
 
   // Get all departments
-  getDepartments(): Observable<any> {
+  getDepartments(page: number = 1, limit: number = 6): Observable<any> {
     return this.http
-      .get(this.apiUrl, { headers: this.getHeaders() })
-      .pipe(catchError(this.handleError));
-  }
+        .get(`${this.apiUrl}?page=${page}&limit=${limit}`, { headers: this.getHeaders() })
+        .pipe(catchError(this.handleError));
+}
 
   // Delete a department by ID
   deleteDepartment(id: string): Observable<any> {

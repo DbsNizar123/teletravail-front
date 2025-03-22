@@ -10,16 +10,24 @@ import Swal from 'sweetalert2';
 })
 export class UserListComponent implements OnInit {
   users: any[] = [];
+  currentPage: number = 1;
+  totalPages: number = 0;
+  limit: number = 6; // Number of users per page
 
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
-    this.authService.getAllUsers().subscribe(
+    this.loadUsers(this.currentPage, this.limit);
+  }
+
+  loadUsers(page: number, limit: number): void {
+    this.authService.getAllUsers(page, limit).subscribe(
       (data: any) => {
-        this.users = data;
+        this.users = data.data; // Adjust based on your API response
+        this.totalPages = data.last_page; // Adjust based on your API response
       },
       (error) => {
-        console.error('Erreur lors de la récupération des utilisateurs', error);
+        console.error('Error fetching users', error);
       }
     );
   }
@@ -40,9 +48,9 @@ export class UserListComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.authService.deleteUser(user.id).subscribe(
-          (response) => {
+          () => {
             Swal.fire('Supprimé!', 'L\'utilisateur a été supprimé.', 'success');
-            this.users = this.users.filter(u => u.id !== user.id); 
+            this.users = this.users.filter(u => u.id !== user.id);
           },
           (error) => {
             console.error('Erreur lors de la suppression de l\'utilisateur', error);
@@ -51,5 +59,19 @@ export class UserListComponent implements OnInit {
         );
       }
     });
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.loadUsers(this.currentPage, this.limit);
+    }
+  }
+
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.loadUsers(this.currentPage, this.limit);
+    }
   }
 }
