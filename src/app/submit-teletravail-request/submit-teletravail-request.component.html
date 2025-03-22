@@ -1,39 +1,56 @@
 <div class="container mt-5">
-    <div class="card">
-      <div class="card-header">
-        <h2 class="card-title">Soumettre une demande de télétravail</h2>
-      </div>
-      <div class="card-body">
-        <form (ngSubmit)="onSubmit()">
-          <!-- Champ Date -->
-          <div class="mb-3">
-            <label for="date" class="form-label">Date</label>
-            <input
-              type="date"
-              class="form-control"
-              id="date"
-              [(ngModel)]="requestData.date"
-              name="date"
-              required
-            />
-          </div>
-  
-          <!-- Champ Raison -->
-          <div class="mb-3">
-            <label for="reason" class="form-label">Raison</label>
-            <textarea
-              class="form-control"
-              id="reason"
-              [(ngModel)]="requestData.reason"
-              name="reason"
-              placeholder="Entrez la raison de votre demande"
-              required
-            ></textarea>
-          </div>
-  
-          <!-- Bouton Soumettre -->
-          <button type="submit" class="btn btn-primary">Soumettre</button>
-        </form>
-      </div>
+  <div class="card">
+    <div class="card-header">
+      <h2 class="card-title">Soumettre une demande de télétravail</h2>
+    </div>
+    <div class="card-body">
+      <form (ngSubmit)="onSubmit()">
+        <!-- Champ Date -->
+        <div class="mb-3">
+          <label for="date" class="form-label">Date</label>
+          <input
+            type="date"
+            class="form-control"
+            id="date"
+            [(ngModel)]="requestData.date"
+            name="date"
+            required
+          />
+        </div>
+
+        <!-- Champ Raison -->
+        <div class="mb-3">
+          <label for="reason" class="form-label">Raison</label>
+          <textarea
+            class="form-control"
+            id="reason"
+            [(ngModel)]="requestData.reason"
+            name="reason"
+            placeholder="Entrez la raison de votre demande"
+            required
+          ></textarea>
+        </div>
+
+        <!-- Champ Sélection du département -->
+        <div class="mb-3">
+          <label for="department" class="form-label">Département</label>
+          <select
+            class="form-control"
+            id="department"
+            [(ngModel)]="requestData.department_id"
+            name="department"
+            required
+          >
+            <option value="0" disabled>Sélectionnez un département</option>
+            <option *ngFor="let department of departments" [value]="department.id">
+              {{ department.name }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Bouton Soumettre -->
+        <button type="submit" class="btn btn-primary">Soumettre</button>
+      </form>
     </div>
   </div>
+</div>
