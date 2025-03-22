@@ -21,6 +21,8 @@ import { ShowRequestComponent } from './show-request/show-request.component';
 import { UpdateRequestComponent } from './update-request/update-request.component';
 import { AddDepartmentComponent } from './add-department/add-department.component';
 import { ShowDepartmentComponent } from './show-department/show-department.component';
+import { DepartmentUpdateComponent } from './department-update/department-update.component';
+
 
 
 
@@ -44,6 +46,8 @@ import { ShowDepartmentComponent } from './show-department/show-department.compo
     UpdateRequestComponent,
     AddDepartmentComponent,
     ShowDepartmentComponent,
+    DepartmentUpdateComponent,
+
    
 
     

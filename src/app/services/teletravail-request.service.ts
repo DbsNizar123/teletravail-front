@@ -20,7 +20,7 @@ export class TeletravailRequestService {
   }
 
   // Soumettre une demande de télétravail
-  submitRequest(data: { date: string; reason: string }): Observable<any> {
+  submitRequest(data: { date: string; reason: string; department_id: number }): Observable<any> {
     return this.http.post(`${this.apiUrl}/teletravail-requests`, data, { headers: this.getHeaders() })
       .pipe(catchError(this.handleError));
   }
