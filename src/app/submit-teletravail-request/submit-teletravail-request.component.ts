@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-submit-teletravail-request',
   templateUrl: './submit-teletravail-request.component.html',
+  styleUrls: ['./submit-teletravail-request.component.css']
 })
 export class SubmitTeletravailRequestComponent implements OnInit {
   // Déclaration des données du formulaire
