@@ -34,6 +34,36 @@ export class DepartmentService {
   return this.http.get(`${this.apiUrl}?page=${page}&limit=${limit}`, { headers: this.getHeaders() });
 }
 
+
+getAllDepartments(): Observable<any[]> {
+  return new Observable((observer) => {
+    let allDepartments: any[] = [];
+    let page = 1;
+    const limit = 6; // Limite imposée par l'API
+
+    const fetchPage = () => {
+      this.getDepartments(page, limit).subscribe({
+        next: (response) => {
+          allDepartments = allDepartments.concat(response.data); // Concaténer les résultats
+          if (response.data.length === limit) {
+            // S'il y a encore des données, passer à la page suivante
+            page++;
+            fetchPage();
+          } else {
+            // Toutes les données ont été récupérées
+            observer.next(allDepartments);
+            observer.complete();
+          }
+        },
+        error: (error) => {
+          observer.error(error);
+        },
+      });
+    };
+
+    fetchPage(); // Commencer à récupérer les données
+  });
+}
   // Delete a department by ID
   deleteDepartment(id: string): Observable<any> {
     return this.http

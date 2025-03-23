@@ -6,8 +6,8 @@
     <div *ngIf="departments.length > 0" class="card department-list">
         <div *ngFor="let department of departments; let i = index" class="department-item">
             <details>
-                <summary><strong>Department {{ i + 1 + (currentPage - 1) * limit }}</strong></summary>
-                <p><b>Name</b>: {{ department.name }}</p>
+                <summary><strong>{{ department.name }}</strong></summary>
+            
                 <p><b>Description</b>: {{ department.description }}</p>
             </details>
             <div class="actions">

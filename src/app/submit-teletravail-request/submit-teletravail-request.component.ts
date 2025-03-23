@@ -28,9 +28,9 @@ export class SubmitTeletravailRequestComponent implements OnInit {
 
   // Charger la liste des départements
   loadDepartments(): void {
-    this.departmentService.getDepartments(1, 100).subscribe({
-      next: (response) => {
-        this.departments = response.data; // Assurez-vous que la réponse correspond à votre API
+    this.departmentService.getAllDepartments().subscribe({
+      next: (departments) => {
+        this.departments = departments; // Tous les départements sont chargés
       },
       error: (error) => {
         console.error('Erreur lors du chargement des départements :', error);
