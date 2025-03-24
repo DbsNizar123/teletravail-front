@@ -14,6 +14,7 @@ import { SubmitTeletravailRequestComponent } from './submit-teletravail-request/
 import { ShowRequestComponent } from './show-request/show-request.component';
 import { UpdateRequestComponent } from './update-request/update-request.component';
 import { AddDepartmentComponent } from './add-department/add-department.component';
+
 import { ShowDepartmentComponent } from './show-department/show-department.component';
 import { DepartmentUpdateComponent } from './department-update/department-update.component';
 
@@ -46,6 +47,13 @@ const routes: Routes = [
       { path: 'ajouterdemande', component: SubmitTeletravailRequestComponent },
       { path: 'voirdemande', component: ShowRequestComponent },
       { path: 'modifierdemande/:id', component: UpdateRequestComponent },
+      { path: 'add-department', component: AddDepartmentComponent },
+      { path: 'show-department', component: ShowDepartmentComponent },
+      { path: 'delete-department/:id', component: ShowDepartmentComponent }, 
+   
+  
+   
+      { path: 'departments/update/:id', component: DepartmentUpdateComponent },
     ]
   },
   { path: 'forgot-password', component: ForgotPasswordComponent },

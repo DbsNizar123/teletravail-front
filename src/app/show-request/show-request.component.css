@@ -1,151 +1,216 @@
+/* Style général du conteneur */
 .container {
-    max-width: 1000px;
-    margin: 20px auto;
-    padding: 20px;
-    border: 1px solid #f1f1f1;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0;
+  border: 1px solid #f1f1f1;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Style du titre */
+.request-list-title {
+  text-align: center;
+  font-size: 2em;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Style des éléments de la liste */
+.request-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  border-bottom: 1px solid #ddd;
+}
+
+.request-item:hover {
+  background-color: #f1f1f1;
+  transform: scale(1.02); /* Effet de zoom léger au survol */
+}
+
+.request-item p {
+  margin: 0;
+  font-size: 16px;
+  color: #333;
+}
+
+/* Style des actions (boutons Edit/Delete) */
+.actions {
+  display: none;
+}
+
+.request-item:hover .actions {
+  display: flex;
+}
+
+.btn-edit,
+.btn-delete {
+  padding: 5px 10px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-edit {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.btn-edit:hover {
+  background-color: #45a049;
+}
+
+.btn-delete {
+  background-color: #f44336;
+  color: white;
+}
+
+.btn-delete:hover {
+  background-color: #e53935;
+}
+
+/* Style des détails (accordéon) */
+details summary {
+  list-style: none;
+  cursor: pointer;
+  position: relative;
+  padding-left: 20px;
+}
+
+details summary::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #007bff;
+  transition: transform 0.3s ease;
+}
+
+details[open] summary::before {
+  transform: translateY(-50%) rotate(90deg);
+}
+
+details p {
+  margin: 10px 0;
+  color: #555;
+}
+
+/* Style pour "Aucune demande trouvée" */
+.no-requests {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 1.2em;
+  color: #777;
+}
+
+/* Style des contrôles de pagination */
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination-controls button {
+  margin: 0 5px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.pagination-controls button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination-controls button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+      padding: 10px; /* Ajouter un peu de padding sur les petits écrans */
   }
-  
+
   .request-list-title {
-    text-align: center;
-    font-size: 2em;
-    color: #333;
-    margin-bottom: 20px;
+      font-size: 1.5em; /* Réduire la taille du titre */
   }
-  
+
   .request-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px;
-    margin-bottom: 10px;
-    background-color: #f9f9f9;
-    border: 1px solid #eee;
-    border-radius: 4px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    border-bottom: 1px solid #ddd;
+      flex-direction: column; /* Empiler les éléments verticalement */
+      align-items: flex-start; /* Aligner à gauche */
+      padding: 15px; /* Augmenter le padding */
   }
-  
-  .request-item:hover {
-    background-color: #f1f1f1;
-    transform: scale(1.05);
-  }
-  
+
   .request-item p {
-    margin: 0;
-    font-size: 16px;
-    color: #333;
+      font-size: 14px; /* Réduire la taille de la police */
+      margin-bottom: 10px; /* Espacement entre les éléments */
   }
-  
+
   .actions {
-    display: none;
+      display: flex; /* Toujours afficher les boutons sur mobile */
+      margin-top: 10px; /* Espacement entre le texte et les boutons */
   }
-  
-  .request-item:hover .actions {
-    display: flex;
-  }
-  
-  .btn-edit, .btn-delete {
-    padding: 5px 10px;
-    margin-left: 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .btn-edit {
-    background-color: #4CAF50;
-    color: white;
-  }
-  
-  .btn-edit:hover {
-    background-color: #45a049;
-  }
-  
+
+  .btn-edit,
   .btn-delete {
-    background-color: #f44336;
-    color: white;
+      margin-left: 0; /* Supprimer la marge à gauche */
+      margin-right: 10px; /* Espacement entre les boutons */
   }
-  
-  .btn-delete:hover {
-    background-color: #e53935;
-  }
-  
+
   details summary {
-    list-style: none;
-    cursor: pointer;
-    position: relative;
-    padding-left: 20px;
+      padding-left: 15px; /* Ajuster le padding pour les petits écrans */
   }
-  
-  details summary::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 0;
-    height: 0;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-top: 6px solid #007bff;
-    transition: transform 0.3s ease;
+
+  .pagination-controls {
+      flex-direction: column; /* Empiler les boutons de pagination */
+      gap: 10px; /* Espacement entre les boutons */
   }
-  
-  details[open] summary::before {
-    transform: translateY(-50%) rotate(90deg);
+
+  .pagination-controls button {
+      width: 100%; /* Boutons pleine largeur */
   }
-  
-  details p {
-    margin: 10px 0;
-    color: #555;
+}
+
+@media (max-width: 480px) {
+  .request-list-title {
+      font-size: 1.2em; /* Réduire encore la taille du titre */
+  }
+
+  .request-item {
+      padding: 10px; /* Réduire le padding */
+  }
+
+  .request-item p {
+      font-size: 12px; /* Réduire la taille de la police */
+  }
+
+  .btn-edit,
+  .btn-delete {
+      padding: 4px 8px; /* Réduire la taille des boutons */
+      font-size: 12px; /* Réduire la taille de la police */
   }
 
   .no-requests {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 1.2em;
-    color: #777;
+      font-size: 1em; /* Réduire la taille de la police */
   }
-  
-  .pagination-controls {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  .pagination-controls button {
-    margin: 0 5px;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    background-color: #007bff;
-    color: white;
-    transition: background-color 0.3s ease;
-  }
-  
-  .pagination-controls button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-  
-  .pagination-controls button:hover:not(:disabled) {
-    background-color: #0056b3;
-  }
-  
-  .request-item {
-    margin-bottom: 15px;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background-color: #f9f9f9;
-    transition: background-color 0.3s;
-  }
-  
-  .request-item:hover {
-    background-color: #f1f1f1;
-  }
+}

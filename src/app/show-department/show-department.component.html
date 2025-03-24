@@ -1,13 +1,13 @@
-<div class="container mt-5">
-    <h2 class="department-list-title"><b>Departments</b></h2>
+<div class="container mt-0">
+    <h3 class="department-list-title"><b>Departments</b></h3>
     <div *ngIf="departments.length === 0">
         <p>No departments found.</p>
     </div>
     <div *ngIf="departments.length > 0" class="card department-list">
         <div *ngFor="let department of departments; let i = index" class="department-item">
             <details>
-                <summary><strong>Department {{ i + 1 + (currentPage - 1) * limit }}</strong></summary>
-                <p><b>Name</b>: {{ department.name }}</p>
+                <summary><strong>{{ department.name }}</strong></summary>
+            
                 <p><b>Description</b>: {{ department.description }}</p>
             </details>
             <div class="actions">
