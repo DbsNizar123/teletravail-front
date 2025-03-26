@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DepartmentService } from '../services/department.service';
 import Swal from 'sweetalert2';
@@ -10,13 +9,13 @@ import Swal from 'sweetalert2';
   styleUrls: ['./department-update.component.css'],
 })
 export class DepartmentUpdateComponent implements OnInit {
-  departmentForm!: FormGroup;
+  department: { name: string; description: string } = { name: '', description: '' };
   departmentId!: string;
-  errorMessage: string = ''; // Pour stocker les messages d'erreur
-  successMessage: string = ''; // Pour stocker les messages de succès
+  errorMessage: string | null = null;
+  successMessage: string | null = null;
+  submitted: boolean = false; // To track if the form is submitted
 
   constructor(
-    private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private departmentService: DepartmentService
@@ -24,41 +23,32 @@ export class DepartmentUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.departmentId = this.route.snapshot.paramMap.get('id') || ''; // Récupérer l'ID depuis l'URL
-    this.initializeForm();
     this.loadDepartmentDetails();
-  }
-
-  // Initialiser le formulaire avec des champs vides
-  initializeForm(): void {
-    this.departmentForm = this.fb.group({
-      name: ['', [Validators.required, Validators.maxLength(255)]],
-      description: [''], // Description est facultative
-    });
   }
 
   // Charger les détails du département existant
   loadDepartmentDetails(): void {
     if (this.departmentId) {
       this.departmentService.getDepartmentById(this.departmentId).subscribe({
-        next: (department) => {
-          this.departmentForm.patchValue({
-            name: department.name,
-            description: department.description,
-          });
+        next: (response) => {
+          this.department = {
+            name: response.department.name,
+            description: response.department.description || '', // Ensure description is a string
+          };
         },
         error: (err) => {
           console.error('Error loading department details:', err);
-          this.errorMessage = 'Failed to load department details.';
+          this.errorMessage = 'Échec du chargement des détails du département.';
         },
       });
     }
   }
 
   // Mettre à jour le département
-  updateDepartment(): void {
-    if (this.departmentForm.valid) {
-      const updatedData = this.departmentForm.value;
-      this.departmentService.updateDepartment(this.departmentId, updatedData).subscribe({
+  onSubmit(): void {
+    this.submitted = true; // Mark the form as submitted
+    if (this.department.name) { // Basic validation
+      this.departmentService.updateDepartment(this.departmentId, this.department).subscribe({
         next: () => {
           // Afficher une SweetAlert de succès
           Swal.fire({
@@ -75,12 +65,7 @@ export class DepartmentUpdateComponent implements OnInit {
         },
         error: (err) => {
           console.error('Erreur lors de la mise à jour du département :', err);
-          // Afficher une SweetAlert d'erreur en cas d'échec
-          Swal.fire({
-            icon: 'error',
-            title: 'Erreur...',
-            text: 'Échec de la mise à jour du département.',
-          });
+          this.errorMessage = 'Échec de la mise à jour du département.';
         },
       });
     }

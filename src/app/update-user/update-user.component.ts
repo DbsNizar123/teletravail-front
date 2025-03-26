@@ -33,7 +33,12 @@ export class UpdateUserComponent implements OnInit {
     if (this.userId) {
       this.authService.getUserById(this.userId).subscribe(
         (data) => {
-          this.user = data;
+          this.user = data; // Populate the user object with existing data
+        },
+        (error) => {
+          console.error('Error fetching user', error);
+          Swal.fire('Error!', 'Failed to load user data.', 'error');
+          this.router.navigate(['/admin/user-list']);
         }
       );
     } else {
