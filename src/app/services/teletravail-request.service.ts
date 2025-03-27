@@ -43,6 +43,12 @@ export class TeletravailRequestService {
       .pipe(catchError(this.handleError));
   }
 
+  getAllRequestss(page: number = 1, limit: number = 10): Observable<any> {
+  return this.http.get(`${this.apiUrl}/show-requests?page=${page}&limit=${limit}`, { 
+    headers: this.getHeaders() 
+  }).pipe(catchError(this.handleError));
+}
+
   getRequestsByUser(userId: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/teletravail-requests/user/${userId}`, { headers: this.getHeaders() })
       .pipe(catchError(this.handleError));

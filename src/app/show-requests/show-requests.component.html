@@ -1,0 +1,40 @@
+<div class="requests-container">
+    <h2>Liste des demandes de télétravail</h2>
+    
+    <div *ngIf="loading" class="loading-indicator">
+      Chargement en cours...
+    </div>
+  
+    <div *ngIf="!loading">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Employé</th>
+            <th>Département</th>
+            <th>Date</th>
+            <th>Raison</th>
+            <th>Statut</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let request of requests">
+            <td>{{ request.user?.name }}</td>
+            <td>{{ request.user?.department?.name || 'N/A' }}</td>
+            <td>{{ request.date }}</td>
+            <td>{{ request.reason }}</td>
+            <td>
+              <span [class]="'status-' + request.status">
+                {{ request.status  }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+  
+      <div *ngIf="requests.length === 0" class="no-requests">
+        Aucune demande de télétravail trouvée.
+      </div>
+
+      
+    </div>
+</div>
