@@ -54,7 +54,9 @@ const routes: Routes = [
 
       { path: 'show-department', component: ShowDepartmentComponent },
      
-   
+      {
+        path: 'show-requests',
+        component: ShowRequestsComponent},
   
    
 
