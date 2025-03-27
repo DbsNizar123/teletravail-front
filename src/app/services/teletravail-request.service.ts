@@ -20,7 +20,7 @@ export class TeletravailRequestService {
   }
 
   // Soumettre une demande de télétravail
-  submitRequest(data: { date: string; reason: string; department_id: number }): Observable<any> {
+  submitRequest(data: { date: string; reason: string;  }): Observable<any> {
     return this.http.post(`${this.apiUrl}/teletravail-requests`, data, { headers: this.getHeaders() })
       .pipe(catchError(this.handleError));
   }
@@ -43,6 +43,10 @@ export class TeletravailRequestService {
       .pipe(catchError(this.handleError));
   }
 
+  getRequestsByUser(userId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/teletravail-requests/user/${userId}`, { headers: this.getHeaders() })
+      .pipe(catchError(this.handleError));
+  }
   // Gestion des erreurs
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Une erreur est survenue.';

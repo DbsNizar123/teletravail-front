@@ -1,41 +1,95 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import Swal from 'sweetalert2';
+import { DepartmentService } from '../services/department.service';
 
 @Component({
   selector: 'app-add-user',
   templateUrl: './add-user.component.html'
 })
-export class AddUserComponent {
-  userData = { name: '', email: '', password: '', role: '' };
+export class AddUserComponent implements OnInit {
+  // Définir department_id comme number obligatoire (pas null)
+  userData = { 
+    name: '', 
+    email: '', 
+    password: '', 
+    role: '',
+    department_id: 0 // Initialiser à 0 plutôt que null
+  };
+  
+  departments: any[] = [];
   successMessage: string = '';
   errorMessage: string = '';
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private departmentService: DepartmentService
+  ) {}
 
+  ngOnInit(): void {
+    this.loadDepartments();
+  }
+  
+  loadDepartments(): void {
+    this.departmentService.getAllDepartments().subscribe({
+      next: (departments) => {
+        this.departments = departments;
+      },
+      error: (error) => {
+        console.error('Erreur lors du chargement des départements :', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Erreur...',
+          text: 'Échec du chargement des départements.',
+        });
+      },
+    });
+  }
+  
   addUser() {
-    this.authService.addUser(this.userData).subscribe(
+    // Validation plus explicite
+    if (!this.userData.department_id || this.userData.department_id <= 0) {
+      Swal.fire('Error!', 'Please select a valid department', 'error');
+      return;
+    }
+  
+    // Créer un objet avec les types corrects
+    const userToCreate = {
+      name: this.userData.name,
+      email: this.userData.email,
+      password: this.userData.password,
+      role: this.userData.role,
+      department_id: this.userData.department_id
+    };
+  
+    this.authService.addUser(userToCreate).subscribe(
       (response) => {
-        // Afficher une alerte de succès avec SweetAlert2
         Swal.fire({
           title: 'Success!',
           text: 'User added successfully!',
           icon: 'success',
           confirmButtonText: 'OK'
         });
-
-        // Réinitialiser le formulaire
-        this.userData = { name: '', email: '', password: '', role: '' };
+        this.resetForm();
       },
       (error) => {
-        // Afficher une alerte d'erreur avec SweetAlert2
         Swal.fire({
           title: 'Error!',
-          text: 'Failed to add user. Please try again.',
+          text: error.error?.message || 'Failed to add user. Please try again.',
           icon: 'error',
           confirmButtonText: 'OK'
         });
       }
-    ); // Fermer la méthode subscribe
-  } // Fermer la méthode addUser
+    );
+  }
+
+  private resetForm(): void {
+    this.userData = { 
+      name: '', 
+      email: '', 
+      password: '', 
+      role: '',
+      department_id: 0 // Réinitialiser à 0 plutôt que null
+    };
+  }
 }

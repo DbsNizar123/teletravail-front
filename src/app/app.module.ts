@@ -27,6 +27,7 @@ import { DepartmentUpdateComponent } from './department-update/department-update
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,6 +48,7 @@ import { DepartmentUpdateComponent } from './department-update/department-update
     AddDepartmentComponent,
     ShowDepartmentComponent,
     DepartmentUpdateComponent,
+
 
    
 

@@ -62,6 +62,20 @@
             <option value="employee">Employee</option>
           </select>
         </div>
+        <div class="mb-3">
+          <label for="department" class="form-label">Département :</label>
+          <select 
+            class="form-select"
+            id="department" 
+            [(ngModel)]="userData.department_id" 
+            name="department" 
+            required>
+            <option value="" disabled selected>Sélectionnez un département</option>
+            <option *ngFor="let dept of departments" [value]="dept.id">
+              {{ dept.name }}
+            </option>
+          </select>
+        </div>
 
         <!-- Bouton Submit -->
         <button type="submit" class="btn btn-primary">Add User</button>

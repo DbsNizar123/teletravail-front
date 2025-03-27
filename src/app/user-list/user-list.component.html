@@ -1,5 +1,5 @@
 <div class="container">
-  <h2 class="user-list-title"><b>User List</b></h2>
+  <h2 class="user-list-title"><b>Liste des Utilisateurs</b></h2>
   <div class="card">
     <div *ngFor="let user of users" class="user-item">
       <details>
@@ -10,16 +10,15 @@
       <div class="actions">
         <button class="btn-edit" (click)="updateUser(user)">Modifier</button>
         <button class="btn-delete" (click)="deleteUser(user)">Supprimer</button>
+      
       </div>
     </div>
   </div>
-
   <div class="pagination-controls">
-    <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
-    <span>Page {{ currentPage }} of {{ totalPages }}</span>
-    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+    <button (click)="previousPage()" [disabled]="currentPage === 1">Précédent</button>
+    <span>Page {{ currentPage }} sur {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Suivant</button>
   </div>
-
   <div *ngIf="users.length === 0" class="no-users">
     <p>Aucun utilisateur trouvé.</p>
   </div>

@@ -18,7 +18,8 @@ import { AddDepartmentComponent } from './add-department/add-department.componen
 import { ShowDepartmentComponent } from './show-department/show-department.component';
 import { DepartmentUpdateComponent } from './department-update/department-update.component';
 
-DepartmentUpdateComponent
+
+
 const routes: Routes = [
   { 
     path: 'admin', 
@@ -31,7 +32,7 @@ const routes: Routes = [
       { path: 'add-department', component: AddDepartmentComponent },
       { path: 'show-department', component: ShowDepartmentComponent },
       { path: 'delete-department/:id', component: ShowDepartmentComponent }, 
-   
+      
   
    
       { path: 'departments/update/:id', component: DepartmentUpdateComponent },
@@ -47,13 +48,13 @@ const routes: Routes = [
       { path: 'ajouterdemande', component: SubmitTeletravailRequestComponent },
       { path: 'voirdemande', component: ShowRequestComponent },
       { path: 'modifierdemande/:id', component: UpdateRequestComponent },
-      { path: 'add-department', component: AddDepartmentComponent },
+
       { path: 'show-department', component: ShowDepartmentComponent },
-      { path: 'delete-department/:id', component: ShowDepartmentComponent }, 
+     
    
   
    
-      { path: 'departments/update/:id', component: DepartmentUpdateComponent },
+
     ]
   },
   { path: 'forgot-password', component: ForgotPasswordComponent },

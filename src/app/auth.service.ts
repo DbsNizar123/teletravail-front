@@ -16,6 +16,7 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/login`, credentials);
   }
   
+ 
   logout(): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -30,7 +31,13 @@ export class AuthService {
     return this.http.get(`${this.apiUrl}/user/roles`, { headers });
   }
 
-  addUser(userData: { name: string; email: string; password: string; role: string }): Observable<any> {
+  addUser(userData: { 
+    name: string; 
+    email: string; 
+    password: string; 
+    role: string;
+    department_id: number 
+  }): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${localStorage.getItem('token')}`
     });
