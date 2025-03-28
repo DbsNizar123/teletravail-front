@@ -1,63 +1,188 @@
-/* Styles pour réduire la taille du formulaire */
-
-/* Réduire la taille de la carte */
-.card {
-    max-width: 400px; /* Limiter la largeur de la carte */
-    margin: 0 auto; /* Centrer la carte */
-  }
-  
-  /* Réduire la taille des champs de formulaire */
-  .form-control-lg {
-    padding: 0.5rem 1rem; /* Réduire le padding */
-    font-size: 0.9rem; /* Réduire la taille de la police */
-  }
-  
-  /* Réduire la taille des labels */
-  .form-label {
-    font-size: 0.9rem; /* Réduire la taille de la police */
-    margin-bottom: 0.5rem; /* Réduire l'espace entre le label et le champ */
-  }
-  
-  /* Réduire la taille du bouton */
-  .btn-outline-light {
-    padding: 0.5rem 1rem; /* Réduire le padding */
-    font-size: 0.9rem; /* Réduire la taille de la police */
-  }
-  
-  /* Réduire la taille du titre */
-  h2.fw-bold {
-    font-size: 1.5rem; /* Réduire la taille du titre */
-  }
-  
-  /* Réduire la taille du texte descriptif */
-  .text-white-50 {
-    font-size: 0.9rem; /* Réduire la taille de la police */
-  }
-  
-  /* Réduire l'espace entre les éléments du formulaire */
-  .form-outline {
-    margin-bottom: 1rem; /* Réduire l'espace entre les champs */
-  }
-  
-  /* Réduire l'espace autour du formulaire */
-  .mb-md-5 {
-    margin-bottom: 1.5rem !important; /* Réduire l'espace en bas */
-  }
-  
-  .mt-md-4 {
-    margin-top: 1rem !important; /* Réduire l'espace en haut */
-  }
-  
-  .pb-5 {
-    padding-bottom: 1.5rem !important; /* Réduire l'espace en bas */
-  }
-  .hover-link {
-  text-decoration: none; /* Supprime la sous-ligne par défaut */
-  transition: color 0.3s ease, text-decoration 0.3s ease; /* Transition pour un effet fluide */
+/* Style global pour le composant */
+:host {
+  display: block;
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  overflow: hidden;
 }
 
-.hover-link:hover {
-  color: #ffffff; /* Couleur dorée au survol */
-  text-decoration: underline; /* Ajoute une sous-ligne au survol */
-  cursor: pointer;
+/* Fond d'écran full screen */
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -2;
+  filter: brightness(0.7);
+}
+
+/* Overlay sombre pour améliorer la lisibilité */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: -1;
+}
+
+/* Conteneur principal */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 20px;
+}
+
+/* Carte de login */
+.login-card {
+  width: 100%;
+  max-width: 450px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  overflow: hidden;
+  animation: fadeIn 0.6s ease-out;
+  transition: transform 0.3s ease;
+}
+
+.login-card:hover {
+  transform: translateY(-5px);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* En-tête */
+.card-header {
+  padding: 30px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.card-header i {
+  font-size: 2.5rem;
+  color: #ffffff;
+  margin-bottom: 15px;
+}
+
+.card-header h2 {
+  color: white;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.card-header p {
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 0;
+}
+
+/* Corps */
+.card-body {
+  padding: 30px;
+}
+
+/* Champs de formulaire */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-control {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  height: 50px;
+  border-radius: 8px;
+  padding: 10px 15px;
+  transition: all 0.3s;
+}
+
+.form-control:focus {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
+  color: white;
+}
+
+.form-control::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Bouton */
+.btn-login {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  border: none;
+  color: white;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-top: 10px;
+  transition: all 0.3s;
+}
+
+.btn-login:hover {
+  background: linear-gradient(45deg, #5a67d8, #6b46c1);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Liens */
+.forgot-password {
+  display: block;
+  text-align: right;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: -15px;
+  margin-bottom: 20px;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.forgot-password:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+/* Pied de page */
+.card-footer {
+  padding: 20px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.2);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.card-footer a {
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.card-footer a:hover {
+  color: #a3bffa;
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .login-card {
+    max-width: 100%;
+  }
+  
+  .card-header, .card-body {
+    padding: 20px;
+  }
 }

@@ -1,54 +1,66 @@
-<div class="container mt-5">
+<!-- add-user.component.html -->
+<div class="container">
   <div class="card">
     <div class="card-header">
-      <h2 class="card-title">Add User</h2>
+      <h2 class="card-title">
+        <i class="fas fa-user-plus"></i> Add User
+      </h2>
     </div>
     <div class="card-body">
       <form (ngSubmit)="addUser()">
+        <!-- Name Field -->
         <div class="mb-3">
-          <label for="name" class="form-label">Name</label>
+          <label for="name" class="form-label">
+            <i class="fas fa-user"></i> Name
+          </label>
           <input
             type="text"
             class="form-control"
             id="name"
             [(ngModel)]="userData.name"
             name="name"
-            placeholder="Name"
+            placeholder="Enter name"
             required
           />
         </div>
 
-     
+        <!-- Email Field -->
         <div class="mb-3">
-          <label for="email" class="form-label">Email</label>
+          <label for="email" class="form-label">
+            <i class="fas fa-envelope"></i> Email
+          </label>
           <input
             type="email"
             class="form-control"
             id="email"
             [(ngModel)]="userData.email"
             name="email"
-            placeholder="Email"
+            placeholder="Enter email"
             required
           />
         </div>
 
-        <!-- Champ Password -->
+        <!-- Password Field -->
         <div class="mb-3">
-          <label for="password" class="form-label">Password</label>
+          <label for="password" class="form-label">
+            <i class="fas fa-lock"></i> Password
+          </label>
           <input
             type="password"
             class="form-control"
             id="password"
             [(ngModel)]="userData.password"
             name="password"
-            placeholder="Password"
+            placeholder="Enter password"
             required
           />
         </div>
 
-        <!-- Champ Role -->
+        <!-- Role Field -->
         <div class="mb-3">
-          <label for="role" class="form-label">Role</label>
+          <label for="role" class="form-label">
+            <i class="fas fa-user-tag"></i> Role
+          </label>
           <select
             class="form-select"
             id="role"
@@ -56,15 +68,39 @@
             name="role"
             required
           >
-            <option value="" disabled>Select Role</option>
+            <option value="" disabled selected>
+              <i class="fas fa-chevron-down"></i> Select Role
+            </option>
             <option value="admin">Admin</option>
             <option value="manager">Manager</option>
             <option value="employee">Employee</option>
           </select>
         </div>
 
-        <!-- Bouton Submit -->
-        <button type="submit" class="btn btn-primary">Add User</button>
+        <!-- Department Field -->
+        <div class="mb-3">
+          <label for="department" class="form-label">
+            <i class="fas fa-building"></i> Department
+          </label>
+          <select 
+            class="form-select"
+            id="department" 
+            [(ngModel)]="userData.department_id" 
+            name="department" 
+            required>
+            <option value="" disabled selected>
+              <i class="fas fa-chevron-down"></i> Select Department
+            </option>
+            <option *ngFor="let dept of departments" [value]="dept.id">
+              {{ dept.name }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-save"></i> Add User
+        </button>
       </form>
     </div>
   </div>

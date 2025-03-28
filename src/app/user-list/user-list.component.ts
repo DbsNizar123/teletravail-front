@@ -3,6 +3,11 @@ import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import Swal from 'sweetalert2';
 
+
+import {  ActivatedRoute } from '@angular/router';
+
+
+
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
@@ -14,7 +19,9 @@ export class UserListComponent implements OnInit {
   totalPages: number = 0;
   limit: number = 6; // Number of users per page
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router,
+    private route: ActivatedRoute) { }
+  
 
   ngOnInit(): void {
     this.loadUsers(this.currentPage, this.limit);
@@ -27,7 +34,7 @@ export class UserListComponent implements OnInit {
         this.totalPages = data.last_page; // Adjust based on your API response
       },
       (error) => {
-        console.error('Error fetching users', error);
+        console.error('Erreur lors de la récupération des utilisateurs', error);
       }
     );
   }
@@ -61,6 +68,8 @@ export class UserListComponent implements OnInit {
     });
   }
 
+  // Nouvelle méthode pour afficher les demandes de télétravail de l'utilisateur
+ 
   nextPage(): void {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;

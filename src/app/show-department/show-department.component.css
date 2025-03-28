@@ -1,121 +1,232 @@
+/* department-list.component.css */
 
-.container {
-    max-width: 1200px; /* Augmentation de la largeur maximale */
-    margin: 30px auto; /* Centrage horizontal */
-    padding: 30px; /* Augmentation du padding */
-    border: 1px solid #f1f1f1;
-    border-radius: 12px; /* Augmentation du rayon de bordure */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Ombre plus prononcée */
-    background-color: #fff;
-    text-align: center; /* Centrage du texte */
-}
-
-.department-list-title {
+:host {
+    display: block;
+    min-height: 100vh;
+    padding: 20px;
+    background-image: url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+    transform-style: preserve-3d;
+  }
+  
+  :host::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    animation: fadeIn 0.6s ease-out;
+  }
+  
+  .department-list-title {
     text-align: center;
-    font-size: 2.5em; /* Augmentation de la taille de la police */
-    color: #333;
-    margin-bottom: 30px; /* Augmentation de la marge */
-}
-
-.department-list {
+    font-size: 2.2rem;
+    color: white;
+    margin-bottom: 30px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Card styling */
+  .card {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  /* Department item styling */
+  .department-item {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centrage des éléments */
-    width: 100%;
-}
-
-.department-item {
-    position: relative; /* Permet de positionner les boutons correctement */
-    padding: 20px; /* Espacement interne */
-    margin-bottom: 15px; /* Espacement entre les départements */
-    background-color: #f9f9f9; /* Couleur de fond */
-    border: 1px solid #eee; /* Bordure */
-    border-radius: 8px; /* Coins arrondis */
-    transition: background-color 0.3s ease; /* Transition fluide */
-    width: 80%; /* Largeur des éléments */
-    max-width: 800px; /* Largeur maximale */
-}
-
-.department-item:hover {
-    background-color: #f1f1f1; /* Changement de couleur au survol */
-}
-
-.actions {
-    display: none; /* Masquer les boutons par défaut */
-    position: absolute; /* Position absolue pour les boutons */
-    top: 50%; /* Centrer verticalement */
-    right: 20px; /* Aligner à droite */
-    transform: translateY(-50%); /* Ajuster la position verticale */
-    gap: 10px; /* Espacement entre les boutons */
-}
-
-.department-item:hover .actions {
-    display: flex; /* Afficher les boutons au survol */
-}
-
-.btn-edit,
-.btn-delete {
-    padding: 8px 15px; /* Taille des boutons */
-    border: none;
-    border-radius: 4px; /* Coins arrondis */
-    cursor: pointer;
-    font-size: 14px; /* Taille de la police */
-    transition: background-color 0.3s ease, opacity 0.3s ease; /* Transition fluide */
-}
-
-.btn-edit {
-    background-color: #4caf50; /* Couleur de fond pour le bouton Edit */
-    color: white; /* Couleur du texte */
-}
-
-.btn-edit:hover {
-    background-color: #45a049; /* Changement de couleur au survol */
-}
-
-.btn-delete {
-    background-color: #f44336; /* Couleur de fond pour le bouton Delete */
-    color: white; /* Couleur du texte */
-}
-
-.btn-delete:hover {
-    background-color: #e53935; /* Changement de couleur au survol */
-}
-
-.department-item {
+    padding: 20px;
     margin-bottom: 15px;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background-color: #f9f9f9;
-    transition: background-color 0.3s;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: all 0.3s ease;
+    color: white;
+    position: relative;
   }
   
   .department-item:hover {
-    background-color: #f1f1f1;
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
   }
   
+  /* Details/summary styling */
+  details {
+    width: 100%;
+  }
+  
+  details summary {
+    list-style: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 500;
+    padding: 10px;
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  details summary::before {
+    content: "+";
+    margin-right: 10px;
+    font-size: 1.7rem;
+    transition: transform 0.3s ease;
+  }
+  
+  details[open] summary::before {
+    content: "-";
+  }
+  
+  .department-item p {
+    margin: 8px 0 8px 20px;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  /* Actions styling */
+  .actions {
+    display: none;
+    justify-content: flex-end;
+    margin-top: 15px;
+    gap: 10px;
+  }
+  
+  .department-item:hover .actions {
+    display: flex;
+  }
+  
+  .btn-edit, .btn-delete {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .btn-edit {
+    background: linear-gradient(45deg, #4CAF50, #2E7D32);
+    color: white;
+  }
+  
+  .btn-edit:hover {
+    background: linear-gradient(45deg, #43A047, #1B5E20);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .btn-delete {
+    background: linear-gradient(45deg, #f44336, #c62828);
+    color: white;
+  }
+  
+  .btn-delete:hover {
+    background: linear-gradient(45deg, #e53935, #b71c1c);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Pagination styling */
   .pagination-controls {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    align-items: center;
+    margin-top: 30px;
+    gap: 15px;
   }
   
   .pagination-controls button {
-    margin: 0 5px;
-    padding: 8px 12px;
+    padding: 10px 20px;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
-    background-color: #007bff;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    background: linear-gradient(45deg, #667eea, #764ba2);
     color: white;
-    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
   }
   
   .pagination-controls button:disabled {
-    background-color: #ccc;
+    background: linear-gradient(45deg, #cccccc, #999999);
     cursor: not-allowed;
+    box-shadow: none;
   }
   
   .pagination-controls button:hover:not(:disabled) {
-    background-color: #0056b3;
+    background: linear-gradient(45deg, #5a67d8, #6b46c1);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(90, 103, 216, 0.4);
+  }
+  
+  .pagination-controls span {
+    color: white;
+    font-size: 1rem;
+  }
+  
+  /* No departments message */
+  .no-departments {
+    text-align: center;
+    margin-top: 30px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.1rem;
+  }
+  
+  /* Animation */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .container {
+      padding: 20px 15px;
+    }
+    
+    .department-item {
+      padding: 15px;
+    }
+    
+    .actions {
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .btn-edit, .btn-delete {
+      width: 100%;
+      justify-content: center;
+    }
+    
+    .pagination-controls {
+      flex-direction: column;
+      gap: 10px;
+    }
   }

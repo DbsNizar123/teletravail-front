@@ -17,13 +17,16 @@ import { AddDepartmentComponent } from './add-department/add-department.componen
 
 import { ShowDepartmentComponent } from './show-department/show-department.component';
 import { DepartmentUpdateComponent } from './department-update/department-update.component';
+import { ShowRequestsComponent } from './show-requests/show-requests.component';
+ShowRequestsComponent
 
-DepartmentUpdateComponent
+
 const routes: Routes = [
   { 
     path: 'admin', 
     component: AdminComponent, 
     children: [
+
       { path: 'add-user', component: AddUserComponent },
       { path: 'user-list', component: UserListComponent },
       { path: 'update-user/:id', component: UpdateUserComponent },
@@ -31,8 +34,10 @@ const routes: Routes = [
       { path: 'add-department', component: AddDepartmentComponent },
       { path: 'show-department', component: ShowDepartmentComponent },
       { path: 'delete-department/:id', component: ShowDepartmentComponent }, 
-   
-  
+      
+      {
+        path: 'show-requests',
+        component: ShowRequestsComponent},
    
       { path: 'departments/update/:id', component: DepartmentUpdateComponent },
     ]
@@ -43,17 +48,20 @@ const routes: Routes = [
     path: 'manager', 
     component: ManagerComponent, 
     children: [
+        
       { path: 'profile', component: ProfileComponent },
       { path: 'ajouterdemande', component: SubmitTeletravailRequestComponent },
       { path: 'voirdemande', component: ShowRequestComponent },
       { path: 'modifierdemande/:id', component: UpdateRequestComponent },
-      { path: 'add-department', component: AddDepartmentComponent },
+
       { path: 'show-department', component: ShowDepartmentComponent },
-      { path: 'delete-department/:id', component: ShowDepartmentComponent }, 
-   
+     
+      {
+        path: 'show-requests',
+        component: ShowRequestsComponent},
   
    
-      { path: 'departments/update/:id', component: DepartmentUpdateComponent },
+
     ]
   },
   { path: 'forgot-password', component: ForgotPasswordComponent },

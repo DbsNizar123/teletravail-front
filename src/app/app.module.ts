@@ -22,6 +22,8 @@ import { UpdateRequestComponent } from './update-request/update-request.componen
 import { AddDepartmentComponent } from './add-department/add-department.component';
 import { ShowDepartmentComponent } from './show-department/show-department.component';
 import { DepartmentUpdateComponent } from './department-update/department-update.component';
+import { ShowRequestsComponent } from './show-requests/show-requests.component';
+import { CommonModule } from '@angular/common';
 
 
 
@@ -47,12 +49,15 @@ import { DepartmentUpdateComponent } from './department-update/department-update
     AddDepartmentComponent,
     ShowDepartmentComponent,
     DepartmentUpdateComponent,
+    ShowRequestsComponent,
+
 
    
 
     
   ],
   imports: [
+    CommonModule,
     ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule,
