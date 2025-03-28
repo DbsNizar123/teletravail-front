@@ -5,7 +5,8 @@ import { DepartmentService } from '../services/department.service';
 
 @Component({
   selector: 'app-add-user',
-  templateUrl: './add-user.component.html'
+  templateUrl: './add-user.component.html',
+  styleUrls: ['./add-user.component.css']
 })
 export class AddUserComponent implements OnInit {
   // Définir department_id comme number obligatoire (pas null)

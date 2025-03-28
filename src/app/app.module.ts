@@ -23,7 +23,7 @@ import { AddDepartmentComponent } from './add-department/add-department.componen
 import { ShowDepartmentComponent } from './show-department/show-department.component';
 import { DepartmentUpdateComponent } from './department-update/department-update.component';
 import { ShowRequestsComponent } from './show-requests/show-requests.component';
-
+import { CommonModule } from '@angular/common';
 
 
 
@@ -57,6 +57,7 @@ import { ShowRequestsComponent } from './show-requests/show-requests.component';
     
   ],
   imports: [
+    CommonModule,
     ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule,

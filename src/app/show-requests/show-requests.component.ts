@@ -29,4 +29,23 @@ export class ShowRequestsComponent implements OnInit {
       }
     );
   }
+
+  onStatusChange(request: any, event: Event) {
+    const selectElement = event.target as HTMLSelectElement;
+    const newStatus = selectElement.value;
+    
+    // Animation
+    selectElement.classList.add('status-change');
+    setTimeout(() => {
+      selectElement.classList.remove('status-change');
+    }, 300);
+
+    // Mise à jour du statut
+    if (newStatus === 'accept' || newStatus === 'reject') {
+      request.status = newStatus === 'accept' ? 'approved' : 'rejected';
+      
+      // Ici vous pourriez appeler un service pour sauvegarder le changement
+      // this.teletravailRequestService.updateRequestStatus(request.id, request.status).subscribe(...);
+    }
+  }
 }

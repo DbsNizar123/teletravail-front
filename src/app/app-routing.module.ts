@@ -26,6 +26,7 @@ const routes: Routes = [
     path: 'admin', 
     component: AdminComponent, 
     children: [
+
       { path: 'add-user', component: AddUserComponent },
       { path: 'user-list', component: UserListComponent },
       { path: 'update-user/:id', component: UpdateUserComponent },
@@ -47,6 +48,7 @@ const routes: Routes = [
     path: 'manager', 
     component: ManagerComponent, 
     children: [
+        
       { path: 'profile', component: ProfileComponent },
       { path: 'ajouterdemande', component: SubmitTeletravailRequestComponent },
       { path: 'voirdemande', component: ShowRequestComponent },

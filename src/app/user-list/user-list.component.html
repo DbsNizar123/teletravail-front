@@ -1,25 +1,37 @@
+<!-- user-list.component.html -->
 <div class="container">
-  <h2 class="user-list-title"><b>Liste des Utilisateurs</b></h2>
+  <h2 class="user-list-title">
+    <i class="fas fa-users"></i> Liste des Utilisateurs
+  </h2>
   <div class="card">
     <div *ngFor="let user of users" class="user-item">
       <details>
-        <summary><b>Nom</b>: {{ user.name }}</summary>
-        <p><b>Email</b>: {{ user.email }}</p>
-        <p><b>Role</b>: {{ user.roles[0]?.name }}</p>
+        <summary>
+          <i class="fas fa-user  "  style="margin-right: 8px;"></i> <b>{{ user.name }}</b>
+        </summary>
+        <p><i class="fas fa-envelope"style="margin-right: 8px;"></i> <b>Email:</b> {{ user.email }}</p>
+        <p><i class="fas fa-user-tag"style="margin-right: 8px;"></i> <b>Role:</b> {{ user.roles[0]?.name }}</p>
       </details>
       <div class="actions">
-        <button class="btn-edit" (click)="updateUser(user)">Modifier</button>
-        <button class="btn-delete" (click)="deleteUser(user)">Supprimer</button>
-      
+        <button class="btn-edit" (click)="updateUser(user)">
+          <i class="fas fa-edit"></i> Modifier
+        </button>
+        <button class="btn-delete" (click)="deleteUser(user)">
+          <i class="fas fa-trash-alt"></i> Supprimer
+        </button>
       </div>
     </div>
   </div>
   <div class="pagination-controls">
-    <button (click)="previousPage()" [disabled]="currentPage === 1">Précédent</button>
+    <button (click)="previousPage()" [disabled]="currentPage === 1">
+      <i class="fas fa-chevron-left"></i> Précédent
+    </button>
     <span>Page {{ currentPage }} sur {{ totalPages }}</span>
-    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Suivant</button>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+      Suivant <i class="fas fa-chevron-right"></i>
+    </button>
   </div>
   <div *ngIf="users.length === 0" class="no-users">
-    <p>Aucun utilisateur trouvé.</p>
+    <i class="fas fa-user-slash"></i> Aucun utilisateur trouvé.
   </div>
 </div>
