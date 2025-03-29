@@ -1,21 +1,54 @@
-<div class="container mt-5">
-    <h2 class="request-title"><b>Modifier Demande de Télétravail</b></h2>
-    
-    <form (ngSubmit)="onSubmit()" #requestForm="ngForm">
-      <div class="form-group">
-        <label for="date">Date</label>
-        <input type="date" id="date" name="date" [(ngModel)]="request.date" required class="form-control"/>
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h2 class="card-title">
+        <i class="fas fa-edit"></i> Modifier Demande de Télétravail
+      </h2>
+    </div>
+    <div class="card-body">
+      <form (ngSubmit)="onSubmit()" #requestForm="ngForm">
+        <!-- Champ Date -->
+        <div class="form-group">
+          <label for="date" class="form-label">
+            <i class="fas fa-calendar-day"></i> Date
+          </label>
+          <input
+            type="date"
+            id="date"
+            name="date"
+            [(ngModel)]="request.date"
+            required
+            class="form-control"
+          />
+        </div>
+
+        <!-- Champ Raison -->
+        <div class="form-group">
+          <label for="reason" class="form-label">
+            <i class="fas fa-comment-alt"></i> Raison
+          </label>
+          <textarea
+            id="reason"
+            name="reason"
+            [(ngModel)]="request.reason"
+            required
+            class="form-control"
+            placeholder="Décrivez la raison de votre demande..."
+          ></textarea>
+        </div>
+
+        <!-- Bouton de soumission -->
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary" [disabled]="requestForm.invalid">
+            <i class="fas fa-save"></i> Mettre à Jour
+          </button>
+        </div>
+      </form>
+
+      <!-- Message d'erreur -->
+      <div *ngIf="errorMessage" class="alert-error">
+        <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
       </div>
-  
-      <div class="form-group">
-        <label for="reason">Raison</label>
-        <textarea id="reason" name="reason" [(ngModel)]="request.reason" required class="form-control"></textarea>
-      </div>
-  
-      <div class="form-group">
-        <button type="submit" class="btn btn-primary">Mettre à Jour</button>
-      </div>
-    </form>
-  
-    <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
+    </div>
   </div>
+</div>

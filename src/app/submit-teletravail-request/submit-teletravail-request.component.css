@@ -1,138 +1,175 @@
-/* Style général du conteneur */
-.container {
-    max-width: 800px; /* Largeur maximale du conteneur */
-    margin: 0 auto; /* Centrage horizontal */
-    padding: 20px; /* Espacement interne */
-    margin-top: 0; /* Supprimer la marge en haut */
-}
-
-/* Style de la carte (card) */
-.card {
-    border: 1px solid #e0e0e0; /* Bordure légère */
-    border-radius: 12px; /* Coins arrondis */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Ombre douce */
-    background-color: #fff; /* Fond blanc */
-    transition: box-shadow 0.3s ease; /* Transition fluide pour l'ombre */
-    margin-top: 0; /* Supprimer la marge en haut */
-}
-
-/* Style de l'en-tête de la carte */
-.card-header {
-    padding: 8px;
-    background-color: #ffffff; /* Couleur de fond */
-    border-top-left-radius: 12px; /* Coins arrondis */
-    border-top-right-radius: 12px;
-    color: #000000; /* Texte blanc */
-    text-align: center; /* Centrage du texte */
-}
-
-.card-title {
-    margin: 0;
-    font-size: 1.8em; /* Taille de la police */
-    font-weight: 600; /* Texte en gras */
-}
-
-/* Style du corps de la carte */
-.card-body {
-    padding: 20px;
-}
-
-/* Style des groupes de formulaire */
-.mb-3 {
-    margin-bottom: 1.5rem; /* Espacement entre les champs */
-}
-
-/* Style des labels */
-.form-label {
+/* Style général avec effet de verre et fond */
+:host {
     display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500; /* Texte en gras */
-    color: #333; /* Couleur du texte */
-}
-
-/* Style des champs de formulaire */
-.form-control {
+    min-height: 100vh;
+    padding: 20px;
+    background-image: url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+  
+  :host::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    padding: 10px;
-    border: 1px solid #e0e0e0; /* Bordure légère */
-    border-radius: 8px; /* Coins arrondis */
-    font-size: 1em; /* Taille de la police */
-    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transition fluide */
-}
-
-.form-control:focus {
-    border-color: #007bff; /* Bordure bleue au focus */
-    box-shadow: 0 0 8px rgba(0, 123, 255, 0.25); /* Ombre bleue au focus */
-    outline: none; /* Supprimer le contour par défaut */
-}
-
-/* Style du champ de texte (textarea) */
-textarea.form-control {
-    resize: vertical; /* Redimensionnement vertical uniquement */
-    min-height: 120px; /* Hauteur minimale */
-}
-
-/* Style du sélecteur (select) */
-select.form-control {
-    appearance: none; /* Supprimer l'apparence par défaut */
-    background-color: #fff;
-    cursor: pointer;
-}
-
-/* Style du bouton Soumettre */
-.btn-primary {
-    width: 100%;
-    padding: 12px;
-    background-color: #007bff; /* Couleur de fond */
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+  }
+  
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    animation: fadeIn 0.6s ease-out;
+  }
+  
+  /* Style de la carte avec effet de verre */
+  .card {
     border: none;
-    border-radius: 8px; /* Coins arrondis */
-    color: #fff; /* Texte blanc */
-    font-size: 1em;
-    font-weight: 500; /* Texte en gras */
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(31, 38, 135, 0.5);
+  }
+  
+  /* Style de l'en-tête */
+  .card-header {
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+  }
+  
+  .card-title {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  /* Style du corps */
+  .card-body {
+    padding: 30px;
+  }
+  
+  /* Style des groupes de formulaire */
+  .form-group {
+    margin-bottom: 25px;
+  }
+  
+  /* Style des labels */
+  .form-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+  }
+  
+  /* Style des champs */
+  .form-control {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    color: white;
+    transition: all 0.3s ease;
+  }
+  
+  .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+  
+  .form-control:focus {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
+    outline: none;
+  }
+  
+  textarea.form-control {
+    min-height: 120px;
+    resize: vertical;
+  }
+  
+  /* Style du bouton */
+  .btn-primary {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Transition fluide */
-}
-
-.btn-primary:hover {
-    background-color: #0056b3; /* Changement de couleur au survol */
-    transform: translateY(-2px); /* Léger effet de levée */
-}
-
-.btn-primary:active {
-    transform: translateY(0); /* Réinitialiser l'effet de levée */
-}
-
-/* Style des options du sélecteur */
-option {
-    padding: 10px;
-    background-color: #fff;
-    color: #333;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  }
+  
+  .btn-primary:hover {
+    background: linear-gradient(45deg, #5a67d8, #6b46c1);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(90, 103, 216, 0.4);
+  }
+  
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+  
+  /* Style spécifique pour le champ date */
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    opacity: 0.7;
+    cursor: pointer;
+  }
+  
+  /* Animation */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
     .container {
-        padding: 10px;
+      padding: 15px;
     }
-
+    
     .card-header {
-        padding: 15px;
+      padding: 15px;
     }
-
+    
     .card-title {
-        font-size: 1.5em; /* Taille de la police réduite */
+      font-size: 1.5rem;
     }
-
+    
     .card-body {
-        padding: 15px;
+      padding: 20px;
     }
-
-    .form-control {
-        font-size: 0.9em; /* Taille de la police réduite */
-    }
-
-    .btn-primary {
-        padding: 10px;
-        font-size: 0.9em; /* Taille de la police réduite */
-    }
-}
+  }

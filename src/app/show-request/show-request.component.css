@@ -1,216 +1,251 @@
-/* Style général du conteneur */
+/* Style général avec effet de verre et fond */
+:host {
+  display: block;
+  min-height: 100vh;
+  padding: 20px;
+  background-image: url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+:host::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: -1;
+}
+
 .container {
-  max-width: 1000px;
+  max-width: 800px;
   margin: 0 auto;
-  padding: 0;
-  border: 1px solid #f1f1f1;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+  animation: fadeIn 0.6s ease-out;
 }
 
 /* Style du titre */
 .request-list-title {
   text-align: center;
-  font-size: 2em;
-  color: #333;
+  font-size: 2rem;
+  color: white;
+  margin-bottom: 30px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Style de la carte */
+.card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 20px;
   margin-bottom: 20px;
 }
 
-/* Style des éléments de la liste */
+/* Style des éléments de demande */
 .request-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px;
-  margin-bottom: 10px;
-  background-color: #f9f9f9;
-  border: 1px solid #eee;
-  border-radius: 4px;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  border-bottom: 1px solid #ddd;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
 }
 
 .request-item:hover {
-  background-color: #f1f1f1;
-  transform: scale(1.02); /* Effet de zoom léger au survol */
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-.request-item p {
-  margin: 0;
-  font-size: 16px;
-  color: #333;
+/* Style de l'accordéon */
+details {
+  color: white;
 }
 
-/* Style des actions (boutons Edit/Delete) */
-.actions {
+summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 500;
+}
+
+summary::-webkit-details-marker {
   display: none;
 }
 
-.request-item:hover .actions {
-  display: flex;
-}
-
-.btn-edit,
-.btn-delete {
-  padding: 5px 10px;
-  margin-left: 10px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
-}
-
-.btn-edit {
-  background-color: #4CAF50;
-  color: white;
-}
-
-.btn-edit:hover {
-  background-color: #45a049;
-}
-
-.btn-delete {
-  background-color: #f44336;
-  color: white;
-}
-
-.btn-delete:hover {
-  background-color: #e53935;
-}
-
-/* Style des détails (accordéon) */
-details summary {
-  list-style: none;
-  cursor: pointer;
-  position: relative;
-  padding-left: 20px;
-}
-
-details summary::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 0;
-  height: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-top: 6px solid #007bff;
+summary::after {
+  content: '+';
+  font-size: 1.2rem;
   transition: transform 0.3s ease;
 }
 
-details[open] summary::before {
-  transform: translateY(-50%) rotate(90deg);
+details[open] summary::after {
+  content: '-';
 }
 
-details p {
-  margin: 10px 0;
-  color: #555;
+.date {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.details-content {
+  padding: 15px;
+  margin-top: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+.details-content p {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Style des badges de statut */
+.status-badge {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status-pending {
+  background: rgba(255, 255, 255, 0.2);
+  color: #FF9800;
+  border: 1px solid rgba(255, 152, 0, 0.4);
+}
+
+.status-approved {
+  background: rgba(76, 175, 80, 0.2);
+  color: #4CAF50;
+  border: 1px solid rgba(76, 175, 80, 0.4);
+}
+
+.status-rejected {
+  background: rgba(244, 67, 54, 0.2);
+  color: #F44336;
+  border: 1px solid rgba(244, 67, 54, 0.4);
+}
+
+/* Style des boutons d'action */
+.actions {
+  margin-top: 15px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-edit {
+  padding: 8px 20px;
+  background: linear-gradient(45deg, #2196F3, #1976D2);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-edit:hover {
+  background: linear-gradient(45deg, #1976D2, #0D47A1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Style de la pagination */
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 30px;
+  color: white;
+}
+
+.pagination-controls button {
+  padding: 8px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pagination-controls button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.pagination-controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 /* Style pour "Aucune demande trouvée" */
 .no-requests {
   text-align: center;
-  margin-top: 20px;
-  font-size: 1.2em;
-  color: #777;
-}
-
-/* Style des contrôles de pagination */
-.pagination-controls {
+  padding: 30px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.1rem;
   display: flex;
-  justify-content: center;
-  margin-top: 20px;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
 }
 
-.pagination-controls button {
-  margin: 0 5px;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  background-color: #007bff;
-  color: white;
-  transition: background-color 0.3s ease;
-}
-
-.pagination-controls button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-.pagination-controls button:hover:not(:disabled) {
-  background-color: #0056b3;
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .container {
-      padding: 10px; /* Ajouter un peu de padding sur les petits écrans */
+    padding: 20px;
   }
-
+  
   .request-list-title {
-      font-size: 1.5em; /* Réduire la taille du titre */
+    font-size: 1.5rem;
   }
-
+  
   .request-item {
-      flex-direction: column; /* Empiler les éléments verticalement */
-      align-items: flex-start; /* Aligner à gauche */
-      padding: 15px; /* Augmenter le padding */
+    padding: 12px;
   }
-
-  .request-item p {
-      font-size: 14px; /* Réduire la taille de la police */
-      margin-bottom: 10px; /* Espacement entre les éléments */
-  }
-
-  .actions {
-      display: flex; /* Toujours afficher les boutons sur mobile */
-      margin-top: 10px; /* Espacement entre le texte et les boutons */
-  }
-
-  .btn-edit,
-  .btn-delete {
-      margin-left: 0; /* Supprimer la marge à gauche */
-      margin-right: 10px; /* Espacement entre les boutons */
-  }
-
-  details summary {
-      padding-left: 15px; /* Ajuster le padding pour les petits écrans */
-  }
-
+  
   .pagination-controls {
-      flex-direction: column; /* Empiler les boutons de pagination */
-      gap: 10px; /* Espacement entre les boutons */
+    flex-direction: column;
+    gap: 10px;
   }
-
+  
   .pagination-controls button {
-      width: 100%; /* Boutons pleine largeur */
-  }
-}
-
-@media (max-width: 480px) {
-  .request-list-title {
-      font-size: 1.2em; /* Réduire encore la taille du titre */
-  }
-
-  .request-item {
-      padding: 10px; /* Réduire le padding */
-  }
-
-  .request-item p {
-      font-size: 12px; /* Réduire la taille de la police */
-  }
-
-  .btn-edit,
-  .btn-delete {
-      padding: 4px 8px; /* Réduire la taille des boutons */
-      font-size: 12px; /* Réduire la taille de la police */
-  }
-
-  .no-requests {
-      font-size: 1em; /* Réduire la taille de la police */
+    width: 100%;
+    justify-content: center;
   }
 }
