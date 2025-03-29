@@ -18,7 +18,9 @@
   background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.4) 100%);
   z-index: -1;
 }
-
+.ff{
+  color:#cbd5e0
+}
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -299,4 +301,26 @@
   background: linear-gradient(135deg, rgba(244, 67, 54, 0.2), rgba(244, 67, 54, 0.3)) !important;
   border-color: rgb(249, 27, 11) !important;
   color: #ef9a9a !important;
+}
+
+/* Style des options */
+.action-dropdown option {
+  background: rgba(50, 30, 0, 0.95);
+  color: #fff;
+  padding: 10px;
+}
+
+/* S'assurer que les options "Accepter" et "Refuser" ont des styles cohérents */
+.action-dropdown option[value="accept"] {
+  background: rgba(76, 175, 80, 0.8) !important;
+  color: #fff !important;
+}
+
+.action-dropdown option[value="reject"] {
+  background: rgba(244, 67, 54, 0.8) !important;
+  color: #fff !important;
+}
+
+.action-dropdown option:hover {
+  background: rgba(255, 152, 0, 0.5) !important;
 }

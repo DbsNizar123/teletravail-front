@@ -48,7 +48,14 @@ export class TeletravailRequestService {
     headers: this.getHeaders() 
   }).pipe(catchError(this.handleError));
 }
-
+// Ajoutez cette méthode dans TeletravailRequestService
+updateRequestStatus(id: string, status: string): Observable<any> {
+  return this.http.put(
+    `${this.apiUrl}/teletravail-requests/${id}/status`, 
+    { status }, 
+    { headers: this.getHeaders() }
+  ).pipe(catchError(this.handleError));
+}
   getRequestsByUser(userId: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/teletravail-requests/user/${userId}`, { headers: this.getHeaders() })
       .pipe(catchError(this.handleError));
