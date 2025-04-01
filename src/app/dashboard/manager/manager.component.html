@@ -2,47 +2,57 @@
   <div class="sidebar">
     <h2>Manager Dashboard</h2>
     <ul>
-     
-
-    
-        <li>
-          <a routerLink="ajouterdemande">
-            <i class="fas fa-plus-circle"></i> Ajouter Demande
-          </a>
-        </li>
-        
-        <li>
-          <a routerLink="voirdemande">
-            <i class="fas fa-eye"></i> Voir Demande
-          </a>
-        </li>
-      <li>
-        <a routerLink="profile">
-          <i class="fas fa-user-edit"></i> Update Profile
-        </a>
+      <!-- Demandes Menu avec Sous-menus -->
+      <li class="menu-item">
+        <div class="menu-header" (click)="toggleMenu('demandes')">
+          <i class="fas fa-list"></i>
+          <span>Demandes</span>
+          <i class="fas fa-chevron-{{isMenuOpen('demandes') ? 'up' : 'down'}} menu-arrow"></i>
+        </div>
+        <ul class="submenu" [class.open]="isMenuOpen('demandes')">
+          <li><a routerLink="ajouterdemande"><i class="fas fa-plus-circle"></i> Ajouter Demande</a></li>
+          <li><a routerLink="voirdemande"><i class="fas fa-eye"></i> Mes demandes</a></li>
+        </ul>
       </li>
+
+      <!-- Ancien "Voir Demande" reste indépendant -->
       <li>
         <a routerLink="show-requests">
-          <i class="fas fa-list"></i> Afficher les demandes
+          <i class="fas fa-eye"></i> Voir Demandes
         </a>
       </li>
+      
       <li>
         <button class="logout-button" (click)="confirmLogout()">
-            <i class="fas fa-sign-out-alt"></i> Logout
+          <i class="fas fa-sign-out-alt"></i> Déconnecter
         </button>
-    </li>
+      </li>
     </ul>
   </div>
+  
   <div class="main-content">
     <nav class="navbar bg-body-tertiary">
       <div class="container-fluid">
         <h4 class="welcome-message">Welcome {{ user?.name }}</h4>
-        <div class="notification-icon" (click)="toggleNotifications()">
-          <i class="fas fa-bell"></i>
-         
-          <div class="notification-dropdown" *ngIf="showNotifications">
-            <div *ngFor="let notification of notifications" class="notification-item">
-              {{ notification.message }}
+        <div class="navbar-right-items">
+          <!-- Notification icon -->
+          <div class="notification-icon" (click)="toggleNotifications($event)">
+            <i class="fas fa-bell"></i>
+            <div class="notification-dropdown" *ngIf="showNotifications">
+              <div *ngFor="let notification of notifications" class="notification-item">
+                {{ notification.message }}
+              </div>
+              <div class="notification-item" *ngIf="!notifications.length">No notifications</div>
+            </div>
+          </div>
+          
+          <!-- Settings icon avec Profil -->
+          <div class="settings-icon" (click)="toggleSettingsMenu($event)">
+            <i class="fas fa-cog"></i>
+            <div class="settings-dropdown" *ngIf="showSettingsMenu">
+              <div class="settings-item" routerLink="profile" (click)="toggleSettingsMenu($event)">
+                <i class="fas fa-user-edit"></i> Profil
+              </div>
             </div>
           </div>
         </div>
