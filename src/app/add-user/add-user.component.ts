@@ -50,7 +50,7 @@ export class AddUserComponent implements OnInit {
   addUser() {
     // Validation plus explicite
     if (!this.userData.department_id || this.userData.department_id <= 0) {
-      Swal.fire('Error!', 'Please select a valid department', 'error');
+      Swal.fire('Erreur !', 'Veuillez sélectionner un département valide', 'error');
       return;
     }
   
@@ -66,8 +66,8 @@ export class AddUserComponent implements OnInit {
     this.authService.addUser(userToCreate).subscribe(
       (response) => {
         Swal.fire({
-          title: 'Success!',
-          text: 'User added successfully!',
+          title: 'Succès !',
+          text: 'Utilisateur ajouté avec succès !',
           icon: 'success',
           confirmButtonText: 'OK'
         });
@@ -75,8 +75,8 @@ export class AddUserComponent implements OnInit {
       },
       (error) => {
         Swal.fire({
-          title: 'Error!',
-          text: error.error?.message || 'Failed to add user. Please try again.',
+          title: 'Erreur !',
+          text: error.error?.message || 'Échec de l\'ajout de l\'utilisateur. Veuillez réessayer.',
           icon: 'error',
           confirmButtonText: 'OK'
         });

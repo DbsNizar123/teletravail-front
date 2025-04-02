@@ -2,12 +2,20 @@
 <div class="container">
   <div class="card">
     <div class="card-header">
-      <h2 class="card-title">
-        <i class="fas fa-user-plus"></i> Add User
-      </h2>
+      <div class="header-content">
+        <h2 class="card-title">
+          <i class="fas fa-user-plus"></i> Add User
+        </h2>
+        <div class="add-user-container">
+          <button class="user-list-button" routerLink="../user-list">
+            <i class="fas fa-list"></i> Liste Utilisateurs
+          </button>
+        </div>
+      </div>
     </div>
     <div class="card-body">
       <form (ngSubmit)="addUser()">
+        <!-- Rest of the form remains unchanged -->
         <!-- Name Field -->
         <div class="mb-3">
           <label for="name" class="form-label">
@@ -96,10 +104,9 @@
             </option>
           </select>
         </div>
-
-        <!-- Submit Button -->
+        <!-- ... other form fields ... -->
         <button type="submit" class="btn btn-primary">
-          <i class="fas fa-save"></i> Add User
+          <i class="fas fa-save"></i> Ajouter Utilisateur
         </button>
       </form>
     </div>

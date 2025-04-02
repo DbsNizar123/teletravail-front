@@ -26,9 +26,7 @@ export class AdminComponent implements OnInit {
   showNotifications: boolean = false;
   showSettingsMenu: boolean = false;
   openMenus: { [key: string]: boolean } = {
-    users: false,
-    departments: false,
-    settings: false
+    settings: false // Only "settings" remains
   };
 
   constructor(private authService: AuthService, private router: Router) {}

@@ -137,13 +137,13 @@ details[open] summary::after {
 
 .status-approved {
   background: rgba(76, 175, 80, 0.2);
-  color: #4CAF50;
+  color: #1e5220;
   border: 1px solid rgba(76, 175, 80, 0.4);
 }
 
 .status-rejected {
   background: rgba(244, 67, 54, 0.2);
-  color: #F44336;
+  color: #a60b00;
   border: 1px solid rgba(244, 67, 54, 0.4);
 }
 
