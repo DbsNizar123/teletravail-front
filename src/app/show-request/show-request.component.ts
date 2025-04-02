@@ -45,6 +45,15 @@ export class ShowRequestComponent implements OnInit {
       },
     });
   }
+  translateStatus(status: string): string {
+    const statusMap: { [key: string]: string } = {
+      'pending': 'En attente',
+      'approved': 'Approuvé',
+      'rejected': 'Rejeté'
+    };
+    return statusMap[status] || status;
+  }
+
 
   editRequest(requestId: string) {
     this.loading = true; // Activer l'indicateur de chargement
