@@ -19,6 +19,18 @@ export class LoginComponent {
     // Rediriger vers la page de réinitialisation de mot de passe
     this.router.navigate(['/forgot-password']);
   }
+  togglePasswordVisibility(input: HTMLInputElement) {
+    const icon = input.nextElementSibling as HTMLElement;
+    if (input.type === 'password') {
+      input.type = 'text';
+      icon.classList.remove('fa-eye');
+      icon.classList.add('fa-eye-slash', 'active');
+    } else {
+      input.type = 'password';
+      icon.classList.remove('fa-eye-slash', 'active');
+      icon.classList.add('fa-eye');
+    }
+  }
   login() {
     // Vérifier que les champs email et password ne sont pas vides
     if (!this.credentials.email || !this.credentials.password) {

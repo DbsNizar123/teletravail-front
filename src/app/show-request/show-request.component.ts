@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TeletravailRequestService } from '../services/teletravail-request.service';
-import { AuthService } from '../auth.service'; // Import AuthService
+import { AuthService } from '../auth.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 
@@ -13,11 +13,12 @@ export class ShowRequestComponent implements OnInit {
   requests: any[] = [];
   currentPage: number = 1;
   totalPages: number = 0;
-  limit: number = 10; // Number of requests per page
+  limit: number = 10;
+  loading: boolean = true; // Ajout de la propriété loading
 
   constructor(
     private teletravailRequestService: TeletravailRequestService,
-    private authService: AuthService, // Inject AuthService
+    private authService: AuthService,
     private router: Router
   ) {}
 
@@ -26,10 +27,12 @@ export class ShowRequestComponent implements OnInit {
   }
 
   loadRequests() {
+    this.loading = true; // Activer l'indicateur de chargement
     this.teletravailRequestService.getRequests(this.currentPage, this.limit).subscribe({
       next: (response) => {
-        this.requests = response.requests.data; // Adjust based on your API response
-        this.totalPages = response.requests.last_page; // Adjust based on your API response
+        this.requests = response.requests.data;
+        this.totalPages = response.requests.last_page;
+        this.loading = false; // Désactiver l'indicateur de chargement
       },
       error: (error) => {
         Swal.fire({
@@ -38,13 +41,25 @@ export class ShowRequestComponent implements OnInit {
           text: 'Erreur lors du chargement des demandes.',
         });
         console.error(error);
+        this.loading = false; // Désactiver l'indicateur en cas d'erreur
       },
     });
   }
+  translateStatus(status: string): string {
+    const statusMap: { [key: string]: string } = {
+      'pending': 'En attente',
+      'approved': 'Approuvé',
+      'rejected': 'Rejeté'
+    };
+    return statusMap[status] || status;
+  }
+
 
   editRequest(requestId: string) {
+    this.loading = true; // Activer l'indicateur de chargement
     this.authService.getUserRoles().subscribe({
       next: (roles) => {
+        this.loading = false; // Désactiver l'indicateur
         if (roles.includes('manager')) {
           this.router.navigate([`manager/modifierdemande/${requestId}`]);
         } else if (roles.includes('employee')) {
@@ -54,6 +69,7 @@ export class ShowRequestComponent implements OnInit {
         }
       },
       error: () => {
+        this.loading = false; // Désactiver l'indicateur
         Swal.fire('Erreur', 'Erreur lors de la récupération des rôles.', 'error');
       }
     });

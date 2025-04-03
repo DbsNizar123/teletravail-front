@@ -2,11 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import Swal from 'sweetalert2';
-
-
-import {  ActivatedRoute } from '@angular/router';
-
-
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-user-list',
@@ -14,29 +10,65 @@ import {  ActivatedRoute } from '@angular/router';
   styleUrls: ['./user-list.component.css']
 })
 export class UserListComponent implements OnInit {
-  users: any[] = [];
+  users: any[] = []; // Current page's users
+  filteredUsers: any[] = []; // Filtered list for display
+  cachedUsers: any[] = []; // Cache of all visited pages
   currentPage: number = 1;
   totalPages: number = 0;
-  limit: number = 6; // Number of users per page
+  limit: number = 6;
+  searchTerm: string = '';
+  visitedPages: Set<number> = new Set(); // Track visited pages
 
-  constructor(private authService: AuthService, private router: Router,
-    private route: ActivatedRoute) { }
-  
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
-    this.loadUsers(this.currentPage, this.limit);
+    this.loadUsers();
   }
 
-  loadUsers(page: number, limit: number): void {
-    this.authService.getAllUsers(page, limit).subscribe(
+  loadUsers(): void {
+    if (this.visitedPages.has(this.currentPage)) {
+      // If page is already cached, just filter and display
+      this.users = this.cachedUsers.filter(u => 
+        Math.floor((this.cachedUsers.indexOf(u) / this.limit) + 1) === this.currentPage
+      );
+      this.filterUsers();
+      return;
+    }
+
+    this.authService.getAllUsers(this.currentPage, this.limit).subscribe(
       (data: any) => {
-        this.users = data.data; // Adjust based on your API response
-        this.totalPages = data.last_page; // Adjust based on your API response
+        this.users = data.data;
+        this.totalPages = data.last_page;
+        this.visitedPages.add(this.currentPage);
+
+        // Add new users to cache, avoiding duplicates
+        data.data.forEach((newUser: any) => {
+          if (!this.cachedUsers.some(u => u.id === newUser.id)) {
+            this.cachedUsers.push(newUser);
+          }
+        });
+
+        this.filterUsers();
       },
       (error) => {
         console.error('Erreur lors de la récupération des utilisateurs', error);
       }
     );
+  }
+
+  filterUsers(): void {
+    if (!this.searchTerm) {
+      this.filteredUsers = [...this.users]; // Show current page unfiltered
+    } else {
+      // Filter across all cached users
+      this.filteredUsers = this.cachedUsers.filter(user =>
+        user.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    }
   }
 
   updateUser(user: any): void {
@@ -57,7 +89,10 @@ export class UserListComponent implements OnInit {
         this.authService.deleteUser(user.id).subscribe(
           () => {
             Swal.fire('Supprimé!', 'L\'utilisateur a été supprimé.', 'success');
+            // Remove from all arrays
             this.users = this.users.filter(u => u.id !== user.id);
+            this.cachedUsers = this.cachedUsers.filter(u => u.id !== user.id);
+            this.filterUsers();
           },
           (error) => {
             console.error('Erreur lors de la suppression de l\'utilisateur', error);
@@ -68,19 +103,17 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  // Nouvelle méthode pour afficher les demandes de télétravail de l'utilisateur
- 
   nextPage(): void {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
-      this.loadUsers(this.currentPage, this.limit);
+      this.loadUsers();
     }
   }
 
   previousPage(): void {
     if (this.currentPage > 1) {
       this.currentPage--;
-      this.loadUsers(this.currentPage, this.limit);
+      this.loadUsers();
     }
   }
 }

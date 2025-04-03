@@ -3,7 +3,7 @@
   <div class="card">
     <div class="card-header">
       <h2 class="card-title">
-        <i class="fas fa-user-edit"></i> Update Profile
+        <i class="fas fa-user-edit"></i> Modifier Profile
       </h2>
     </div>
     <div class="card-body">
@@ -11,7 +11,7 @@
         <!-- Name Field -->
         <div class="mb-3">
           <label for="name" class="form-label">
-            <i class="fas fa-user"></i> Name
+            <i class="fas fa-user"></i> Nom
           </label>
           <input
             type="text"
@@ -43,7 +43,7 @@
         <!-- Password Field -->
         <div class="mb-3">
           <label for="password" class="form-label">
-            <i class="fas fa-lock"></i> Password
+            <i class="fas fa-lock"></i> Mot De Passe
           </label>
           <input
             type="password"
@@ -51,16 +51,16 @@
             id="password"
             [(ngModel)]="user.password"
             name="password"
-            placeholder="Leave empty to keep current password"
+            placeholder=" mot de passe "
           />
           <small class="form-text" style="color: rgba(255,255,255,0.7); margin-top: 5px;">
-            <i class="fas fa-info-circle"></i> Leave blank to keep your current password
+            <i class="fas fa-info-circle"></i> Laissez vide pour conserver votre mot de passe actuel
           </small>
         </div>
 
         <!-- Submit Button -->
         <button type="submit" class="btn btn-primary">
-          <i class="fas fa-save"></i> Update Profile
+          <i class="fas fa-save"></i> Modifier Profile
         </button>
       </form>
     </div>

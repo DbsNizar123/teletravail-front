@@ -1,24 +1,46 @@
-<div class="container mt-5">
-  <h3 class="request-list-title"><b>Mes Demandes de Télétravail</b></h3>
-  <div *ngIf="requests.length === 0">
-    <p>Aucune demande trouvée.</p>
+<div class="container">
+  <h3 class="request-list-title">
+    <i class="fas fa-laptop-house"></i> <b>Mes Demandes de Télétravail</b>
+  </h3>
+  
+  <div *ngIf="loading" class="loading-indicator">
+    <i class="fas fa-spinner fa-spin"></i> Chargement en cours...
   </div>
-  <div *ngIf="requests.length > 0" class="card">
-    <div *ngFor="let request of requests" class="request-item">
-      <details>
-        <summary><b>Date</b>: {{ request.date }}</summary>
-        <p><b>Raison</b>: {{ request.reason }}</p>
-        <p><b>Statut</b>: {{ request.status }}</p><br>
-      </details>
-      <div class="actions">
-        <button class="btn-edit" (click)="editRequest(request.id)">Modifier</button>
+  
+  <div *ngIf="!loading">
+    <div *ngIf="requests.length === 0" class="no-requests">
+      <i class="fas fa-inbox"></i> Aucune demande trouvée.
+    </div>
+    
+    <div *ngIf="requests.length > 0" class="card">
+      <div *ngFor="let request of requests" class="request-item">
+        <details>
+          <summary>
+            <span class="date"><i class="fas fa-calendar-day"></i> {{ request.date }}</span>
+            <span class="status-badge" [class]="'status-' + request.status">
+             <strong>  {{ translateStatus(request.status) }}</strong> 
+            </span>
+          </summary>
+          <div class="details-content">
+            <p><i class="fas fa-comment-alt"></i> <b>Raison</b>: {{ request.reason }}</p>
+          </div>
+        </details>
+        <div class="actions">
+          <button class="btn-edit" (click)="editRequest(request.id)">
+            <i class="fas fa-edit"></i> Modifier
+          </button>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="pagination-controls">
-    <button (click)="previousPage()" [disabled]="currentPage === 1">Précédent</button>
+    <button (click)="previousPage()" [disabled]="currentPage === 1">
+      <i class="fas fa-chevron-left"></i> Précédent
+    </button>
     <span>Page {{ currentPage }} sur {{ totalPages }}</span>
-    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Suivant</button>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+      Suivant <i class="fas fa-chevron-right"></i>
+    </button>
   </div>
 </div>

@@ -29,8 +29,10 @@ import { CommonModule } from '@angular/common';
 
 
 
+
 @NgModule({
   declarations: [
+    
     AppComponent,
     LoginComponent,
     AddUserComponent,
@@ -50,6 +52,8 @@ import { CommonModule } from '@angular/common';
     ShowDepartmentComponent,
     DepartmentUpdateComponent,
     ShowRequestsComponent,
+
+    
 
 
    
