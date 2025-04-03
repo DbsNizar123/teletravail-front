@@ -1,36 +1,51 @@
-<!-- department-list.component.html -->
 <div class="container">
-    <h2 class="department-list-title">
-      <i class="fas fa-building"></i> Liste des Départements
-    </h2>
-    <div class="card">
-      <div *ngFor="let department of departments" class="department-item">
-        <details>
-          <summary>
-            <i class="fas fa-layer-group" style="margin-right: 8px;"></i> <b>{{ department.name }}</b>
-          </summary>
-          <p><i class="fas fa-align-left" style="margin-right: 8px;"></i> <b>Description:</b> {{ department.description }}</p>
-        </details>
-        <div class="actions">
-          <button class="btn-edit" (click)="editDepartment(department.id)">
-            <i class="fas fa-edit"></i> Modifier
-          </button>
-          <button class="btn-delete" (click)="deleteDepartment(department.id)">
-            <i class="fas fa-trash-alt"></i> Supprimer
-          </button>
-        </div>
+  <h2 class="department-list-title">
+    <i class="fas fa-building"></i> Liste des Départements
+  </h2>
+
+  <!-- Search Bar -->
+  <div class="search">
+    <input 
+      type="text" 
+      class="input" 
+      placeholder="Rechercher par nom..." 
+      [(ngModel)]="searchTerm" 
+      (ngModelChange)="filterDepartments()"
+    >
+    <button class="btn">
+      <i class="fas fa-search"></i>
+    </button>
+
+  </div>
+
+  <div class="card">
+    <div *ngFor="let department of filteredDepartments" class="department-item">
+      <details>
+        <summary>
+          <i class="fas fa-layer-group" style="margin-right: 8px;"></i> <b>{{ department.name }}</b>
+        </summary>
+        <p><i class="fas fa-align-left" style="margin-right: 8px;"></i> <b>Description:</b> {{ department.description }}</p>
+      </details>
+      <div class="actions">
+        <button class="btn-edit" (click)="editDepartment(department.id)">
+          <i class="fas fa-edit"></i> Modifier
+        </button>
+        <button class="btn-delete" (click)="deleteDepartment(department.id)">
+          <i class="fas fa-trash-alt"></i> Supprimer
+        </button>
       </div>
     </div>
-    <div class="pagination-controls">
-      <button (click)="previousPage()" [disabled]="currentPage === 1">
-        <i class="fas fa-chevron-left"></i> Précédent
-      </button>
-      <span>Page {{ currentPage }} sur {{ totalPages }}</span>
-      <button (click)="nextPage()" [disabled]="currentPage === totalPages">
-        Suivant <i class="fas fa-chevron-right"></i>
-      </button>
-    </div>
-    <div *ngIf="departments.length === 0" class="no-departments">
-      <i class="fas fa-building"></i> Aucun département trouvé.
-    </div>
   </div>
+  <div class="pagination-controls">
+    <button (click)="previousPage()" [disabled]="currentPage === 1">
+      <i class="fas fa-chevron-left"></i> Précédent
+    </button>
+    <span>Page {{ currentPage }} sur {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+      Suivant <i class="fas fa-chevron-right"></i>
+    </button>
+  </div>
+  <div *ngIf="filteredDepartments.length === 0" class="no-departments">
+    <i class="fas fa-building"></i> Aucun département trouvé dans les pages visitées.
+  </div>
+</div>

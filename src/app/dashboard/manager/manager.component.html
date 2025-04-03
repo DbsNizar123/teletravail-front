@@ -4,16 +4,8 @@
     <ul>
       <!-- Demandes Menu avec Sous-menus -->
       <li class="menu-item">
-        <div class="menu-header" (click)="toggleMenu('demandes')">
-          <i class="fas fa-list"></i>
-          <span>Demandes</span>
-          <i class="fas fa-chevron-{{isMenuOpen('demandes') ? 'up' : 'down'}} menu-arrow"></i>
-        </div>
-        <ul class="submenu" [class.open]="isMenuOpen('demandes')">
-          <li><a routerLink="ajouterdemande"><i class="fas fa-plus-circle"></i> Ajouter Demande</a></li>
-          <li><a routerLink="voirdemande"><i class="fas fa-eye"></i> Mes demandes</a></li>
-        </ul>
-      </li>
+       
+        <li><a routerLink="ajouterdemande"><i class="fas fa-plus-circle"></i> Ajouter Demande</a></li>
 
       <!-- Ancien "Voir Demande" reste indépendant -->
       <li>
