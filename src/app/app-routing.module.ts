@@ -18,6 +18,11 @@ import { AddDepartmentComponent } from './add-department/add-department.componen
 import { ShowDepartmentComponent } from './show-department/show-department.component';
 import { DepartmentUpdateComponent } from './department-update/department-update.component';
 import { ShowRequestsComponent } from './show-requests/show-requests.component';
+import { GlobalSettingsCalendarComponent } from './global-settings-calendar/global-settings-calendar.component';
+import { CalendarComponent } from './calendar/calendar.component';
+
+
+
 ShowRequestsComponent
 
 
@@ -40,6 +45,7 @@ const routes: Routes = [
         component: ShowRequestsComponent},
    
       { path: 'departments/update/:id', component: DepartmentUpdateComponent },
+      { path: 'global-settings', component: GlobalSettingsCalendarComponent },
     ]
   },
 
@@ -56,9 +62,9 @@ const routes: Routes = [
 
       { path: 'show-department', component: ShowDepartmentComponent },
      
-      {
-        path: 'show-requests',
-        component: ShowRequestsComponent},
+      
+      {path: 'show-requests',component: ShowRequestsComponent},
+      { path: 'calendar', component: CalendarComponent },
   
    
 
@@ -74,6 +80,8 @@ const routes: Routes = [
       { path: 'ajouterdemande', component: SubmitTeletravailRequestComponent },
       { path: 'voirdemande', component: ShowRequestComponent },
       { path: 'modifierdemande/:id', component: UpdateRequestComponent },
+      { path: 'calendar', component: CalendarComponent },
+
      
     ]
   },
