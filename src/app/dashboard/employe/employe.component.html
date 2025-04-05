@@ -4,7 +4,13 @@
     <ul>
       <!-- Demandes Menu avec Sous-menus -->
       <li class="menu-item">
-        <li><a routerLink="ajouterdemande"><i class="fas fa-plus-circle"></i> Ajouter Demande</a></li>
+        <li><a routerLink="ajouterdemande"><i class="fas fa-plus-circle"></i> Ajouter Demande</a>
+      </li>
+      <li>
+        <a routerLink="calendar">
+          <i class="fas fa-calendar-alt"></i> Calendrier
+        </a>
+      </li>
       <li>
         <button class="logout-button" (click)="confirmLogout()">
           <i class="fas fa-sign-out-alt"></i> Déconnecter

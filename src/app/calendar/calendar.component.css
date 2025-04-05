@@ -1,0 +1,71 @@
+/* calendar.component.css */
+.container {
+    max-width: 100%;
+  }
+  
+  .card {
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+  
+  .card-header {
+    padding: 1rem 1.5rem;
+  }
+  
+  .fc {
+    font-family: inherit;
+  }
+  
+  .fc-toolbar-title {
+    font-size: 1.25rem;
+    font-weight: 500;
+  }
+  
+  .fc-button {
+    background-color: #3f51b5 !important;
+    border: none !important;
+    transition: all 0.3s;
+  }
+  
+  .fc-button:hover {
+    background-color: #303f9f !important;
+  }
+  
+  .fc-button-primary:not(:disabled).fc-button-active {
+    background-color: #1a237e !important;
+  }
+  
+  .fc-daygrid-event {
+    border-radius: 4px;
+    padding: 2px 5px;
+    font-size: 0.85em;
+  }
+  
+  .fc-event {
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  
+  .fc-event:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .swal-wide {
+    width: 600px !important;
+  }
+  
+  @media (max-width: 768px) {
+    .swal-wide {
+      width: 90% !important;
+    }
+    
+    .fc-toolbar-title {
+      font-size: 1.1rem;
+    }
+    
+    .fc-button {
+      padding: 0.3em 0.6em !important;
+      font-size: 0.8rem !important;
+    }
+  }

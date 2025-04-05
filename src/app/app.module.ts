@@ -24,6 +24,10 @@ import { ShowDepartmentComponent } from './show-department/show-department.compo
 import { DepartmentUpdateComponent } from './department-update/department-update.component';
 import { ShowRequestsComponent } from './show-requests/show-requests.component';
 import { CommonModule } from '@angular/common';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { GlobalSettingsCalendarComponent } from './global-settings-calendar/global-settings-calendar.component';
+import { CalendarComponent } from './calendar/calendar.component';
+
 
 
 
@@ -52,6 +56,10 @@ import { CommonModule } from '@angular/common';
     ShowDepartmentComponent,
     DepartmentUpdateComponent,
     ShowRequestsComponent,
+    GlobalSettingsCalendarComponent,
+    CalendarComponent,
+
+   
 
     
 
@@ -67,7 +75,8 @@ import { CommonModule } from '@angular/common';
     AppRoutingModule,
     RouterModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FullCalendarModule
   ],
   providers: [provideHttpClient()],
   bootstrap: [AppComponent]
