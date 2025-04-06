@@ -28,13 +28,12 @@
             <td class="status-cell">
               <div class="action-select">
                 <select 
-                  class="action-dropdown" 
-                  [disabled]="request.status !== 'pending' && !isAdmin"
-                  [class.status-pending]="request.status === 'pending'"
-                  [class.status-approved]="request.status === 'approved'"
-                  [class.status-rejected]="request.status === 'rejected'"
-                  (change)="onStatusChange(request, $event)">
-                  <option [value]="request.status" selected>
+                class="action-dropdown" 
+                [disabled]="(request.status !== 'pending' && !isAdmin) || request.user.id === currentUserId || (isManager && request.user.role === 'manager')"
+                [class.status-pending]="request.status === 'pending'"
+                [class.status-approved]="request.status === 'approved'"
+                [class.status-rejected]="request.status === 'rejected'"
+                (change)="onStatusChange(request, $event)"> <option [value]="request.status" selected>
                     {{ translateStatus(request.status) }}
                   </option>
                   <option *ngIf="request.status === 'pending'" class="status-approved" value="accept">Accepter</option>
