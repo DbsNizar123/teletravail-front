@@ -39,8 +39,8 @@ export class UpdateRequestComponent implements OnInit {
         title: 'Erreur...',
         text: 'ID de la demande manquant.',
       });
-      this.router.navigate(['/employee/voirdemande']);
-      this.router.navigate(['/manager/voirdemande']);  // Redirection en cas d'ID manquant
+      this.router.navigate(['../voirdemande']);
+   
     }
   }
 
@@ -50,8 +50,8 @@ export class UpdateRequestComponent implements OnInit {
       this.teletravailRequestService.updateRequest(id, this.request).subscribe({
         next: (response) => {
           Swal.fire('Succès', 'Demande mise à jour avec succès', 'success');
-          this.router.navigate(['/employee/voirdemande']);
-          this.router.navigate(['/manager/voirdemande']);
+          this.router.navigate(['../voirdemande']);
+         
         },
         error: (error) => {
           this.errorMessage = 'Erreur lors de la mise à jour de la demande.';
