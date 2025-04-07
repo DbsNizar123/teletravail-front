@@ -52,10 +52,19 @@ export class TeletravailRequestService {
 // Ajoutez cette méthode dans TeletravailRequestService
 updateRequestStatus(id: string, status: string): Observable<any> {
   return this.http.put(
-    `${this.apiUrl}/teletravail-requests/${id}/status`, 
-    { status }, 
-    { headers: this.getHeaders() }
-  ).pipe(catchError(this.handleError));
+      `${this.apiUrl}/teletravail-requests/${id}/status`, 
+      { status }, 
+      { headers: this.getHeaders() }
+  ).pipe(
+      catchError(error => {
+          if (error.status === 403) {
+              // Message spécifique pour les erreurs d'autorisation
+              const errorMsg = error.error.message || 'Action non autorisée';
+              return throwError(() => new Error(errorMsg));
+          }
+          return throwError(() => new Error('Une erreur est survenue lors de la mise à jour'));
+      })
+  );
 }
   getRequestsByUser(userId: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/teletravail-requests/user/${userId}`, { headers: this.getHeaders() })

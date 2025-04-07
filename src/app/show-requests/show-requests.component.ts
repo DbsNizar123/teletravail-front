@@ -1,6 +1,8 @@
-// show-requests.component.ts
 import { Component, OnInit } from '@angular/core';
 import { TeletravailRequestService } from '../services/teletravail-request.service';
+AuthService
+import Swal from 'sweetalert2';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-show-requests',
@@ -10,19 +12,42 @@ import { TeletravailRequestService } from '../services/teletravail-request.servi
 export class ShowRequestsComponent implements OnInit {
   requests: any[] = [];
   loading = false;
-  isAdmin: boolean = false; // Ajouté pour gérer les permissions admin
+  isAdmin: boolean = false;
+  isManager: boolean = false;
+  currentUserId: number | null = null;
 
-  constructor(private teletravailRequestService: TeletravailRequestService) {}
+  constructor(
+    private teletravailRequestService: TeletravailRequestService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
+    this.getCurrentUserId();
+    this.checkUserRole();
     this.loadRequests();
-    this.checkAdminRole(); // Vérifiez le rôle au chargement
   }
 
-  checkAdminRole() {
-    // À implémenter selon votre système d'authentification
-    // Par exemple, vérifier si l'utilisateur a le rôle 'admin'
-    this.isAdmin = true; // Pour les tests, à remplacer par une vraie vérification
+  checkUserRole(): void {
+    this.authService.getUserRoles().subscribe(
+      (roles: string[]) => {
+        this.isAdmin = roles.includes('admin');
+        this.isManager = roles.includes('manager');
+      },
+      error => {
+        console.error('Error getting user roles:', error);
+      }
+    );
+  }
+
+  getCurrentUserId(): void {
+    this.authService.getProfile().subscribe(
+      (profile: any) => {
+        this.currentUserId = profile.id;
+      },
+      error => {
+        console.error('Error getting user profile:', error);
+      }
+    );
   }
 
   loadRequests(): void {
@@ -35,6 +60,11 @@ export class ShowRequestsComponent implements OnInit {
       error => {
         console.error('Error:', error);
         this.loading = false;
+        Swal.fire({
+          icon: 'error',
+          title: 'Erreur',
+          text: 'Une erreur est survenue lors du chargement des demandes'
+        });
       }
     );
   }
@@ -55,20 +85,54 @@ export class ShowRequestsComponent implements OnInit {
     if (newStatus === 'accept' || newStatus === 'reject') {
       const updatedStatus = newStatus === 'accept' ? 'approved' : 'rejected';
 
-      // Animation
-      selectElement.classList.add('status-change');
-
-      // Appel API pour mettre à jour le statut
-      this.teletravailRequestService.updateRequestStatus(request.id, updatedStatus).subscribe(
-        (response) => {
-          request.status = updatedStatus; // Mise à jour du statut local
-          this.requests = [...this.requests]; // Forcer le rafraîchissement de la liste
-        },
-        (error) => {
-          console.error('Error updating status:', error);
-          selectElement.value = request.status; // Revenir à l'état précédent en cas d'erreur
+   
+      Swal.fire({
+        title: 'Confirmer la modification',
+        text: `Voulez-vous vraiment ${updatedStatus === 'approved' ? 'approuver' : 'rejeter'} cette demande?`,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Oui',
+        cancelButtonText: 'Non'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          selectElement.classList.add('status-change');
+          
+          this.teletravailRequestService.updateRequestStatus(request.id, updatedStatus).subscribe(
+            (response) => {
+              request.status = updatedStatus;
+              this.requests = [...this.requests];
+              Swal.fire({
+                icon: 'success',
+                title: 'Succès',
+                text: 'Statut mis à jour avec succès'
+              });
+            },
+            (error) => {
+              console.error('Error updating status:', error);
+              selectElement.value = request.status;
+              Swal.fire({
+                icon: 'error',
+                title: 'Erreur',
+                text: error.message || 'Erreur lors de la mise à jour du statut'
+              });
+            }
+          );
+        } else {
+          selectElement.value = request.status;
         }
-      );
+      });
     }
   }
+
+  canModifyRequest(request: any): boolean {
+    if (this.isAdmin) return true;
+    if (!this.isManager) return false;
+    
+
+    const isEmployee = !request.user.roles || 
+                      !request.user.roles.includes('manager') && 
+                      !request.user.roles.includes('admin');
+    
+    return isEmployee && request.user.id !== this.currentUserId;
+}
 }

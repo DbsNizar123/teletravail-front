@@ -6,7 +6,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
-import  frLocale  from '@fullcalendar/core/locales/fr';
+import frLocale from '@fullcalendar/core/locales/fr';
 
 @Component({
   selector: 'app-global-settings-calendar',
@@ -14,7 +14,7 @@ import  frLocale  from '@fullcalendar/core/locales/fr';
   styleUrls: ['./global-settings-calendar.component.css']
 })
 export class GlobalSettingsCalendarComponent implements OnInit {
-  calendarOptions: CalendarOptions = {
+  optionsCalendrier: CalendarOptions = {
     plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin, listPlugin],
     initialView: 'dayGridMonth',
     locale: frLocale,
@@ -23,80 +23,84 @@ export class GlobalSettingsCalendarComponent implements OnInit {
       center: 'title',
       right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
     },
+    buttonText: {
+      today: 'Aujourd\'hui',
+      month: 'Mois',
+      week: 'Semaine',
+      day: 'Jour',
+      list: 'Liste'
+    },
+    allDayText: 'Toute la journée',
+    noEventsText: 'Aucun événement à afficher',
     editable: true,
     selectable: true,
     selectMirror: true,
     dayMaxEvents: true,
     weekends: true,
     events: [],
-    eventClick: this.handleEventClick.bind(this),
-    select: this.handleDateSelect.bind(this),
+    eventClick: this.gestionClicEvenement.bind(this),
+    select: this.gestionSelectionDate.bind(this),
     eventDisplay: 'block',
     eventTimeFormat: {
       hour: '2-digit',
       minute: '2-digit',
-      meridiem: false
+      hour12: false
     }
   };
 
-  currentEvents: EventApi[] = [];
+  evenementsActuels: EventApi[] = [];
 
-  constructor(private globalSettingService: GlobalSettingService) {}
+  constructor(private serviceParametres: GlobalSettingService) {}
 
   ngOnInit(): void {
-    this.loadSettings();
+    this.chargerParametres();
   }
 
-  loadSettings(): void {
-    this.globalSettingService.getSettings().subscribe({
-      next: (settings) => {
-        this.calendarOptions.events = settings.map((setting: any) => ({
-          id: setting.id,
-          title: this.getEventTitle(setting),
-          date: this.formatDate(setting.date),
+  chargerParametres(): void {
+    this.serviceParametres.getSettings().subscribe({
+      next: (parametres) => {
+        this.optionsCalendrier.events = parametres.map((parametre: any) => ({
+          id: parametre.id,
+          title: this.genererTitreEvenement(parametre),
+          date: this.formaterDate(parametre.date),
           allDay: true,
-          backgroundColor: this.getEventColor(setting.status),
-          borderColor: this.getBorderColor(setting.status),
+          backgroundColor: this.getCouleurFond(parametre.status),
+          borderColor: this.getCouleurBordure(parametre.status),
           textColor: '#ffffff',
           extendedProps: { 
-            id: setting.id, 
-            description: setting.description,
-            status: setting.status,
-            daily_limit: setting.daily_limit
+            id: parametre.id, 
+            description: parametre.description,
+            status: parametre.status,
+            daily_limit: parametre.daily_limit
           },
         }));
       },
-      error: (error) => {
-        console.error('Error loading settings:', error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Erreur',
-          text: `Impossible de charger les paramètres: ${error.message}`,
-          confirmButtonColor: '#3f51b5'
-        });
+      error: (erreur) => {
+        console.error('Erreur de chargement:', erreur);
+        this.afficherErreur('Erreur', `Impossible de charger les paramètres: ${erreur.message}`);
       },
     });
   }
 
-  getEventTitle(setting: any): string {
-    switch(setting.status) {
+  genererTitreEvenement(parametre: any): string {
+    switch(parametre.status) {
       case 'blocked': 
-        return '🚫 Bloqué';
+        return '🚫 Jour bloqué';
       case 'limited': 
-        return `⚠️ Limité (${setting.daily_limit}%)`;
+        return `⚠️ Limité (${parametre.daily_limit}% de télétravail)`;
       case 'available': 
-        return '✅ Disponible';
+        return '✅ Télétravail autorisé';
       default: 
-        return '❓ Inconnu';
+        return '❓ Statut inconnu';
     }
   }
 
-  formatDate(date: string): string {
+  formaterDate(date: string): string {
     return new Date(date).toISOString().split('T')[0];
   }
 
-  getEventColor(status: string): string {
-    switch (status) {
+  getCouleurFond(statut: string): string {
+    switch (statut) {
       case 'blocked': return '#ff4444';
       case 'limited': return '#ffbb33';
       case 'available': return '#00C851';
@@ -104,8 +108,8 @@ export class GlobalSettingsCalendarComponent implements OnInit {
     }
   }
 
-  getBorderColor(status: string): string {
-    switch (status) {
+  getCouleurBordure(statut: string): string {
+    switch (statut) {
       case 'blocked': return '#CC0000';
       case 'limited': return '#FF8800';
       case 'available': return '#007E33';
@@ -113,45 +117,35 @@ export class GlobalSettingsCalendarComponent implements OnInit {
     }
   }
 
-  handleDateSelect(selectInfo: DateSelectArg): void {
-    const formattedDate = this.formatDate(selectInfo.startStr);
+  gestionSelectionDate(infoSelection: DateSelectArg): void {
+    const dateFormatee = this.formaterDate(infoSelection.startStr);
     
     Swal.fire({
       title: 'Ajouter un paramètre',
-      html: this.getDateFormHtml(formattedDate),
-      didOpen: () => this.setupStatusChangeListener(),
+      html: this.genererFormulaireAjout(dateFormatee),
+      didOpen: () => this.configurerEcouteurStatut(),
       showCancelButton: true,
       confirmButtonText: 'Ajouter',
       cancelButtonText: 'Annuler',
       confirmButtonColor: '#3f51b5',
       cancelButtonColor: '#ff4444',
-      preConfirm: () => this.collectFormData(formattedDate)
-    }).then((result) => {
-      if (result.isConfirmed && result.value) {
-        this.globalSettingService.addSetting(result.value).subscribe({
+      preConfirm: () => this.recupererDonneesFormulaire(dateFormatee)
+    }).then((resultat) => {
+      if (resultat.isConfirmed && resultat.value) {
+        this.serviceParametres.addSetting(resultat.value).subscribe({
           next: () => {
-            Swal.fire({
-              icon: 'success',
-              title: 'Succès',
-              text: `Paramètre ajouté pour ${formattedDate}`,
-              confirmButtonColor: '#3f51b5'
-            });
-            this.loadSettings();
+            this.afficherSucces('Succès', `Paramètre ajouté pour ${dateFormatee}`);
+            this.chargerParametres();
           },
-          error: (error) => {
-            Swal.fire({
-              icon: 'error',
-              title: 'Erreur',
-              text: `Échec de l'ajout: ${error.error?.message || error.message}`,
-              confirmButtonColor: '#3f51b5'
-            });
+          error: (erreur) => {
+            this.afficherErreur('Erreur', `Échec de l'ajout: ${erreur.error?.message || erreur.message}`);
           }
         });
       }
     });
   }
 
-  getDateFormHtml(date: string): string {
+  genererFormulaireAjout(date: string): string {
     return `
       <div class="form-group mb-3">
         <label class="form-label">Date</label>
@@ -178,44 +172,44 @@ export class GlobalSettingsCalendarComponent implements OnInit {
     `;
   }
 
-  setupStatusChangeListener(): void {
-    const statusSelect = document.getElementById('status') as HTMLSelectElement;
-    const limitGroup = document.getElementById('limit-group') as HTMLDivElement;
+  configurerEcouteurStatut(): void {
+    const selecteurStatut = document.getElementById('status') as HTMLSelectElement;
+    const groupeLimite = document.getElementById('limit-group') as HTMLDivElement;
 
-    statusSelect.addEventListener('change', () => {
-      limitGroup.style.display = statusSelect.value === 'limited' ? 'block' : 'none';
+    selecteurStatut.addEventListener('change', () => {
+      groupeLimite.style.display = selecteurStatut.value === 'limited' ? 'block' : 'none';
     });
   }
 
-  collectFormData(formattedDate: string): any {
-    const status = (document.getElementById('status') as HTMLSelectElement).value;
-    const daily_limit = (document.getElementById('daily_limit') as HTMLInputElement).value;
+  recupererDonneesFormulaire(dateFormatee: string): any {
+    const statut = (document.getElementById('status') as HTMLSelectElement).value;
+    const limiteQuotidienne = (document.getElementById('daily_limit') as HTMLInputElement).value;
     const description = (document.getElementById('description') as HTMLTextAreaElement).value;
 
-    if (status === 'limited' && (!daily_limit || +daily_limit < 1 || +daily_limit > 100)) {
+    if (statut === 'limited' && (!limiteQuotidienne || +limiteQuotidienne < 1 || +limiteQuotidienne > 100)) {
       Swal.showValidationMessage('Veuillez entrer une limite valide (1-100%)');
       return false;
     }
 
     return {
-      date: formattedDate,
-      status,
-      daily_limit: status === 'limited' ? daily_limit : null,
+      date: dateFormatee,
+      status: statut,
+      daily_limit: statut === 'limited' ? limiteQuotidienne : null,
       description: description || 'Aucune description fournie'
     };
   }
 
-  handleEventClick(clickInfo: EventClickArg): void {
-    const event = clickInfo.event;
-    const setting = event.extendedProps;
-    const date = this.formatDate(event.startStr);
+  gestionClicEvenement(infoClic: EventClickArg): void {
+    const evenement = infoClic.event;
+    const parametre = evenement.extendedProps;
+    const date = this.formaterDate(evenement.startStr);
 
     Swal.fire({
       title: 'Gérer le paramètre',
-      html: this.getEditFormHtml(setting, date),
+      html: this.genererFormulaireEdition(parametre, date),
       didOpen: () => {
-        this.setupStatusChangeListener();
-        if (setting['status'] === 'limited') {
+        this.configurerEcouteurStatut();
+        if (parametre['status'] === 'limited') {
           (document.getElementById('limit-group') as HTMLDivElement).style.display = 'block';
         }
       },
@@ -226,17 +220,17 @@ export class GlobalSettingsCalendarComponent implements OnInit {
       confirmButtonColor: '#3f51b5',
       cancelButtonColor: '#ff4444',
       denyButtonColor: '#ff4444',
-      preConfirm: () => this.collectEditFormData(setting, date)
-    }).then((result) => {
-      if (result.isConfirmed && result.value) {
-        this.editSetting(result.value);
-      } else if (result.isDenied) {
-        this.deleteSetting(setting['id'], date);
+      preConfirm: () => this.recupererDonneesFormulaireEdition(parametre, date)
+    }).then((resultat) => {
+      if (resultat.isConfirmed && resultat.value) {
+        this.modifierParametre(resultat.value);
+      } else if (resultat.isDenied) {
+        this.supprimerParametre(parametre['id'], date);
       }
     });
   }
 
-  getEditFormHtml(setting: any, date: string): string {
+  genererFormulaireEdition(parametre: any, date: string): string {
     return `
       <div class="form-group mb-3">
         <label class="form-label">Date</label>
@@ -245,98 +239,96 @@ export class GlobalSettingsCalendarComponent implements OnInit {
       <div class="form-group mb-3">
         <label class="form-label">Statut</label>
         <select id="status" class="form-select">
-          <option value="blocked" ${setting.status === 'blocked' ? 'selected' : ''}>Bloqué</option>
-          <option value="limited" ${setting.status === 'limited' ? 'selected' : ''}>Limité</option>
-          <option value="available" ${setting.status === 'available' ? 'selected' : ''}>Disponible</option>
+          <option value="blocked" ${parametre.status === 'blocked' ? 'selected' : ''}>Bloqué</option>
+          <option value="limited" ${parametre.status === 'limited' ? 'selected' : ''}>Limité</option>
+          <option value="available" ${parametre.status === 'available' ? 'selected' : ''}>Disponible</option>
         </select>
       </div>
-      <div class="form-group mb-3" id="limit-group" style="display:${setting.status === 'limited' ? 'block' : 'none'}">
+      <div class="form-group mb-3" id="limit-group" style="display:${parametre.status === 'limited' ? 'block' : 'none'}">
         <label class="form-label">Limite quotidienne (%)</label>
         <input type="number" id="daily_limit" class="form-control" 
                placeholder="1-100" min="1" max="100" 
-               value="${setting.daily_limit || ''}">
+               value="${parametre.daily_limit || ''}">
       </div>
       <div class="form-group mb-3">
         <label class="form-label">Description</label>
         <textarea id="description" class="form-control" 
-                  placeholder="Raison du paramètre">${setting.description || ''}</textarea>
+                  placeholder="Raison du paramètre">${parametre.description || ''}</textarea>
       </div>
     `;
   }
 
-  collectEditFormData(setting: any, date: string): any {
-    const status = (document.getElementById('status') as HTMLSelectElement).value;
-    const daily_limit = (document.getElementById('daily_limit') as HTMLInputElement).value;
+  recupererDonneesFormulaireEdition(parametre: any, date: string): any {
+    const statut = (document.getElementById('status') as HTMLSelectElement).value;
+    const limiteQuotidienne = (document.getElementById('daily_limit') as HTMLInputElement).value;
     const description = (document.getElementById('description') as HTMLTextAreaElement).value;
 
-    if (status === 'limited' && (!daily_limit || +daily_limit < 1 || +daily_limit > 100)) {
+    if (statut === 'limited' && (!limiteQuotidienne || +limiteQuotidienne < 1 || +limiteQuotidienne > 100)) {
       Swal.showValidationMessage('Veuillez entrer une limite valide (1-100%)');
       return false;
     }
 
     return {
-      id: setting.id,
+      id: parametre.id,
       date,
-      status,
-      daily_limit: status === 'limited' ? daily_limit : null,
+      status: statut,
+      daily_limit: statut === 'limited' ? limiteQuotidienne : null,
       description: description || 'Aucune description fournie'
     };
   }
 
-  editSetting(settingData: any): void {
-    this.globalSettingService.updateSetting(settingData.id, settingData).subscribe({
+  modifierParametre(donneesParametre: any): void {
+    this.serviceParametres.updateSetting(donneesParametre.id, donneesParametre).subscribe({
       next: () => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Succès',
-          text: 'Paramètre mis à jour avec succès',
-          confirmButtonColor: '#3f51b5'
-        });
-        this.loadSettings();
+        this.afficherSucces('Succès', 'Paramètre mis à jour avec succès');
+        this.chargerParametres();
       },
-      error: (error) => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Erreur',
-          text: `Échec de la mise à jour: ${error.error?.message || error.message}`,
-          confirmButtonColor: '#3f51b5'
-        });
+      error: (erreur) => {
+        this.afficherErreur('Erreur', `Échec de la mise à jour: ${erreur.error?.message || erreur.message}`);
       }
     });
   }
 
-  deleteSetting(id: string, date: string): void {
+  supprimerParametre(id: string, date: string): void {
     Swal.fire({
       title: 'Confirmer la suppression',
-      text: `Voulez-vous vraiment supprimer le paramètre pour ${date}?`,
+      text: `Voulez-vous vraiment supprimer le paramètre pour ${date} ?`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Oui, supprimer',
       cancelButtonText: 'Annuler',
       confirmButtonColor: '#ff4444',
       cancelButtonColor: '#3f51b5'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.globalSettingService.deleteSetting(id).subscribe({
+    }).then((resultat) => {
+      if (resultat.isConfirmed) {
+        this.serviceParametres.deleteSetting(id).subscribe({
           next: () => {
-            Swal.fire({
-              icon: 'success',
-              title: 'Supprimé!',
-              text: 'Le paramètre a été supprimé.',
-              confirmButtonColor: '#3f51b5'
-            });
-            this.loadSettings();
+            this.afficherSucces('Supprimé!', 'Le paramètre a été supprimé.');
+            this.chargerParametres();
           },
-          error: (error) => {
-            Swal.fire({
-              icon: 'error',
-              title: 'Erreur',
-              text: `Échec de la suppression: ${error.error?.message || error.message}`,
-              confirmButtonColor: '#3f51b5'
-            });
+          error: (erreur) => {
+            this.afficherErreur('Erreur', `Échec de la suppression: ${erreur.error?.message || erreur.message}`);
           }
         });
       }
+    });
+  }
+
+  afficherSucces(titre: string, message: string): void {
+    Swal.fire({
+      icon: 'success',
+      title: titre,
+      text: message,
+      confirmButtonColor: '#3f51b5'
+    });
+  }
+
+  afficherErreur(titre: string, message: string): void {
+    Swal.fire({
+      icon: 'error',
+      title: titre,
+      text: message,
+      confirmButtonColor: '#3f51b5'
     });
   }
 }
