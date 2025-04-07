@@ -85,7 +85,7 @@ export class ShowRequestsComponent implements OnInit {
     if (newStatus === 'accept' || newStatus === 'reject') {
       const updatedStatus = newStatus === 'accept' ? 'approved' : 'rejected';
 
-      // Confirmation avant modification
+   
       Swal.fire({
         title: 'Confirmer la modification',
         text: `Voulez-vous vraiment ${updatedStatus === 'approved' ? 'approuver' : 'rejeter'} cette demande?`,
@@ -128,7 +128,7 @@ export class ShowRequestsComponent implements OnInit {
     if (this.isAdmin) return true;
     if (!this.isManager) return false;
     
-    // Manager can only modify employee requests (not other managers or self)
+
     const isEmployee = !request.user.roles || 
                       !request.user.roles.includes('manager') && 
                       !request.user.roles.includes('admin');

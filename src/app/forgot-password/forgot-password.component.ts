@@ -18,7 +18,7 @@ export class ForgotPasswordComponent {
       .subscribe(
         (response: any) => {
           Swal.fire({
-            title: 'Success!',
+            title: 'Succès!',
             text: response.message,
             icon: 'success',
             confirmButtonText: 'OK'
@@ -28,8 +28,8 @@ export class ForgotPasswordComponent {
         },
         (error) => {
           Swal.fire({
-            title: 'Error',
-            text: 'An error occurred. Please try again.',
+            title: 'Erreur',
+            text: 'Une erreur est produite. Veuillez réessayer.',
             icon: 'error',
             confirmButtonText: 'OK'
           });

@@ -56,29 +56,27 @@ export class ResetPasswordComponent implements OnInit {
         (response: ResetPasswordResponse) => {
           // Affichage d'une alerte de succès avec SweetAlert2
           Swal.fire({
-            title: 'Success!',
+            title: 'Succès!',
             text: response.message,
             icon: 'success',
             confirmButtonText: 'OK'
           }).then(() => {
-            this.router.navigate(['/login']); // Redirection vers la page de connexion
+            this.router.navigate(['/login']); 
           });
         },
         (error: any) => {
-          // Affichage d'une alerte d'erreur avec SweetAlert2
           Swal.fire({
-            title: 'Error',
-            text: 'An error occurred while resetting the password. Please try again.',
+            title: 'Erreur ',
+            text: 'Une erreur est produite lors de la réinitialisation du mot de passe. Veuillez réessayer.',
             icon: 'error',
             confirmButtonText: 'OK'
           });
         }
       );
     } else {
-      // Affichage d'une alerte pour un formulaire invalide
       Swal.fire({
-        title: 'Invalid Form',
-        text: 'Please fill out the form correctly.',
+        title: 'Formulaire invalide',
+        text: 'Veuillez remplir le formulaire correctement.',
         icon: 'warning',
         confirmButtonText: 'OK'
       });
