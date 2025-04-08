@@ -33,6 +33,11 @@ export class GlobalSettingService {
   deleteSetting(id: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`, { headers: this.getHeaders() }).pipe(catchError(this.handleError));
   }
+  checkAvailability(date: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/check-availability?date=${date}`, { 
+      headers: this.getHeaders() 
+    }).pipe(catchError(this.handleError));
+  }
 
   private handleError(error: any) {
     console.error('Erreur:', error);
