@@ -83,4 +83,7 @@ updateRequestStatus(id: string, status: string): Observable<any> {
     console.error(errorMessage);
     return throwError(() => new Error(errorMessage));
   }
+
+  // Dans teletravail-request.service.ts
+
 }

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { TeletravailRequestService } from '../services/teletravail-request.service';
+import { GlobalSettingService } from '../services/global-setting.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -8,52 +9,68 @@ import Swal from 'sweetalert2';
   styleUrls: ['./submit-teletravail-request.component.css']
 })
 export class SubmitTeletravailRequestComponent {
-  // Données du formulaire simplifiées (sans department_id)
   requestData = {
     date: '',
     reason: ''
   };
+  availabilityStatus: string | null = null;
 
   constructor(
-    private teletravailRequestService: TeletravailRequestService
+    private teletravailRequestService: TeletravailRequestService,
+    private globalSettingService: GlobalSettingService
   ) {}
 
-  // Soumettre la demande de télétravail
-  onSubmit() {
-    if (!this.requestData.date || !this.requestData.reason) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Erreur',
-        text: 'Veuillez remplir tous les champs obligatoires'
-      });
-      return;
-    }
+  checkAvailability() {
+    if (!this.requestData.date) return;
 
-    this.teletravailRequestService.submitRequest(this.requestData).subscribe({
+    this.globalSettingService.checkAvailability(this.requestData.date).subscribe({
       next: (response) => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Succès!',
-          text: 'Demande soumise avec succès !',
-        });
-        this.resetForm();
+        this.availabilityStatus = response.status;
       },
       error: (error) => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Erreur...',
-          text: 'Erreur lors de la soumission de la demande.',
-        });
-        console.error(error);
-      },
+        console.error('Error checking availability:', error);
+      }
     });
   }
 
-  // Réinitialiser le formulaire
-  resetForm(): void {
-    this.requestData = {
-      date: '',
-      reason: ''
-    };
+  onSubmit() {
+    if (!this.requestData.date || !this.requestData.reason) {
+      Swal.fire('Erreur', 'Veuillez remplir tous les champs', 'error');
+      return;
+    }
+
+    // Vérifier la disponibilité avant soumission
+    this.globalSettingService.checkAvailability(this.requestData.date).subscribe({
+      next: (response) => {
+        if (response.status === 'blocked') {
+          Swal.fire('Indisponible', 'Le télétravail est bloqué pour cette date', 'error');
+          return;
+        }
+
+        if (response.status === 'limited' && response.remaining_slots <= 0) {
+          Swal.fire('Limite atteinte', 'Le quota de télétravail est atteint pour cette date', 'warning');
+          return;
+        }
+
+        // Si disponible, soumettre la demande
+        this.teletravailRequestService.submitRequest(this.requestData).subscribe({
+          next: (response) => {
+            Swal.fire('Succès', 'Demande soumise avec succès', 'success');
+            this.resetForm();
+          },
+          error: (error) => {
+            Swal.fire('Erreur', 'Échec de la soumission', 'error');
+          }
+        });
+      },
+      error: (error) => {
+        Swal.fire('Erreur', 'Impossible de vérifier la disponibilité', 'error');
+      }
+    });
   }
-}
+
+  resetForm(): void {
+    this.requestData = { date: '', reason: '' };
+    this.availabilityStatus = null;
+  }
+} 

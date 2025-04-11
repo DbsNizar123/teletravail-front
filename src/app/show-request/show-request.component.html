@@ -25,11 +25,9 @@
             <p><i class="fas fa-comment-alt"></i> <b>Raison</b>: {{ request.reason }}</p>
           </div>
         </details>
-        <div class="actions">
-          <button class="btn-edit" (click)="editRequest(request.id)">
-            <i class="fas fa-edit"></i> Modifier
-          </button>
-        </div>
+        <button class="btn-edit" (click)="editRequest(request.id, request.status)" [disabled]="request.status !== 'pending'">
+          <i class="fas fa-edit"></i> Modifier
+        </button>
       </div>
     </div>
   </div>

@@ -8,6 +8,27 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import frLocale from '@fullcalendar/core/locales/fr';
 
+// Define the interface for extended properties
+interface ExtendedProps {
+  id?: string;
+  description?: string;
+  status: string;
+  daily_limit?: number | null;
+  isDefault?: boolean;
+}
+
+// Define the interface for calendar events
+interface CalendarEvent {
+  id?: string;
+  title: string;
+  date: string;
+  allDay: boolean;
+  backgroundColor: string;
+  borderColor: string;
+  textColor: string;
+  extendedProps: ExtendedProps;
+}
+
 @Component({
   selector: 'app-global-settings-calendar',
   templateUrl: './global-settings-calendar.component.html',
@@ -53,36 +74,84 @@ export class GlobalSettingsCalendarComponent implements OnInit {
   constructor(private serviceParametres: GlobalSettingService) {}
 
   ngOnInit(): void {
+    this.initializeCalendarWithAvailableDays();
     this.chargerParametres();
+  }
+
+  initializeCalendarWithAvailableDays(): void {
+    const startDate = new Date('2025-01-01');
+    const endDate = new Date('2025-12-31');
+    const defaultEvents: CalendarEvent[] = [];
+    
+    for (let date = new Date(startDate); date <= endDate; date.setDate(date.getDate() + 1)) {
+      const dayOfWeek = date.getDay(); // 0 = Sunday, 6 = Saturday
+      const formattedDate = this.formaterDate(date.toISOString());
+      
+      // Skip weekends (Saturday = 6, Sunday = 0)
+      if (dayOfWeek === 0 || dayOfWeek === 6) {
+        continue; // Don't add any status for weekends
+      }
+      
+      // Add available status for weekdays
+      defaultEvents.push({
+        title: '✅ Télétravail autorisé',
+        date: formattedDate,
+        allDay: true,
+        backgroundColor: '#00C851',
+        borderColor: '#007E33',
+        textColor: '#ffffff',
+        extendedProps: {
+          status: 'available',
+          daily_limit: null,
+          description: 'Disponible par défaut',
+          isDefault: true
+        }
+      });
+    }
+    
+    this.optionsCalendrier.events = defaultEvents;
   }
 
   chargerParametres(): void {
     this.serviceParametres.getSettings().subscribe({
-      next: (parametres) => {
-        this.optionsCalendrier.events = parametres.map((parametre: any) => ({
-          id: parametre.id,
-          title: this.genererTitreEvenement(parametre),
-          date: this.formaterDate(parametre.date),
-          allDay: true,
-          backgroundColor: this.getCouleurFond(parametre.status),
-          borderColor: this.getCouleurBordure(parametre.status),
-          textColor: '#ffffff',
-          extendedProps: { 
-            id: parametre.id, 
-            description: parametre.description,
-            status: parametre.status,
-            daily_limit: parametre.daily_limit
-          },
-        }));
+      next: (parametres: any[]) => {
+        const existingEvents = this.optionsCalendrier.events as CalendarEvent[];
+        const updatedEvents = existingEvents.map(event => {
+          const override = parametres.find((p: any) => 
+            this.formaterDate(p.date) === event.date
+          );
+          
+          if (override) {
+            return {
+              id: override.id,
+              title: this.genererTitreEvenement(override),
+              date: this.formaterDate(override.date),
+              allDay: true,
+              backgroundColor: this.getCouleurFond(override.status),
+              borderColor: this.getCouleurBordure(override.status),
+              textColor: '#ffffff',
+              extendedProps: {
+                id: override.id,
+                description: override.description,
+                status: override.status,
+                daily_limit: override.daily_limit,
+                isDefault: false
+              }
+            };
+          }
+          return event;
+        });
+        
+        this.optionsCalendrier.events = updatedEvents;
       },
       error: (erreur) => {
         console.error('Erreur de chargement:', erreur);
         this.afficherErreur('Erreur', `Impossible de charger les paramètres: ${erreur.message}`);
-      },
+      }
     });
   }
 
-  genererTitreEvenement(parametre: any): string {
+  genererTitreEvenement(parametre: { status: string; daily_limit?: number | null }): string {
     switch(parametre.status) {
       case 'blocked': 
         return '🚫 Jour bloqué';
@@ -119,13 +188,15 @@ export class GlobalSettingsCalendarComponent implements OnInit {
 
   gestionSelectionDate(infoSelection: DateSelectArg): void {
     const dateFormatee = this.formaterDate(infoSelection.startStr);
-    
+    const existingEvents = this.optionsCalendrier.events as CalendarEvent[];
+    const existingEvent = existingEvents.find(e => e.date === dateFormatee);
+
     Swal.fire({
-      title: 'Ajouter un paramètre',
+      title: existingEvent?.extendedProps.isDefault ? 'Modifier la disponibilité' : 'Ajouter un paramètre',
       html: this.genererFormulaireAjout(dateFormatee),
       didOpen: () => this.configurerEcouteurStatut(),
       showCancelButton: true,
-      confirmButtonText: 'Ajouter',
+      confirmButtonText: 'Modifier',
       cancelButtonText: 'Annuler',
       confirmButtonColor: '#3f51b5',
       cancelButtonColor: '#ff4444',
@@ -134,11 +205,11 @@ export class GlobalSettingsCalendarComponent implements OnInit {
       if (resultat.isConfirmed && resultat.value) {
         this.serviceParametres.addSetting(resultat.value).subscribe({
           next: () => {
-            this.afficherSucces('Succès', `Paramètre ajouté pour ${dateFormatee}`);
+            this.afficherSucces('Succès', `Paramètre mis à jour pour ${dateFormatee}`);
             this.chargerParametres();
           },
           error: (erreur) => {
-            this.afficherErreur('Erreur', `Échec de l'ajout: ${erreur.error?.message || erreur.message}`);
+            this.afficherErreur('Erreur', `Échec de la mise à jour: ${erreur.error?.message || erreur.message}`);
           }
         });
       }
@@ -201,21 +272,21 @@ export class GlobalSettingsCalendarComponent implements OnInit {
 
   gestionClicEvenement(infoClic: EventClickArg): void {
     const evenement = infoClic.event;
-    const parametre = evenement.extendedProps;
+    const parametre = evenement.extendedProps as ExtendedProps;
     const date = this.formaterDate(evenement.startStr);
 
     Swal.fire({
-      title: 'Gérer le paramètre',
+      title: parametre.isDefault ? 'Modifier la disponibilité' : 'Gérer le paramètre',
       html: this.genererFormulaireEdition(parametre, date),
       didOpen: () => {
         this.configurerEcouteurStatut();
-        if (parametre['status'] === 'limited') {
+        if (parametre.status === 'limited') {
           (document.getElementById('limit-group') as HTMLDivElement).style.display = 'block';
         }
       },
       showCancelButton: true,
       confirmButtonText: 'Modifier',
-      showDenyButton: true,
+      showDenyButton: !parametre.isDefault,
       denyButtonText: 'Supprimer',
       confirmButtonColor: '#3f51b5',
       cancelButtonColor: '#ff4444',
@@ -223,14 +294,26 @@ export class GlobalSettingsCalendarComponent implements OnInit {
       preConfirm: () => this.recupererDonneesFormulaireEdition(parametre, date)
     }).then((resultat) => {
       if (resultat.isConfirmed && resultat.value) {
-        this.modifierParametre(resultat.value);
+        const action = parametre.isDefault ? 
+          this.serviceParametres.addSetting(resultat.value) :
+          this.serviceParametres.updateSetting(parametre.id!, resultat.value);
+          
+        action.subscribe({
+          next: () => {
+            this.afficherSucces('Succès', 'Paramètre mis à jour avec succès');
+            this.chargerParametres();
+          },
+          error: (erreur) => {
+            this.afficherErreur('Erreur', `Échec de la mise à jour: ${erreur.error?.message || erreur.message}`);
+          }
+        });
       } else if (resultat.isDenied) {
-        this.supprimerParametre(parametre['id'], date);
+        this.supprimerParametre(parametre.id!, date);
       }
     });
   }
 
-  genererFormulaireEdition(parametre: any, date: string): string {
+  genererFormulaireEdition(parametre: ExtendedProps, date: string): string {
     return `
       <div class="form-group mb-3">
         <label class="form-label">Date</label>
@@ -258,7 +341,7 @@ export class GlobalSettingsCalendarComponent implements OnInit {
     `;
   }
 
-  recupererDonneesFormulaireEdition(parametre: any, date: string): any {
+  recupererDonneesFormulaireEdition(parametre: ExtendedProps, date: string): any {
     const statut = (document.getElementById('status') as HTMLSelectElement).value;
     const limiteQuotidienne = (document.getElementById('daily_limit') as HTMLInputElement).value;
     const description = (document.getElementById('description') as HTMLTextAreaElement).value;
@@ -275,18 +358,6 @@ export class GlobalSettingsCalendarComponent implements OnInit {
       daily_limit: statut === 'limited' ? limiteQuotidienne : null,
       description: description || 'Aucune description fournie'
     };
-  }
-
-  modifierParametre(donneesParametre: any): void {
-    this.serviceParametres.updateSetting(donneesParametre.id, donneesParametre).subscribe({
-      next: () => {
-        this.afficherSucces('Succès', 'Paramètre mis à jour avec succès');
-        this.chargerParametres();
-      },
-      error: (erreur) => {
-        this.afficherErreur('Erreur', `Échec de la mise à jour: ${erreur.error?.message || erreur.message}`);
-      }
-    });
   }
 
   supprimerParametre(id: string, date: string): void {
