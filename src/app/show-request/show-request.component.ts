@@ -55,26 +55,30 @@ export class ShowRequestComponent implements OnInit {
   }
 
 
-  editRequest(requestId: string) {
-    this.loading = true; // Activer l'indicateur de chargement
-    this.authService.getUserRoles().subscribe({
-      next: (roles) => {
-        this.loading = false; // Désactiver l'indicateur
-        if (roles.includes('manager')) {
-          this.router.navigate([`manager/modifierdemande/${requestId}`]);
-        } else if (roles.includes('employee')) {
-          this.router.navigate([`employee/modifierdemande/${requestId}`]);
-        } else {
-          Swal.fire('Accès refusé', 'Vous n\'avez pas l\'autorisation de modifier cette demande.', 'error');
-        }
-      },
-      error: () => {
-        this.loading = false; // Désactiver l'indicateur
-        Swal.fire('Erreur', 'Erreur lors de la récupération des rôles.', 'error');
-      }
-    });
-  }
+  editRequest(requestId: string, currentStatus: string) {
+    if (currentStatus !== 'pending') {
+        Swal.fire('Action impossible', 'Seules les demandes en attente peuvent être modifiées.', 'error');
+        return;
+    }
 
+    this.loading = true;
+    this.authService.getUserRoles().subscribe({
+        next: (roles) => {
+            this.loading = false;
+            if (roles.includes('manager')) {
+                this.router.navigate([`manager/modifierdemande/${requestId}`]);
+            } else if (roles.includes('employee')) {
+                this.router.navigate([`employee/modifierdemande/${requestId}`]);
+            } else {
+                Swal.fire('Accès refusé', 'Vous n\'avez pas l\'autorisation de modifier cette demande.', 'error');
+            }
+        },
+        error: () => {
+            this.loading = false;
+            Swal.fire('Erreur', 'Erreur lors de la récupération des rôles.', 'error');
+        }
+    });
+}
   nextPage() {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
