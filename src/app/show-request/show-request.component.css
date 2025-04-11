@@ -249,3 +249,36 @@ details[open] summary::after {
     justify-content: center;
   }
 }
+.user-list-button {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  }
+  
+  .user-list-button i {
+  margin-right: 10px;
+  }
+  
+  .user-list-button:hover {
+  background: linear-gradient(45deg, #764ba2, #667eea);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  }
+  
+.voir {
+  text-align: center;
+  margin-bottom: 0px;
+  margin-top: 10px;
+  padding: 0;
+  }
+  
