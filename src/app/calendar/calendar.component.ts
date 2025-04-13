@@ -122,7 +122,7 @@ export class CalendarComponent implements OnInit {
         <p><strong>Description:</strong> ${setting.description || 'Aucune description'}</p>
         ${
           setting.isDefault
-            ? '<p><em>Ceci est un événement par défaut.</em></p>'
+            ? '<p><em></em></p>'
             : '<p><em>Ceci est un paramètre personnalisé.</em></p>'
         }
       </div>

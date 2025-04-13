@@ -5,11 +5,7 @@
         <i class="fas fa-laptop-house"></i> Soumettre une demande de télétravail
       </h2>
     </div>
-    <div class="voir">
-      <button class="user-list-button" routerLink="../voirdemande">
-        <i class="fas fa-list"></i> Liste des demandes
-      </button>
-    </div>
+   
     <div class="card-body">
       <form (ngSubmit)="onSubmit()">
         <!-- Champ Date -->
@@ -26,20 +22,26 @@
             (change)="checkAvailability()"
             required
           />
-          <!-- Indicateur de disponibilité -->
-          <div *ngIf="availabilityStatus" class="mt-2">
-            <span class="badge" 
-                  [ngClass]="{
-                    'bg-danger': availabilityStatus === 'blocked',
-                    'bg-warning': availabilityStatus === 'limited',
-                    'bg-success': availabilityStatus === 'available'
-                  }">
-              {{ 
-                availabilityStatus === 'blocked' ? 'Bloqué' :
-                availabilityStatus === 'limited' ? 'Limité' : 'Disponible'
-              }}
-            </span>
-          </div>
+    <div *ngIf="availabilityStatus" class="mt-2">
+      <span class="badge" 
+            [ngClass]="{
+              'bg-danger': availabilityStatus === 'blocked',
+              'bg-warning': availabilityStatus === 'limited',
+              'bg-success': availabilityStatus === 'available'
+            }">
+        {{ 
+          availabilityStatus === 'blocked' ? 'Bloqué' :
+          availabilityStatus === 'limited' ? 'Limité' : 'Disponible'
+        }}
+      </span>
+      <div *ngIf="availabilityDetails" class="mt-2 small">
+        <div *ngIf="availabilityDetails.status === 'limited'">
+          Limite: {{availabilityDetails.daily_limit}}% 
+          ({{availabilityDetails.current_count}}/{{availabilityDetails.absolute_limit}} places)
+        </div>
+        <div *ngIf="availabilityDetails.message">{{availabilityDetails.message}}</div>
+      </div>
+    </div>
         </div>
 
         <!-- Champ Raison -->

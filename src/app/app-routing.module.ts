@@ -20,7 +20,8 @@ import { DepartmentUpdateComponent } from './department-update/department-update
 import { ShowRequestsComponent } from './show-requests/show-requests.component';
 import { GlobalSettingsCalendarComponent } from './global-settings-calendar/global-settings-calendar.component';
 import { CalendarComponent } from './calendar/calendar.component';
-
+import { TeletravailCalendarComponent } from './teletravail-calendar/teletravail-calendar.component';
+TeletravailCalendarComponent
 
 
 ShowRequestsComponent
@@ -45,7 +46,8 @@ const routes: Routes = [
         component: ShowRequestsComponent},
    
       { path: 'departments/update/:id', component: DepartmentUpdateComponent },
-      { path: 'global-settings', component: GlobalSettingsCalendarComponent },
+      { path: 'teletravail-calendar', component: TeletravailCalendarComponent },
+      { path: 'global-settings', component: GlobalSettingsCalendarComponent }
     ]
   },
 
@@ -65,6 +67,7 @@ const routes: Routes = [
       
       {path: 'show-requests',component: ShowRequestsComponent},
       { path: 'calendar', component: CalendarComponent },
+      { path: 'teletravail-calendar', component: TeletravailCalendarComponent },
   
    
 

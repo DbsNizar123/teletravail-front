@@ -235,6 +235,38 @@ details[open] summary::before {
     font-size: 1.5rem; /* Reduced from 2.2rem */
   }
 }
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px; /* Ajustez selon vos besoins pour l'espacement */
+}
+.user-button {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  margin-left: auto; /* Ajout pour pousser à droite */
+}
+
+.user-button i {
+  margin-right: 10px;
+  }
+  
+  .user-button:hover {
+  background: linear-gradient(45deg, #764ba2, #667eea);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  }
+
 
 /* Search bar styling */
 .search {

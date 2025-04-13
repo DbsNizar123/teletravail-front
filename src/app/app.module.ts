@@ -27,6 +27,7 @@ import { CommonModule } from '@angular/common';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { GlobalSettingsCalendarComponent } from './global-settings-calendar/global-settings-calendar.component';
 import { CalendarComponent } from './calendar/calendar.component';
+import { TeletravailCalendarComponent } from './teletravail-calendar/teletravail-calendar.component';
 
 
 
@@ -58,6 +59,7 @@ import { CalendarComponent } from './calendar/calendar.component';
     ShowRequestsComponent,
     GlobalSettingsCalendarComponent,
     CalendarComponent,
+    TeletravailCalendarComponent,
 
    
 

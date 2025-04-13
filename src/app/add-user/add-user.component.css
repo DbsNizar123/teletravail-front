@@ -26,31 +26,6 @@ padding: 20px 0;
 text-align: center; /* Optional: center the button */
 }
 
-.user-list-button {
-background: linear-gradient(45deg, #667eea, #764ba2);
-color: white;
-border: none;
-padding: 12px 25px;
-border-radius: 8px;
-cursor: pointer;
-font-size: 16px;
-font-weight: 500;
-transition: all 0.3s ease;
-display: inline-flex;
-align-items: center;
-justify-content: center;
-box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-}
-
-.user-list-button i {
-margin-right: 10px;
-}
-
-.user-list-button:hover {
-background: linear-gradient(45deg, #764ba2, #667eea);
-transform: translateY(-2px);
-box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-}
 /* For card-header option */
 .header-content {
 display: flex;
