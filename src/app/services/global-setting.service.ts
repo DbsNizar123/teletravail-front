@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -33,11 +34,19 @@ export class GlobalSettingService {
   deleteSetting(id: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`, { headers: this.getHeaders() }).pipe(catchError(this.handleError));
   }
-  checkAvailability(date: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/check-availability?date=${date}`, { 
-      headers: this.getHeaders() 
-    }).pipe(catchError(this.handleError));
-  }
+checkAvailability(date: string): Observable<any> {
+  return this.http.get(`${this.apiUrl}/check-availability?date=${date}`, { 
+    headers: this.getHeaders() 
+  }).pipe(
+    map((response: any) => {
+      if (response.status === 'limited') {
+        response.displayMessage = `Limite: ${response.daily_limit}% (${response.current_count}/${response.absolute_limit} places utilisées)`;
+      }
+      return response;
+    }),
+    catchError(this.handleError)
+  );
+}
 
   private handleError(error: any) {
     console.error('Erreur:', error);

@@ -6,11 +6,10 @@ import { Observable, catchError, throwError } from 'rxjs';
   providedIn: 'root',
 })
 export class TeletravailRequestService {
-  private apiUrl = 'http://localhost:8000/api'; // Remplacez par l'URL de votre API
+  private apiUrl = 'http://localhost:8000/api'; 
 
   constructor(private http: HttpClient) {}
 
-  // Configurer les en-têtes avec le token d'authentification
   private getHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
     return new HttpHeaders({
@@ -19,25 +18,34 @@ export class TeletravailRequestService {
     });
   }
 
-  // Soumettre une demande de télétravail
-  submitRequest(data: { date: string; reason: string;  }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/teletravail-requests`, data, { headers: this.getHeaders() })
-      .pipe(catchError(this.handleError));
-  }
+submitRequest(data: { date: string; reason: string }): Observable<any> {
+  const headers = this.getHeaders();
+  
+  return this.http.post(`${this.apiUrl}/teletravail-requests`, data, { headers }).pipe(
+    catchError(error => {
+      let errorMessage = 'Erreur lors de la soumission';
+      
+      if (error.status === 500) {
+        errorMessage += ': Erreur serveur - ' + (error.error?.error || 'Détails non disponibles');
+      } else if (error.error?.message) {
+        errorMessage = error.error.message;
+      }
+      
+      return throwError(() => new Error(errorMessage));
+    })
+  );
+}
 
-  // Obtenir toutes les demandes de télétravail
   getRequests(page: number = 1, limit: number = 6): Observable<any> {
     return this.http.get(`${this.apiUrl}/teletravail-requests?page=${page}&limit=${limit}`, { headers: this.getHeaders() })
       .pipe(catchError(this.handleError));
   }
 
-  // Obtenir une demande spécifique par ID
   getRequestById(id: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/teletravail-requests/${id}`, { headers: this.getHeaders() })
       .pipe(catchError(this.handleError));
   }
 
-  // Mettre à jour une demande de télétravail
   updateRequest(id: string, data: { date?: string; reason?: string }): Observable<any> {
     return this.http.put(`${this.apiUrl}/teletravail-requests/${id}`, data, { headers: this.getHeaders() })
       .pipe(catchError(this.handleError));
