@@ -24,11 +24,6 @@
       </li>
 
       <li>
-        <a routerLink="global-settings">
-          <i class="fas fa-calendar-alt"></i> Paramètres Globaux
-        </a>
-      </li>
-      <li>
         <a routerLink="teletravail-calendar">
           <i class="fas fa-calendar-alt"></i> Calendrier Des Demandes
         </a>
@@ -66,8 +61,8 @@
               <div class="settings-item" routerLink="profile" (click)="toggleSettingsMenu($event)">
                 <i class="fas fa-user-edit"></i> Profil
               </div>
-              <div class="settings-item" routerLink="/dashboard/settings" (click)="toggleSettingsMenu($event)">
-                <i class="fas fa-cogs"></i> Préférences
+              <div class="settings-item" routerLink="global-settings" (click)="toggleSettingsMenu($event)">
+                <i class="fas fa-cogs"></i> Paramètres Globaux
               </div>
             </div>
           </div>
