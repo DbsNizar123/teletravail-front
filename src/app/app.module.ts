@@ -28,6 +28,8 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { GlobalSettingsCalendarComponent } from './global-settings-calendar/global-settings-calendar.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { TeletravailCalendarComponent } from './teletravail-calendar/teletravail-calendar.component';
+import { StatisticsComponent } from './statistics/statistics.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -60,6 +62,7 @@ import { TeletravailCalendarComponent } from './teletravail-calendar/teletravail
     GlobalSettingsCalendarComponent,
     CalendarComponent,
     TeletravailCalendarComponent,
+    StatisticsComponent,
 
    
 
@@ -78,7 +81,8 @@ import { TeletravailCalendarComponent } from './teletravail-calendar/teletravail
     RouterModule,
     FormsModule,
     HttpClientModule,
-    FullCalendarModule
+    FullCalendarModule,
+    BrowserAnimationsModule
   ],
   providers: [provideHttpClient()],
   bootstrap: [AppComponent]
