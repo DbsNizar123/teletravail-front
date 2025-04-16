@@ -2,12 +2,10 @@
   <div class="sidebar">
     <h2>Manager</h2>
     <ul>
-      <!-- Demandes Menu avec Sous-menus -->
+      <!-- Demandes Menu -->
       <li class="menu-item">
-       
-        <li><a routerLink="voirdemande"><i class="fas fa-list"></i> Liste Des Demandes</a></li>
-
-      <!-- Ancien "Voir Demande" reste indépendant -->
+        <a routerLink="voirdemande"><i class="fas fa-list"></i> Liste Des Demandes</a>
+      </li>
       <li>
         <a routerLink="show-requests">
           <i class="fas fa-eye"></i> Gestion des Demandes
@@ -23,7 +21,6 @@
           <i class="fas fa-calendar-alt"></i> Calendrier Des Demandes
         </a>
       </li>
-      
       <li>
         <button class="logout-button" (click)="confirmLogout()">
           <i class="fas fa-sign-out-alt"></i> Déconnecter
@@ -31,23 +28,38 @@
       </li>
     </ul>
   </div>
-  
+
   <div class="main-content">
     <nav class="navbar bg-body-tertiary">
       <div class="container-fluid">
-        <h4 class="welcome-message">Bienvenue {{ user?.name }}</h4>
+        <h4 class="welcome-message">Bienvenue {{ user?.name || 'Utilisateur' }}</h4>
         <div class="navbar-right-items">
           <!-- Notification icon -->
           <div class="notification-icon" (click)="toggleNotifications($event)">
             <i class="fas fa-bell"></i>
+            <span *ngIf="unreadNotificationCount > 0" class="notification-badge">{{ unreadNotificationCount }}</span>
             <div class="notification-dropdown" *ngIf="showNotifications">
-              <div *ngFor="let notification of notifications" class="notification-item">
-                {{ notification.message }}
+              <div class="notification-header">
+                <span>Notifications</span>
+                <button class="mark-all-read" (click)="markAllNotificationsAsRead()" *ngIf="unreadNotificationCount > 0">
+                  Tout marquer comme lu
+                </button>
               </div>
-              <div class="notification-item" *ngIf="!notifications.length">No notifications</div>
+              <div *ngIf="notifications.length === 0" class="notification-item no-notifications">
+                Aucune notification disponible
+              </div>
+              <div *ngFor="let notification of notifications" class="notification-item" [class.read]="notification.is_read" (click)="markNotificationAsRead(notification.id)">
+                <i class="fas" [ngClass]="{
+                  'fa-check-circle': notification.type === 'success',
+                  'fa-times-circle': notification.type === 'error',
+                  'fa-info-circle': notification.type === 'info'
+                }"></i>
+                <span>{{ notification.message }}</span>
+                <span class="notification-time">{{ notification.created_at | date:'short' }}</span>
+              </div>
             </div>
           </div>
-          
+
           <!-- Settings icon avec Profil -->
           <div class="settings-icon" (click)="toggleSettingsMenu($event)">
             <i class="fas fa-cog"></i>

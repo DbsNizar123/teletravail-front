@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AuthService } from '../../auth.service';
+import { NotificationService } from '../../services/notification.service';
 
 interface User {
   name: string;
@@ -10,7 +11,10 @@ interface User {
 interface Notification {
   id: number;
   message: string;
-  date?: Date;
+  type: string;
+  is_read: boolean;
+  created_at: string;
+  data?: any;
 }
 
 @Component({
@@ -21,13 +25,18 @@ interface Notification {
 export class EmployeComponent implements OnInit {
   user: User | null = null;
   notifications: Notification[] = [];
+  unreadNotificationCount: number = 0; // New property for unread count
   showNotifications: boolean = false;
   showSettingsMenu: boolean = false;
   openMenus: { [key: string]: boolean } = {
     demandes: false
   };
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private notificationService: NotificationService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadProfile();
@@ -46,7 +55,52 @@ export class EmployeComponent implements OnInit {
   }
 
   loadNotifications(): void {
-    // Simuler des notifications ou implémenter la logique réelle
+    this.notificationService.getNotifications().subscribe({
+      next: (response: any) => {
+        this.notifications = response.data;
+        this.updateUnreadCount(); // Update unread count when notifications are loaded
+      },
+      error: (error) => {
+        console.error('Error fetching notifications:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Erreur',
+          text: 'Impossible de charger les notifications.'
+        });
+      }
+    });
+  }
+
+  markNotificationAsRead(notificationId: number): void {
+    this.notificationService.markAsRead([notificationId]).subscribe({
+      next: () => {
+        const notification = this.notifications.find(n => n.id === notificationId);
+        if (notification) {
+          notification.is_read = true;
+          this.updateUnreadCount(); // Update unread count after marking as read
+        }
+      },
+      error: (error) => {
+        console.error('Error marking notification as read:', error);
+      }
+    });
+  }
+
+  markAllNotificationsAsRead(): void {
+    this.notificationService.markAllAsRead().subscribe({
+      next: () => {
+        this.notifications.forEach(n => n.is_read = true);
+        this.updateUnreadCount(); // Update unread count after marking all as read
+      },
+      error: (error) => {
+        console.error('Error marking all notifications as read:', error);
+      }
+    });
+  }
+
+  // New method to calculate unread notification count
+  private updateUnreadCount(): void {
+    this.unreadNotificationCount = this.notifications.filter(n => !n.is_read).length;
   }
 
   toggleNotifications(event: Event): void {
@@ -89,7 +143,7 @@ export class EmployeComponent implements OnInit {
       }
     });
   }
-  
+
   logout(): void {
     this.authService.logout().subscribe({
       next: () => {
