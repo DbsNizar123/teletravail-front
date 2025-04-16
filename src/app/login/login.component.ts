@@ -53,11 +53,11 @@ export class LoginComponent {
         this.authService.getUserRoles().subscribe(
           (roles) => {
             if (roles.includes('admin')) {
-              this.router.navigate(['/admin']); 
+              this.router.navigate(['/admin/global-settings']); // Rediriger vers la page d'administration
             } else if (roles.includes('manager')) {
-              this.router.navigate(['/manager']); 
+              this.router.navigate(['/manager/calendar']); 
             } else if (roles.includes('employee')) { 
-              this.router.navigate(['/employee']); 
+              this.router.navigate(['/employee/calendar']); 
             } else {
               Swal.fire({
                 title: 'Erreur!',
