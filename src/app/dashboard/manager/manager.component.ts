@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AuthService } from '../../auth.service';
+import { NotificationService } from '../../services/notification.service';
 
 interface User {
   name: string;
@@ -10,7 +11,10 @@ interface User {
 interface Notification {
   id: number;
   message: string;
-  date?: Date;
+  type: string;
+  is_read: boolean;
+  created_at: string;
+  data?: any;
 }
 
 @Component({
@@ -21,13 +25,18 @@ interface Notification {
 export class ManagerComponent implements OnInit {
   user: User | null = null;
   notifications: Notification[] = [];
+  unreadNotificationCount: number = 0;
   showNotifications: boolean = false;
   showSettingsMenu: boolean = false;
   openMenus: { [key: string]: boolean } = {
     demandes: false
   };
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private notificationService: NotificationService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadProfile();
@@ -41,12 +50,81 @@ export class ManagerComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error fetching profile:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Erreur',
+          text: 'Impossible de charger le profil.'
+        });
       }
     });
   }
 
   loadNotifications(): void {
-    // Simuler des notifications ou implémenter la logique réelle
+    this.notificationService.getNotifications().subscribe({
+      next: (response: any) => {
+        console.log('Notifications response:', response); // Debug log
+        if (response && Array.isArray(response.data)) {
+          this.notifications = response.data;
+          this.updateUnreadCount();
+        } else {
+          console.warn('Invalid notifications response structure:', response);
+          this.notifications = [];
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching notifications:', {
+          status: error.status,
+          message: error.message,
+          response: error.error
+        });
+        Swal.fire({
+          icon: 'error',
+          title: 'Erreur',
+          text: `Impossible de charger les notifications: ${error.message}`
+        });
+      }
+    });
+  }
+
+  markNotificationAsRead(notificationId: number): void {
+    this.notificationService.markAsRead([notificationId]).subscribe({
+      next: () => {
+        const notification = this.notifications.find(n => n.id === notificationId);
+        if (notification) {
+          notification.is_read = true;
+          this.updateUnreadCount();
+        }
+      },
+      error: (error) => {
+        console.error('Error marking notification as read:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Erreur',
+          text: 'Impossible de marquer la notification comme lue.'
+        });
+      }
+    });
+  }
+
+  markAllNotificationsAsRead(): void {
+    this.notificationService.markAllAsRead().subscribe({
+      next: () => {
+        this.notifications.forEach(n => (n.is_read = true));
+        this.updateUnreadCount();
+      },
+      error: (error) => {
+        console.error('Error marking all notifications as read:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Erreur',
+          text: 'Impossible de marquer toutes les notifications comme lues.'
+        });
+      }
+    });
+  }
+
+  private updateUnreadCount(): void {
+    this.unreadNotificationCount = this.notifications.filter(n => !n.is_read).length;
   }
 
   toggleNotifications(event: Event): void {
@@ -89,7 +167,7 @@ export class ManagerComponent implements OnInit {
       }
     });
   }
-  
+
   logout(): void {
     this.authService.logout().subscribe({
       next: () => {
@@ -99,6 +177,11 @@ export class ManagerComponent implements OnInit {
       },
       error: (error) => {
         console.error('Échec de la déconnexion :', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Erreur',
+          text: 'Échec de la déconnexion.'
+        });
       }
     });
   }
