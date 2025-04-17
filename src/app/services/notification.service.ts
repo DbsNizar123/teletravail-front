@@ -1,3 +1,5 @@
+// notification.service.ts
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
@@ -31,6 +33,12 @@ export class NotificationService {
 
   markAllAsRead(): Observable<any> {
     return this.http.put(`${this.apiUrl}/notifications/mark-all-as-read`, {}, { headers: this.getHeaders() })
+      .pipe(catchError(this.handleError));
+  }
+
+  // New method to delete a notification
+  deleteNotification(notificationId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/notifications/${notificationId}`, { headers: this.getHeaders() })
       .pipe(catchError(this.handleError));
   }
 

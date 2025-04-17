@@ -123,6 +123,39 @@ export class ManagerComponent implements OnInit {
     });
   }
 
+  // New method to delete a notification
+  deleteNotification(notificationId: number, event: Event): void {
+    event.stopPropagation(); // Prevent triggering mark as read
+    Swal.fire({
+      title: 'Supprimer la notification ?',
+      text: 'Voulez-vous vraiment supprimer cette notification ?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Oui, supprimer !',
+      cancelButtonText: 'Annuler'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.notificationService.deleteNotification(notificationId).subscribe({
+          next: () => {
+            this.notifications = this.notifications.filter(n => n.id !== notificationId);
+            this.updateUnreadCount();
+            Swal.fire('Supprimée !', 'La notification a été supprimée.', 'success');
+          },
+          error: (error) => {
+            console.error('Error deleting notification:', error);
+            Swal.fire({
+              icon: 'error',
+              title: 'Erreur',
+              text: 'Impossible de supprimer la notification.'
+            });
+          }
+        });
+      }
+    });
+  }
+
   private updateUnreadCount(): void {
     this.unreadNotificationCount = this.notifications.filter(n => !n.is_read).length;
   }
