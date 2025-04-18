@@ -48,14 +48,19 @@
               <div *ngIf="notifications.length === 0" class="notification-item no-notifications">
                 Aucune notification disponible
               </div>
-              <div *ngFor="let notification of notifications" class="notification-item" [class.read]="notification.is_read" (click)="markNotificationAsRead(notification.id)">
-                <i class="fas" [ngClass]="{
-                  'fa-check-circle': notification.type === 'success',
-                  'fa-times-circle': notification.type === 'error',
-                  'fa-info-circle': notification.type === 'info'
-                }"></i>
-                <span>{{ notification.message }}</span>
-                <span class="notification-time">{{ notification.created_at | date:'short' }}</span>
+              <div *ngFor="let notification of notifications" class="notification-item" [class.read]="notification.is_read">
+                <div class="notification-content" (click)="markNotificationAsRead(notification.id)">
+                  <i class="fas" [ngClass]="{
+                    'fa-check-circle': notification.type === 'success',
+                    'fa-times-circle': notification.type === 'error',
+                    'fa-info-circle': notification.type === 'info'
+                  }"></i>
+                  <span>{{ notification.message }}</span>
+                  <span class="notification-time">{{ notification.created_at | date:'short' }}</span>
+                </div>
+                <button class="delete-notification" (click)="deleteNotification(notification.id, $event)">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
               </div>
             </div>
           </div>

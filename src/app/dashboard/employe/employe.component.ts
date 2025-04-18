@@ -1,3 +1,5 @@
+// employe.component.ts
+
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
@@ -25,7 +27,7 @@ interface Notification {
 export class EmployeComponent implements OnInit {
   user: User | null = null;
   notifications: Notification[] = [];
-  unreadNotificationCount: number = 0; // New property for unread count
+  unreadNotificationCount: number = 0;
   showNotifications: boolean = false;
   showSettingsMenu: boolean = false;
   openMenus: { [key: string]: boolean } = {
@@ -58,7 +60,7 @@ export class EmployeComponent implements OnInit {
     this.notificationService.getNotifications().subscribe({
       next: (response: any) => {
         this.notifications = response.data;
-        this.updateUnreadCount(); // Update unread count when notifications are loaded
+        this.updateUnreadCount();
       },
       error: (error) => {
         console.error('Error fetching notifications:', error);
@@ -77,7 +79,7 @@ export class EmployeComponent implements OnInit {
         const notification = this.notifications.find(n => n.id === notificationId);
         if (notification) {
           notification.is_read = true;
-          this.updateUnreadCount(); // Update unread count after marking as read
+          this.updateUnreadCount();
         }
       },
       error: (error) => {
@@ -90,7 +92,7 @@ export class EmployeComponent implements OnInit {
     this.notificationService.markAllAsRead().subscribe({
       next: () => {
         this.notifications.forEach(n => n.is_read = true);
-        this.updateUnreadCount(); // Update unread count after marking all as read
+        this.updateUnreadCount();
       },
       error: (error) => {
         console.error('Error marking all notifications as read:', error);
@@ -98,7 +100,39 @@ export class EmployeComponent implements OnInit {
     });
   }
 
-  // New method to calculate unread notification count
+  // New method to delete a notification
+  deleteNotification(notificationId: number, event: Event): void {
+    event.stopPropagation(); // Prevent triggering mark as read
+    Swal.fire({
+      title: 'Supprimer la notification ?',
+      text: 'Voulez-vous vraiment supprimer cette notification ?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Oui, supprimer !',
+      cancelButtonText: 'Annuler'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.notificationService.deleteNotification(notificationId).subscribe({
+          next: () => {
+            this.notifications = this.notifications.filter(n => n.id !== notificationId);
+            this.updateUnreadCount();
+            Swal.fire('Supprimée !', 'La notification a été supprimée.', 'success');
+          },
+          error: (error) => {
+            console.error('Error deleting notification:', error);
+            Swal.fire({
+              icon: 'error',
+              title: 'Erreur',
+              text: 'Impossible de supprimer la notification.'
+            });
+          }
+        });
+      }
+    });
+  }
+
   private updateUnreadCount(): void {
     this.unreadNotificationCount = this.notifications.filter(n => !n.is_read).length;
   }

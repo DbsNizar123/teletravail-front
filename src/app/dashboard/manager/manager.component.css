@@ -379,7 +379,6 @@
 .logout-button:hover {
   background: linear-gradient(45deg, #ff416c, #ff4b2b);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 65, 108, 0.4);
 }
 
 /* Animations */
@@ -524,4 +523,43 @@ router-outlet + * {
     font-size: 0.6rem;
     padding: 2px 5px;
   }
+}
+
+/* New styles for delete notification button */
+.notification-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 15px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  transition: background 0.2s ease;
+  font-size: 0.9rem;
+  color: #2c3e50;
+}
+
+.notification-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-grow: 1;
+  cursor: pointer;
+}
+
+.delete-notification {
+  background: none;
+  border: none;
+  color: #ff5e62;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 5px;
+  transition: all 0.2s ease;
+}
+
+.delete-notification:hover {
+  color: #d33;
+  transform: scale(1.1);
+}
+
+.delete-notification i {
+  pointer-events: none; /* Prevent icon from intercepting click events */
 }
