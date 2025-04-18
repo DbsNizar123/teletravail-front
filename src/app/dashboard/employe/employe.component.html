@@ -1,21 +1,31 @@
-<!-- employe.component.html -->
-
 <div class="dashboard-container">
-  <div class="sidebar">
-    <h2>Employé</h2>
+  <div class="sidebar" [class.collapsed]="isSidebarCollapsed">
+    <div class="sidebar-header">
+      <h2 *ngIf="!isSidebarCollapsed">Employé</h2>
+      <button class="sidebar-toggle" (click)="toggleSidebar()">
+        <i class="fas" [class.fa-chevron-left]="!isSidebarCollapsed" [class.fa-chevron-right]="isSidebarCollapsed"></i>
+      </button>
+    </div>
+    
     <ul>
-      <!-- Demandes Menu -->
-      <li class="menu-item">
-        <a routerLink="voirdemande"><i class="fas fa-list"></i> Liste Des Demandes</a>
-      </li>
       <li>
-        <a routerLink="calendar">
-          <i class="fas fa-calendar-alt"></i> Calendrier
+        <a routerLink="voirdemande" title="Liste Des Demandes">
+          <i class="fas fa-list"></i>
+          <span *ngIf="!isSidebarCollapsed">Liste Des Demandes</span>
         </a>
       </li>
+
       <li>
-        <button class="logout-button" (click)="confirmLogout()">
-          <i class="fas fa-sign-out-alt"></i> Déconnecter
+        <a routerLink="calendar" title="Calendrier">
+          <i class="fas fa-calendar-alt"></i>
+          <span *ngIf="!isSidebarCollapsed">Calendrier</span>
+        </a>
+      </li>
+      
+      <li>
+        <button class="logout-button" (click)="confirmLogout()" [title]="isSidebarCollapsed ? 'Déconnexion' : ''">
+          <i class="fas fa-sign-out-alt"></i>
+          <span *ngIf="!isSidebarCollapsed">Déconnecter</span>
         </button>
       </li>
     </ul>
