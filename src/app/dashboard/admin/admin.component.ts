@@ -1,4 +1,3 @@
-// admin.component.ts
 import { Component, OnInit, HostListener } from '@angular/core';
 import { AuthService } from '../../auth.service';
 import { Router } from '@angular/router';
@@ -25,8 +24,9 @@ export class AdminComponent implements OnInit {
   notifications: Notification[] = [];
   showNotifications: boolean = false;
   showSettingsMenu: boolean = false;
+  isSidebarCollapsed: boolean = false;
   openMenus: { [key: string]: boolean } = {
-    settings: false // Only "settings" remains
+    settings: false
   };
 
   constructor(private authService: AuthService, private router: Router) {}
@@ -34,6 +34,22 @@ export class AdminComponent implements OnInit {
   ngOnInit(): void {
     this.loadProfile();
     this.loadNotifications();
+    this.checkScreenSize();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    this.checkScreenSize();
+  }
+
+  checkScreenSize() {
+    if (window.innerWidth < 768) {
+      this.isSidebarCollapsed = true;
+    }
+  }
+
+  toggleSidebar(): void {
+    this.isSidebarCollapsed = !this.isSidebarCollapsed;
   }
 
   loadProfile(): void {

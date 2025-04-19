@@ -28,6 +28,7 @@ export class ManagerComponent implements OnInit {
   unreadNotificationCount: number = 0;
   showNotifications: boolean = false;
   showSettingsMenu: boolean = false;
+  isSidebarCollapsed: boolean = false;
   openMenus: { [key: string]: boolean } = {
     demandes: false
   };
@@ -41,6 +42,22 @@ export class ManagerComponent implements OnInit {
   ngOnInit(): void {
     this.loadProfile();
     this.loadNotifications();
+    this.checkScreenSize();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    this.checkScreenSize();
+  }
+
+  checkScreenSize() {
+    if (window.innerWidth < 768) {
+      this.isSidebarCollapsed = true;
+    }
+  }
+
+  toggleSidebar(): void {
+    this.isSidebarCollapsed = !this.isSidebarCollapsed;
   }
 
   loadProfile(): void {
@@ -62,7 +79,7 @@ export class ManagerComponent implements OnInit {
   loadNotifications(): void {
     this.notificationService.getNotifications().subscribe({
       next: (response: any) => {
-        console.log('Notifications response:', response); // Debug log
+        console.log('Notifications response:', response);
         if (response && Array.isArray(response.data)) {
           this.notifications = response.data;
           this.updateUnreadCount();
@@ -123,9 +140,8 @@ export class ManagerComponent implements OnInit {
     });
   }
 
-  // New method to delete a notification
   deleteNotification(notificationId: number, event: Event): void {
-    event.stopPropagation(); // Prevent triggering mark as read
+    event.stopPropagation();
     Swal.fire({
       title: 'Supprimer la notification ?',
       text: 'Voulez-vous vraiment supprimer cette notification ?',
