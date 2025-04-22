@@ -30,6 +30,7 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { TeletravailCalendarComponent } from './teletravail-calendar/teletravail-calendar.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ChatbotComponent } from './chatbot/chatbot.component';
 
 
 
@@ -63,6 +64,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     CalendarComponent,
     TeletravailCalendarComponent,
     StatisticsComponent,
+    ChatbotComponent,
 
    
 
