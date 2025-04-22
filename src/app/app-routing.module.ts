@@ -14,7 +14,7 @@ import { SubmitTeletravailRequestComponent } from './submit-teletravail-request/
 import { ShowRequestComponent } from './show-request/show-request.component';
 import { UpdateRequestComponent } from './update-request/update-request.component';
 import { AddDepartmentComponent } from './add-department/add-department.component';
-
+ChatbotComponent
 import { ShowDepartmentComponent } from './show-department/show-department.component';
 import { DepartmentUpdateComponent } from './department-update/department-update.component';
 import { ShowRequestsComponent } from './show-requests/show-requests.component';
@@ -22,6 +22,7 @@ import { GlobalSettingsCalendarComponent } from './global-settings-calendar/glob
 import { CalendarComponent } from './calendar/calendar.component';
 import { TeletravailCalendarComponent } from './teletravail-calendar/teletravail-calendar.component';
 import { StatisticsComponent } from './statistics/statistics.component';
+import { ChatbotComponent } from './chatbot/chatbot.component';
 TeletravailCalendarComponent
 
 
@@ -71,8 +72,8 @@ const routes: Routes = [
       { path: 'calendar', component: CalendarComponent },
       { path: 'teletravail-calendar', component: TeletravailCalendarComponent },
   
-   
-
+      { path: 'chatbot', component: ChatbotComponent }
+      
     ]
   },
   { path: 'forgot-password', component: ForgotPasswordComponent },
@@ -86,7 +87,7 @@ const routes: Routes = [
       { path: 'voirdemande', component: ShowRequestComponent },
       { path: 'modifierdemande/:id', component: UpdateRequestComponent },
       { path: 'calendar', component: CalendarComponent },
-
+      { path: 'chatbot', component: ChatbotComponent }
      
     ]
   },
