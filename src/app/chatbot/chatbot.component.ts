@@ -11,6 +11,7 @@ export class ChatbotComponent implements OnInit {
   selectedQuestion: string = '';
   answer: string = '';
   showChatbot: boolean = false;
+  isLoading: boolean = false;
 
   constructor(private chatbotService: ChatbotService) { }
 
@@ -19,12 +20,15 @@ export class ChatbotComponent implements OnInit {
   }
 
   loadQuestions(): void {
+    this.isLoading = true;
     this.chatbotService.getQuestions().subscribe(
       (data) => {
         this.questions = data;
+        this.isLoading = false;
       },
       (error) => {
         console.error('Error loading questions:', error);
+        this.isLoading = false;
       }
     );
   }
@@ -36,15 +40,18 @@ export class ChatbotComponent implements OnInit {
 
   getAnswer(): void {
     if (!this.selectedQuestion) return;
-    
+
     this.answer = ''; // Reset answer for animation
+    this.isLoading = true;
     this.chatbotService.getAnswer(this.selectedQuestion).subscribe(
       (response) => {
         this.answer = response.answer;
+        this.isLoading = false;
       },
       (error) => {
         console.error('Error getting answer:', error);
         this.answer = 'Désolé, une erreur est survenue. Veuillez réessayer plus tard.';
+        this.isLoading = false;
       }
     );
   }
@@ -55,6 +62,7 @@ export class ChatbotComponent implements OnInit {
       this.loadQuestions();
       this.selectedQuestion = '';
       this.answer = '';
+      this.isLoading = false;
     }
   }
 }
