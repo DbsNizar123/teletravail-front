@@ -6,14 +6,11 @@
         <h2 class="card-title">
           <i class="fas fa-user-plus"></i> Ajouter Utilisateur
         </h2>
-        <div class="add-user-container">
-         
-        </div>
       </div>
     </div>
     <div class="card-body">
       <form (ngSubmit)="addUser()">
-       
+        <!-- Name Field -->
         <div class="mb-3">
           <label for="name" class="form-label">
             <i class="fas fa-user"></i> Name
@@ -71,6 +68,7 @@
             id="role"
             [(ngModel)]="userData.role"
             name="role"
+            (ngModelChange)="userData.department_id = userData.role === 'admin' ? undefined : userData.department_id"
             required
           >
             <option value="" disabled selected>
@@ -82,8 +80,8 @@
           </select>
         </div>
 
-        <!-- Department Field -->
-        <div class="mb-3">
+        <!-- Department Field (Hidden for admin) -->
+        <div class="mb-3" *ngIf="userData.role !== 'admin'">
           <label for="department" class="form-label">
             <i class="fas fa-building"></i> Department
           </label>
@@ -92,7 +90,8 @@
             id="department" 
             [(ngModel)]="userData.department_id" 
             name="department" 
-            required>
+            required
+          >
             <option value="" disabled selected>
               <i class="fas fa-chevron-down"></i> Select Department
             </option>
@@ -101,7 +100,7 @@
             </option>
           </select>
         </div>
-        <!-- ... other form fields ... -->
+
         <button type="submit" class="btn btn-primary">
           <i class="fas fa-save"></i> Ajouter Utilisateur
         </button>

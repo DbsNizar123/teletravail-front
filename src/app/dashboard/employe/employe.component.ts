@@ -5,7 +5,10 @@ import { AuthService } from '../../auth.service';
 import { NotificationService } from '../../services/notification.service';
 
 interface User {
+  id: number;
   name: string;
+  email: string;
+  profile_photo_url?: string;
 }
 
 interface Notification {
@@ -32,6 +35,7 @@ export class EmployeComponent implements OnInit {
   openMenus: { [key: string]: boolean } = {
     demandes: false
   };
+  isEmployee: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -40,6 +44,7 @@ export class EmployeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Load profile, notifications, and check screen size if authorized
     this.loadProfile();
     this.loadNotifications();
     this.checkScreenSize();
@@ -62,11 +67,21 @@ export class EmployeComponent implements OnInit {
 
   loadProfile(): void {
     this.authService.getProfile().subscribe({
-      next: (response: User) => {
-        this.user = response;
+      next: (response: any) => {
+        this.user = {
+          id: response.id,
+          name: response.name,
+          email: response.email,
+          profile_photo_url: response.profile_photo_url
+        };
       },
       error: (error) => {
         console.error('Error fetching profile:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Erreur',
+          text: 'Impossible de charger le profil.'
+        });
       }
     });
   }
@@ -74,8 +89,13 @@ export class EmployeComponent implements OnInit {
   loadNotifications(): void {
     this.notificationService.getNotifications().subscribe({
       next: (response: any) => {
-        this.notifications = response.data;
-        this.updateUnreadCount();
+        if (response && Array.isArray(response.data)) {
+          this.notifications = response.data;
+          this.updateUnreadCount();
+        } else {
+          console.warn('Invalid notifications response structure:', response);
+          this.notifications = [];
+        }
       },
       error: (error) => {
         console.error('Error fetching notifications:', error);
@@ -99,6 +119,11 @@ export class EmployeComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error marking notification as read:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Erreur',
+          text: 'Impossible de marquer la notification comme lue.'
+        });
       }
     });
   }
@@ -106,11 +131,16 @@ export class EmployeComponent implements OnInit {
   markAllNotificationsAsRead(): void {
     this.notificationService.markAllAsRead().subscribe({
       next: () => {
-        this.notifications.forEach(n => n.is_read = true);
+        this.notifications.forEach(n => (n.is_read = true));
         this.updateUnreadCount();
       },
       error: (error) => {
         console.error('Error marking all notifications as read:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Erreur',
+          text: 'Impossible de marquer toutes les notifications comme lues.'
+        });
       }
     });
   }
@@ -175,6 +205,11 @@ export class EmployeComponent implements OnInit {
     return this.openMenus[menuKey];
   }
 
+  getInitials(name: string | null | undefined): string {
+    if (!name) return '?';
+    return name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+  }
+
   confirmLogout(): void {
     Swal.fire({
       title: 'Êtes-vous sûr ?',
@@ -201,6 +236,11 @@ export class EmployeComponent implements OnInit {
       },
       error: (error) => {
         console.error('Échec de la déconnexion :', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Erreur',
+          text: 'Échec de la déconnexion.'
+        });
       }
     });
   }

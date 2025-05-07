@@ -1,191 +1,204 @@
-/* Style général avec effet de verre et fond */
-:host {
-    display: block;
-    min-height: 100vh;
-    padding: 20px;
-    background-image: url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
-    background-size: cover;
-    background-position: center;
-    position: relative;
-  }
-  
-  :host::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: -1;
-  }
-  
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.card-title {
+  color: #2c3e50;
+  font-size: 1.8rem;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+}
+
+.card-title i {
+  margin-right: 12px;
+  color: #667eea;
+}
+
+.card-body {
+  padding: 25px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: flex;
+  align-items: center;
+  color: #2c3e50;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.form-label i {
+  margin-right: 8px;
+  color: #667eea;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+}
+
+textarea.form-control {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.badge {
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.bg-danger {
+  background:#dc3545;
+  color:white ;
+}
+
+.bg-warning {
+  background: #e0a800;
+  color:white ;
+}
+
+.bg-success {
+  background: #28a745;
+  color: white;
+}
+
+
+.mt-2 {
+  margin-top: 8px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  align-self: flex-start;
+}
+
+.btn-primary i {
+  margin-right: 8px;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  background: linear-gradient(135deg, #5a6fd1 0%, #6a3fa0 100%);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.alert-error {
+  display: flex;
+  align-items: center;
+  color: #dc3545;
+  background: rgba(220, 53, 69, 0.1);
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  margin-top: 20px;
+}
+
+.alert-error i {
+  margin-right: 8px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
   .container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    animation: fadeIn 0.6s ease-out;
-  }
-  
-  /* Style de la carte avec effet de verre */
-  .card {
-    border: none;
-    border-radius: 15px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 40px rgba(31, 38, 135, 0.5);
-  }
-  
-  /* Style de l'en-tête */
-  .card-header {
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.15);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    text-align: center;
-  }
-  
-  .card-title {
-    margin: 0;
-    font-size: 1.8rem;
-    font-weight: 600;
-    color: white;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-  }
-  
-  /* Style du corps */
-  .card-body {
-    padding: 30px;
-  }
-  
-  /* Style des groupes de formulaire */
-  .form-group {
-    margin-bottom: 25px;
-  }
-  
-  /* Style des labels */
-  .form-label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 8px;
-    font-size: 1rem;
-    color: rgba(255, 255, 255, 0.9);
-    font-weight: 500;
-  }
-  
-  /* Style des champs */
-  .form-control {
-    width: 100%;
-    padding: 12px 15px;
-    font-size: 1rem;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 8px;
-    color: white;
-    transition: all 0.3s ease;
-  }
-  
-  .form-control::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-  }
-  
-  .form-control:focus {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.5);
-    box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
-    outline: none;
-  }
-  
-  textarea.form-control {
-    min-height: 120px;
-    resize: vertical;
-  }
-  
-  /* Style spécifique pour le champ date */
-  input[type="date"]::-webkit-calendar-picker-indicator {
-    filter: invert(1);
-    opacity: 0.7;
-    cursor: pointer;
-  }
-  
-  /* Style du bouton */
-  .btn-primary {
-    width: 100%;
-    padding: 14px;
-    background: linear-gradient(45deg, #667eea, #764ba2);
-    border: none;
-    border-radius: 8px;
-    color: white;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-  }
-  
-  .btn-primary:hover:not(:disabled) {
-    background: linear-gradient(45deg, #5a67d8, #6b46c1);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(90, 103, 216, 0.4);
-  }
-  
-  .btn-primary:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-    background: linear-gradient(45deg, #999, #666);
-  }
-  
-  /* Style du message d'erreur */
-  .alert-error {
-    margin-top: 20px;
     padding: 15px;
-    background: rgba(244, 67, 54, 0.2);
-    border: 1px solid rgba(244, 67, 54, 0.4);
-    border-radius: 8px;
-    color: #ffebee;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    animation: fadeIn 0.3s ease-out;
   }
-  
-  /* Animation */
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+
+  .card-title {
+    font-size: 1.5rem;
   }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .container {
-      padding: 15px;
-    }
-    
-    .card-header {
-      padding: 15px;
-    }
-    
-    .card-title {
-      font-size: 1.5rem;
-    }
-    
-    .card-body {
-      padding: 20px;
-    }
+
+  .form-control {
+    padding: 10px 12px;
   }
+
+  .btn-primary {
+    padding: 10px 16px;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-title {
+    font-size: 1.3rem;
+  }
+
+  .form-label {
+    font-size: 0.9rem;
+  }
+
+  .card-header, .card-body {
+    padding: 15px;
+  }
+
+  .badge {
+    font-size: 0.8rem;
+  }
+
+  .alert-error {
+    font-size: 0.85rem;
+  }
+}
+

@@ -14,40 +14,29 @@
           <span *ngIf="!isSidebarCollapsed">Utilisateurs</span>
         </a>
       </li>
-
       <li>
         <a routerLink="show-department" title="Départements">
-          <i class="fas fa-list"></i>
+          <i class="fas fa-building"></i>
           <span *ngIf="!isSidebarCollapsed">Départements</span>
         </a>
       </li>
-
       <li>
         <a routerLink="show-requests" title="Gestion des Demandes">
-          <i class="fas fa-list"></i>
+          <i class="fas fa-eye"></i>
           <span *ngIf="!isSidebarCollapsed">Gestion des Demandes</span>
         </a>
       </li>
-
       <li>
-        <a routerLink="teletravail-calendar" title="Calendrier Des Demandes">
+        <a routerLink="teletravail-calendar" title="Calendrier des Demandes">
           <i class="fas fa-calendar-alt"></i>
-          <span *ngIf="!isSidebarCollapsed">Calendrier Des Demandes</span>
+          <span *ngIf="!isSidebarCollapsed">Calendrier des Demandes</span>
         </a>
       </li>
-      
       <li>
         <a routerLink="statistics" title="Statistiques">
           <i class="fas fa-chart-bar"></i>
           <span *ngIf="!isSidebarCollapsed">Statistiques</span>
         </a>
-      </li>
-      
-      <li>
-        <button class="logout-button" (click)="confirmLogout()" [title]="isSidebarCollapsed ? 'Déconnexion' : ''">
-          <i class="fas fa-sign-out-alt"></i>
-          <span *ngIf="!isSidebarCollapsed">Déconnexion</span>
-        </button>
       </li>
     </ul>
   </div>
@@ -55,28 +44,33 @@
   <div class="main-content">
     <nav class="navbar bg-body-tertiary">
       <div class="container-fluid">
-        <h4 class="welcome-message">Bienvenue {{ user?.name }}</h4>
+        <h4 class="welcome-message">Bienvenue {{ user?.name || 'Utilisateur' }}</h4>
         <div class="navbar-right-items">
-          <div class="notification-icon" (click)="toggleNotifications($event)">
-            <i class="fas fa-bell"></i>
-            <div class="notification-dropdown" *ngIf="showNotifications">
-              <div *ngFor="let notification of notifications" class="notification-item">
-                {{ notification.message }}
-              </div>
-              <div class="notification-item" *ngIf="!notifications.length">
-                No notifications
-              </div>
-            </div>
-          </div>
+          <!-- Notification icon -->
           
+          <!-- Settings icon with Profile -->
           <div class="settings-icon" (click)="toggleSettingsMenu($event)">
-            <i class="fas fa-cog"></i>
+            <img *ngIf="user?.profile_photo_url" [src]="user?.profile_photo_url" class="profile-photo">
+            <div *ngIf="!user?.profile_photo_url" class="default-profile-photo">{{ getInitials(user?.name) }}</div>
             <div class="settings-dropdown" *ngIf="showSettingsMenu">
+              <div class="profile-info">
+                <img *ngIf="user?.profile_photo_url" [src]="user?.profile_photo_url" class="profile-photo-large">
+                <div *ngIf="!user?.profile_photo_url" class="default-profile-photo-large">{{ getInitials(user?.name) }}</div>
+                <div class="user-details">
+                  <div class="user-name">{{ user?.name || 'Utilisateur' }}</div>
+                  <div class="user-email">{{ user?.email || 'email@exemple.com' }}</div>
+                </div>
+              </div>
+              <div class="divider"></div>
               <div class="settings-item" routerLink="profile" (click)="toggleSettingsMenu($event)">
                 <i class="fas fa-user-edit"></i> Profil
               </div>
               <div class="settings-item" routerLink="global-settings" (click)="toggleSettingsMenu($event)">
                 <i class="fas fa-cogs"></i> Paramètres Globaux
+              </div>
+              <div class="divider"></div>
+              <div class="settings-item" (click)="confirmLogout(); toggleSettingsMenu($event)">
+                <i class="fas fa-sign-out-alt"></i> Déconnexion
               </div>
             </div>
           </div>

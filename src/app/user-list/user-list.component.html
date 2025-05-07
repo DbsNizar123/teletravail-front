@@ -1,7 +1,7 @@
 <div class="container">
   <div class="button-container">
     <button class="user-button" routerLink="../add-user">
-      <i class="fas fa-list"></i>  Ajouter Un Utilisateur
+      <i class="fas fa-plus"></i> Ajouter un Utilisateur
     </button>
   </div>
   <h2 class="user-list-title">
@@ -9,30 +9,29 @@
   </h2>
 
   <!-- Search Bar -->
-  <div class="search">
+  <div class="search-container">
     <input 
       type="text" 
-      class="input" 
+      class="search-input" 
       placeholder="Rechercher par nom..." 
       [(ngModel)]="searchTerm" 
       (ngModelChange)="filterUsers()"
     >
-    <button class="btn">
+    <button class="search-btn">
       <i class="fas fa-search"></i>
     </button>
-   
   </div>
 
-  <div class="card">
+  <div class="user-card">
     <div *ngFor="let user of filteredUsers" class="user-item">
       <details>
         <summary>
-          <i class="fas fa-user" style="margin-right: 8px;"></i> <b>{{ user.name }}</b>
+          <i class="fas fa-user"></i> <b>{{ user.name }}</b>
         </summary>
-        <p><i class="fas fa-envelope" style="margin-right: 8px;"></i> <b>Email:</b> {{ user.email }}</p>
-        <p><i class="fas fa-user-tag" style="margin-right: 8px;"></i> <b>Role:</b> {{ user.roles[0]?.name }}</p>
+        <p><i class="fas fa-envelope"></i> <b>Email:</b> {{ user.email }}</p>
+        <p><i class="fas fa-user-tag"></i> <b>Rôle:</b> {{ user.roles[0]?.name || 'N/A' }}</p>
       </details>
-      <div class="actions">
+      <div class="user-actions">
         <button class="btn-edit" (click)="updateUser(user)">
           <i class="fas fa-edit"></i> Modifier
         </button>
@@ -52,6 +51,6 @@
     </button>
   </div>
   <div *ngIf="filteredUsers.length === 0" class="no-users">
-    <i class="fas fa-user-slash"></i> Aucun utilisateur trouvé dans les pages visitées.
+    <i class="fas fa-user-slash"></i> Aucun utilisateur trouvé.
   </div>
 </div>

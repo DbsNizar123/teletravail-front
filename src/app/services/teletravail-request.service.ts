@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class TeletravailRequestService {
-  private apiUrl = 'http://localhost:8000/api'; 
+  private apiUrl = 'http://localhost:8000/api';
 
   constructor(private http: HttpClient) {}
 
@@ -14,27 +15,15 @@ export class TeletravailRequestService {
     const token = localStorage.getItem('token');
     return new HttpHeaders({
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token || ''}`
     });
   }
 
-submitRequest(data: { date: string; reason: string }): Observable<any> {
-  const headers = this.getHeaders();
-  
-  return this.http.post(`${this.apiUrl}/teletravail-requests`, data, { headers }).pipe(
-    catchError(error => {
-      let errorMessage = 'Erreur lors de la soumission';
-      
-      if (error.status === 500) {
-        errorMessage += ': Erreur serveur - ' + (error.error?.error || 'Détails non disponibles');
-      } else if (error.error?.message) {
-        errorMessage = error.error.message;
-      }
-      
-      return throwError(() => new Error(errorMessage));
-    })
-  );
-}
+  submitRequest(data: { date: string; reason: string }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/teletravail-requests`, data, { headers: this.getHeaders() }).pipe(
+      catchError(this.handleError)
+    );
+  }
 
   getRequests(page: number = 1, limit: number = 6): Observable<any> {
     return this.http.get(`${this.apiUrl}/teletravail-requests?page=${page}&limit=${limit}`, { headers: this.getHeaders() })
@@ -50,48 +39,46 @@ submitRequest(data: { date: string; reason: string }): Observable<any> {
     return this.http.put(`${this.apiUrl}/teletravail-requests/${id}`, data, { headers: this.getHeaders() })
       .pipe(catchError(this.handleError));
   }
-  
 
   getAllRequestss(page: number = 1, limit: number = 10): Observable<any> {
-  return this.http.get(`${this.apiUrl}/show-requests?page=${page}&limit=${limit}`, { 
-    headers: this.getHeaders() 
-  }).pipe(catchError(this.handleError));
-}
-// Ajoutez cette méthode dans TeletravailRequestService
-updateRequestStatus(id: string, status: string): Observable<any> {
-  return this.http.put(
-      `${this.apiUrl}/teletravail-requests/${id}/status`, 
-      { status }, 
+    return this.http.get(`${this.apiUrl}/show-requests?page=${page}&limit=${limit}`, { headers: this.getHeaders() })
+      .pipe(catchError(this.handleError));
+  }
+
+  updateRequestStatus(id: string, status: string): Observable<any> {
+    return this.http.put(
+      `${this.apiUrl}/teletravail-requests/${id}/status`,
+      { status },
       { headers: this.getHeaders() }
-  ).pipe(
-      catchError(error => {
-          if (error.status === 403) {
-              // Message spécifique pour les erreurs d'autorisation
-              const errorMsg = error.error.message || 'Action non autorisée';
-              return throwError(() => new Error(errorMsg));
-          }
-          return throwError(() => new Error('Une erreur est survenue lors de la mise à jour'));
-      })
-  );
-}
+    ).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   getRequestsByUser(userId: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/teletravail-requests/user/${userId}`, { headers: this.getHeaders() })
       .pipe(catchError(this.handleError));
   }
-  // Gestion des erreurs
-  private handleError(error: HttpErrorResponse) {
-    let errorMessage = 'Une erreur est survenue.';
+
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    let errorMessage = 'Une erreur est survenue lors de la communication avec le serveur.';
     if (error.error instanceof ErrorEvent) {
-      // Erreur côté client
-      errorMessage = `Erreur : ${error.error.message}`;
+      // Client-side error
+      errorMessage = `Erreur client: ${error.error.message}`;
     } else {
-      // Erreur côté serveur
-      errorMessage = `Code d'erreur : ${error.status}\nMessage : ${error.message}`;
+      // Server-side error
+      if (error.status === 403) {
+        errorMessage = error.error.message || 'Action non autorisée.';
+      } else if (error.status === 400) {
+        errorMessage = error.error.message || 'Requête invalide.';
+      } else if (error.status === 500) {
+        errorMessage = error.error.message || 'Erreur interne du serveur.';
+      } else if (error.error?.message) {
+        errorMessage = error.error.message;
+      }
+      errorMessage = `Code: ${error.status} - ${errorMessage}`;
     }
-    console.error(errorMessage);
+    console.error('API Error:', errorMessage);
     return throwError(() => new Error(errorMessage));
   }
-
-  // Dans teletravail-request.service.ts
-
 }

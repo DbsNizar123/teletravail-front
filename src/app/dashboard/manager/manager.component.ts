@@ -1,11 +1,14 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
-import Swal from 'sweetalert2';
 import { AuthService } from '../../auth.service';
 import { NotificationService } from '../../services/notification.service';
+import Swal from 'sweetalert2';
 
 interface User {
+  id: number;
   name: string;
+  email: string;
+  profile_photo_url?: string;
 }
 
 interface Notification {
@@ -32,6 +35,7 @@ export class ManagerComponent implements OnInit {
   openMenus: { [key: string]: boolean } = {
     demandes: false
   };
+  isManager: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -40,6 +44,7 @@ export class ManagerComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Load profile, notifications, and check screen size if authorized
     this.loadProfile();
     this.loadNotifications();
     this.checkScreenSize();
@@ -62,8 +67,13 @@ export class ManagerComponent implements OnInit {
 
   loadProfile(): void {
     this.authService.getProfile().subscribe({
-      next: (response: User) => {
-        this.user = response;
+      next: (response: any) => {
+        this.user = {
+          id: response.id,
+          name: response.name,
+          email: response.email,
+          profile_photo_url: response.profile_photo_url
+        };
       },
       error: (error) => {
         console.error('Error fetching profile:', error);
@@ -200,6 +210,11 @@ export class ManagerComponent implements OnInit {
     return this.openMenus[menuKey];
   }
 
+  getInitials(name: string | null | undefined): string {
+    if (!name) return '?';
+    return name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+  }
+
   confirmLogout(): void {
     Swal.fire({
       title: 'Êtes-vous sûr ?',
@@ -234,7 +249,6 @@ export class ManagerComponent implements OnInit {
       }
     });
   }
-
   @HostListener('document:click')
   onDocumentClick(): void {
     this.showNotifications = false;

@@ -14,19 +14,11 @@
           <span *ngIf="!isSidebarCollapsed">Liste Des Demandes</span>
         </a>
       </li>
-
       <li>
         <a routerLink="calendar" title="Calendrier">
           <i class="fas fa-calendar-alt"></i>
           <span *ngIf="!isSidebarCollapsed">Calendrier</span>
         </a>
-      </li>
-      
-      <li>
-        <button class="logout-button" (click)="confirmLogout()" [title]="isSidebarCollapsed ? 'Déconnexion' : ''">
-          <i class="fas fa-sign-out-alt"></i>
-          <span *ngIf="!isSidebarCollapsed">Déconnecter</span>
-        </button>
       </li>
     </ul>
   </div>
@@ -34,7 +26,7 @@
   <div class="main-content">
     <nav class="navbar bg-body-tertiary">
       <div class="container-fluid">
-        <h4 class="welcome-message">Bienvenue {{ user?.name }}</h4>
+        <h4 class="welcome-message">Bienvenue {{ user?.name || 'Utilisateur' }}</h4>
         <div class="navbar-right-items">
           <!-- Notification icon -->
           <div class="notification-icon" (click)="toggleNotifications($event)">
@@ -48,7 +40,7 @@
                 </button>
               </div>
               <div *ngIf="notifications.length === 0" class="notification-item no-notifications">
-                Aucune notification
+                Aucune notification disponible
               </div>
               <div *ngFor="let notification of notifications" class="notification-item" [class.read]="notification.is_read">
                 <div class="notification-content" (click)="markNotificationAsRead(notification.id)">
@@ -57,7 +49,7 @@
                     'fa-times-circle': notification.type === 'error',
                     'fa-info-circle': notification.type === 'info'
                   }"></i>
-                  <span>{{ notification.message }}</span>
+                  <span class="notification-message">{{ notification.message }}</span>
                   <span class="notification-time">{{ notification.created_at | date:'short' }}</span>
                 </div>
                 <button class="delete-notification" (click)="deleteNotification(notification.id, $event)">
@@ -67,12 +59,26 @@
             </div>
           </div>
 
-          <!-- Settings icon avec Profil -->
+          <!-- Settings icon with Profile -->
           <div class="settings-icon" (click)="toggleSettingsMenu($event)">
-            <i class="fas fa-cog"></i>
+            <img *ngIf="user?.profile_photo_url" [src]="user?.profile_photo_url" class="profile-photo">
+            <div *ngIf="!user?.profile_photo_url" class="default-profile-photo">{{ getInitials(user?.name) }}</div>
             <div class="settings-dropdown" *ngIf="showSettingsMenu">
+              <div class="profile-info">
+                <img *ngIf="user?.profile_photo_url" [src]="user?.profile_photo_url" class="profile-photo-large">
+                <div *ngIf="!user?.profile_photo_url" class="default-profile-photo-large">{{ getInitials(user?.name) }}</div>
+                <div class="user-details">
+                  <div class="user-name">{{ user?.name || 'Utilisateur' }}</div>
+                  <div class="user-email">{{ user?.email || 'email@exemple.com' }}</div>
+                </div>
+              </div>
+              <div class="divider"></div>
               <div class="settings-item" routerLink="profile" (click)="toggleSettingsMenu($event)">
                 <i class="fas fa-user-edit"></i> Profil
+              </div>
+              <div class="divider"></div>
+              <div class="settings-item" (click)="confirmLogout(); toggleSettingsMenu($event)">
+                <i class="fas fa-sign-out-alt"></i> Déconnexion
               </div>
             </div>
           </div>
