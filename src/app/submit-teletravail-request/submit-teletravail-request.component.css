@@ -1,111 +1,82 @@
-/* Style général avec effet de verre et fond */
-:host {
-  display: block;
-  min-height: 100vh;
-  padding: 20px;
-  background-image: url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
-  background-size: cover;
-  background-position: center;
-  position: relative;
-}
-
-:host::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: -1;
-}
-
 .container {
-  max-width: 600px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 20px;
-  animation: fadeIn 0.6s ease-out;
+  animation: fadeIn 0.5s ease-out;
 }
 
-/* Style de la carte avec effet de verre */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .card {
-  border: none;
-  border-radius: 15px;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 40px rgba(31, 38, 135, 0.5);
-}
-
-/* Style de l'en-tête */
 .card-header {
   padding: 20px;
-  background: rgba(255, 255, 255, 0.15);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  text-align: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .card-title {
-  margin: 0;
+  color: #2c3e50;
   font-size: 1.8rem;
-  font-weight: 600;
-  color: white;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  margin: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
+  font-weight: 600;
 }
 
-/* Style du corps */
+.card-title i {
+  margin-right: 12px;
+  color: #667eea;
+}
+
 .card-body {
-  padding: 30px;
+  padding: 25px;
 }
 
-/* Style des groupes de formulaire */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
 .form-group {
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
-/* Style des labels */
 .form-label {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 8px;
+  color: #2c3e50;
   font-size: 1rem;
-  color: rgba(255, 255, 255, 0.9);
   font-weight: 500;
+  margin-bottom: 8px;
 }
 
-/* Style des champs */
+.form-label i {
+  margin-right: 8px;
+  color: #667eea;
+}
+
 .form-control {
   width: 100%;
   padding: 12px 15px;
-  font-size: 1rem;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  color: white;
+  font-size: 14px;
   transition: all 0.3s ease;
-}
-
-.form-control::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.9);
 }
 
 .form-control:focus {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.5);
-  box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
   outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
 }
 
 textarea.form-control {
@@ -113,46 +84,68 @@ textarea.form-control {
   resize: vertical;
 }
 
-/* Style du bouton */
-.btn-primary {
-  width: 100%;
-  padding: 14px;
-  background: linear-gradient(45deg, #667eea, #764ba2);
-  border: none;
-  border-radius: 8px;
-  color: white;
-  font-size: 1rem;
+.badge {
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 0.9rem;
   font-weight: 500;
+}
+
+.bg-danger {
+  background:#dc3545;
+  color:white ;
+}
+
+.bg-warning {
+  background: #e0a800;
+  color:white ;
+}
+
+.bg-success {
+  background: #28a745;
+  color: white;
+}
+
+.mt-2 {
+  margin-top: 8px;
+}
+
+.small {
+  font-size: 0.85rem;
+  color: #2c3e50;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
   cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
   transition: all 0.3s ease;
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  align-self: flex-start;
+}
+
+.btn-primary i {
+  margin-right: 8px;
 }
 
 .btn-primary:hover {
-  background: linear-gradient(45deg, #5a67d8, #6b46c1);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(90, 103, 216, 0.4);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  background: linear-gradient(135deg, #5a6fd1 0%, #6a3fa0 100%);
 }
 
-.btn-primary:active {
-  transform: translateY(0);
-}
-
-/* Style spécifique pour le champ date */
-input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(1);
-  opacity: 0.7;
-  cursor: pointer;
-}
-
-/* Animation */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
 /* Responsive Design */
@@ -160,57 +153,41 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   .container {
     padding: 15px;
   }
-  
-  .card-header {
-    padding: 15px;
-  }
-  
+
   .card-title {
     font-size: 1.5rem;
   }
-  
-  .card-body {
-    padding: 20px;
+
+  .form-control {
+    padding: 10px 12px;
+  }
+
+  .btn-primary {
+    padding: 10px 16px;
+    width: 100%;
+    justify-content: center;
   }
 }
 
-.voir {
-text-align: center;
-margin-bottom: 0px;
-margin-top: 10px;
-padding: 0;
+@media (max-width: 480px) {
+  .card-title {
+    font-size: 1.3rem;
+  }
+
+  .form-label {
+    font-size: 0.9rem;
+  }
+
+  .card-header, .card-body {
+    padding: 15px;
+  }
+
+  .badge {
+    font-size: 0.8rem;
+  }
+
+  .small {
+    font-size: 0.75rem;
+  }
 }
 
-/* Optional: Add some spacing between the button and card */
-.container {
-display: flex;
-flex-direction: column;
-gap: 20px;
-}
-
-/* Keep your existing button styles */
-.user-list-button {
-background: linear-gradient(45deg, #667eea, #764ba2);
-color: white;
-border: none;
-padding: 12px 25px;
-border-radius: 8px;
-cursor: pointer;
-font-size: 16px;
-font-weight: 500;
-transition: all 0.3s ease;
-display: inline-flex;
-align-items: center;
-justify-content: center;
-box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-}
-
-.user-list-button i {
-margin-right: 10px;
-}
-
-.user-list-button:hover {
-background: linear-gradient(45deg, #764ba2, #667eea);
-transform: translateY(-2px);
-box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-}

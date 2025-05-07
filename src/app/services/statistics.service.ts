@@ -9,7 +9,7 @@ import { Observable, catchError, throwError } from 'rxjs';
 export class StatisticsService {
   private apiUrl = 'http://localhost:8000/api/statistics';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   private getHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
@@ -19,8 +19,16 @@ export class StatisticsService {
     });
   }
 
-  getStatistics(): Observable<any> {
-    return this.http.get(this.apiUrl, { headers: this.getHeaders() }).pipe(
+  getStatistics(departmentMonth?: string): Observable<any> {
+    const params: any = {};
+    if (departmentMonth) {
+      params.department_month = departmentMonth;
+    }
+
+    return this.http.get(this.apiUrl, {
+      headers: this.getHeaders(),
+      params
+    }).pipe(
       catchError((error) => {
         console.error('Error fetching statistics:', error);
         return throwError(() => new Error('Failed to load statistics'));

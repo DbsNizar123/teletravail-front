@@ -9,13 +9,13 @@ import { DepartmentService } from '../services/department.service';
   styleUrls: ['./add-user.component.css']
 })
 export class AddUserComponent implements OnInit {
-  // Définir department_id comme number obligatoire (pas null)
+  // Allow department_id to be undefined for admins
   userData = { 
     name: '', 
     email: '', 
     password: '', 
     role: '',
-    department_id: 0 // Initialiser à 0 plutôt que null
+    department_id: undefined as number | undefined // Allow undefined
   };
   
   departments: any[] = [];
@@ -48,20 +48,29 @@ export class AddUserComponent implements OnInit {
   }
   
   addUser() {
-    // Validation plus explicite
-    if (!this.userData.department_id || this.userData.department_id <= 0) {
+    // Validate required fields
+    if (!this.userData.name || !this.userData.email || !this.userData.password || !this.userData.role) {
+      Swal.fire('Erreur !', 'Veuillez remplir tous les champs obligatoires', 'error');
+      return;
+    }
+
+    // Require department_id only for non-admin roles
+    if (this.userData.role !== 'admin' && (!this.userData.department_id || this.userData.department_id <= 0)) {
       Swal.fire('Erreur !', 'Veuillez sélectionner un département valide', 'error');
       return;
     }
   
-    // Créer un objet avec les types corrects
-    const userToCreate = {
+    // Create user object, exclude department_id if admin
+    const userToCreate: any = {
       name: this.userData.name,
       email: this.userData.email,
       password: this.userData.password,
-      role: this.userData.role,
-      department_id: this.userData.department_id
+      role: this.userData.role
     };
+    
+    if (this.userData.role !== 'admin') {
+      userToCreate.department_id = this.userData.department_id;
+    }
   
     this.authService.addUser(userToCreate).subscribe(
       (response) => {
@@ -90,7 +99,7 @@ export class AddUserComponent implements OnInit {
       email: '', 
       password: '', 
       role: '',
-      department_id: 0 // Réinitialiser à 0 plutôt que null
+      department_id: undefined // Reset to undefined
     };
   }
 }

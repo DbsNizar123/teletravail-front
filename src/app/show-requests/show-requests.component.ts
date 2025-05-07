@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { TeletravailRequestService } from '../services/teletravail-request.service';
-AuthService
 import Swal from 'sweetalert2';
 import { AuthService } from '../auth.service';
 
@@ -35,6 +34,11 @@ export class ShowRequestsComponent implements OnInit {
       },
       error => {
         console.error('Error getting user roles:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Erreur',
+          text: 'Impossible de récupérer les rôles utilisateur.'
+        });
       }
     );
   }
@@ -46,6 +50,11 @@ export class ShowRequestsComponent implements OnInit {
       },
       error => {
         console.error('Error getting user profile:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Erreur',
+          text: 'Impossible de récupérer le profil utilisateur.'
+        });
       }
     );
   }
@@ -58,12 +67,12 @@ export class ShowRequestsComponent implements OnInit {
         this.loading = false;
       },
       error => {
-        console.error('Error:', error);
+        console.error('Error loading requests:', error);
         this.loading = false;
         Swal.fire({
           icon: 'error',
           title: 'Erreur',
-          text: 'Une erreur est survenue lors du chargement des demandes'
+          text: error.message || 'Une erreur est survenue lors du chargement des demandes.'
         });
       }
     );
@@ -85,10 +94,9 @@ export class ShowRequestsComponent implements OnInit {
     if (newStatus === 'accept' || newStatus === 'reject') {
       const updatedStatus = newStatus === 'accept' ? 'approved' : 'rejected';
 
-   
       Swal.fire({
         title: 'Confirmer la modification',
-        text: `Voulez-vous vraiment ${updatedStatus === 'approved' ? 'approuver' : 'rejeter'} cette demande?`,
+        text: `Voulez-vous vraiment ${updatedStatus === 'approved' ? 'approuver' : 'rejeter'} cette demande ?`,
         icon: 'question',
         showCancelButton: true,
         confirmButtonText: 'Oui',
@@ -100,25 +108,25 @@ export class ShowRequestsComponent implements OnInit {
           this.teletravailRequestService.updateRequestStatus(request.id, updatedStatus).subscribe(
             (response) => {
               request.status = updatedStatus;
-              this.requests = [...this.requests];
+              this.requests = [...this.requests]; // Trigger change detection
               Swal.fire({
                 icon: 'success',
                 title: 'Succès',
-                text: 'Statut mis à jour avec succès'
+                text: 'Statut mis à jour avec succès.'
               });
             },
             (error) => {
-              console.error('Error updating status:', error);
-              selectElement.value = request.status;
+              console.error('Error updating request status:', error);
+              selectElement.value = request.status; // Revert dropdown
               Swal.fire({
                 icon: 'error',
                 title: 'Erreur',
-                text: error.message || 'Erreur lors de la mise à jour du statut'
+                text: error.message || 'Erreur lors de la mise à jour du statut. Veuillez réessayer.'
               });
             }
           );
         } else {
-          selectElement.value = request.status;
+          selectElement.value = request.status; // Revert dropdown on cancel
         }
       });
     }
@@ -127,12 +135,11 @@ export class ShowRequestsComponent implements OnInit {
   canModifyRequest(request: any): boolean {
     if (this.isAdmin) return true;
     if (!this.isManager) return false;
-    
 
     const isEmployee = !request.user.roles || 
                       !request.user.roles.includes('manager') && 
                       !request.user.roles.includes('admin');
     
     return isEmployee && request.user.id !== this.currentUserId;
-}
+  }
 }
