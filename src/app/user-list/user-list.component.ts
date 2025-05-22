@@ -61,15 +61,21 @@ export class UserListComponent implements OnInit {
   }
 
   filterUsers(): void {
-    if (!this.searchTerm) {
-      this.filteredUsers = [...this.users]; // Show current page unfiltered
-    } else {
-      // Filter across all cached users
-      this.filteredUsers = this.cachedUsers.filter(user =>
-        user.name.toLowerCase().includes(this.searchTerm.toLowerCase())
-      );
-    }
+  const allowedRoles = ['manager', 'employee']; // Define allowed roles
+
+  if (!this.searchTerm) {
+    // No search term: show current page users with allowed roles
+    this.filteredUsers = this.users.filter(user =>
+      user.roles && user.roles.some((role: any) => allowedRoles.includes(role.name))
+    );
+  } else {
+    // With search term: filter across all cached users by name and allowed roles
+    this.filteredUsers = this.cachedUsers.filter(user =>
+      user.name.toLowerCase().includes(this.searchTerm.toLowerCase()) &&
+      user.roles && user.roles.some((role: any) => allowedRoles.includes(role.name))
+    );
   }
+}
 
   updateUser(user: any): void {
     this.router.navigate(['/admin/update-user', user.id]);

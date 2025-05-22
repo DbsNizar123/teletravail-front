@@ -1,5 +1,6 @@
+// src/app/app-routing.module.ts
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router'; 
 import { LoginComponent } from './login/login.component';
 import { AddUserComponent } from './add-user/add-user.component';
 import { AdminComponent } from './dashboard/admin/admin.component';
@@ -21,17 +22,23 @@ import { GlobalSettingsCalendarComponent } from './global-settings-calendar/glob
 import { CalendarComponent } from './calendar/calendar.component';
 import { TeletravailCalendarComponent } from './teletravail-calendar/teletravail-calendar.component';
 import { StatisticsComponent } from './statistics/statistics.component';
-import { ChatbotComponent } from './chatbot/chatbot.component';
+import { ChatbotComponent } from './chatbot/chatbot.component';// Create this component
+import { AuthGuard } from './auth.guard';
+import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'reset-password/:token', component: ResetPasswordComponent },
+  { path: 'unauthorized', component: UnauthorizedComponent }, // Add unauthorized route
 
-  // Admin routes (protected by AuthGuard and role: admin)
+  // Admin routes
   {
     path: 'admin',
     component: AdminComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ['admin'] }, // Restrict to admin role
     children: [
       { path: 'add-user', component: AddUserComponent },
       { path: 'user-list', component: UserListComponent },
@@ -48,10 +55,12 @@ const routes: Routes = [
     ],
   },
 
-  // Manager routes (protected by AuthGuard and role: manager)
+  // Manager routes
   {
     path: 'manager',
     component: ManagerComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ['manager'] }, // Restrict to manager role
     children: [
       { path: 'profile', component: ProfileComponent },
       { path: 'ajouterdemande', component: SubmitTeletravailRequestComponent },
@@ -65,10 +74,12 @@ const routes: Routes = [
     ],
   },
 
-  // Employee routes (protected by AuthGuard and role: employee)
+  // Employee routes
   {
     path: 'employee',
     component: EmployeComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ['employee'] }, // Restrict to employee role
     children: [
       { path: 'profile', component: ProfileComponent },
       { path: 'ajouterdemande', component: SubmitTeletravailRequestComponent },
@@ -80,7 +91,7 @@ const routes: Routes = [
   },
 
   // Redirect to login by default
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', component: HomeComponent },
 ];
 
 @NgModule({

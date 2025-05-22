@@ -8,7 +8,6 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import frLocale from '@fullcalendar/core/locales/fr';
 
-// Define the interface for extended properties
 interface ExtendedProps {
   id?: string;
   description?: string;
@@ -17,7 +16,6 @@ interface ExtendedProps {
   isDefault?: boolean;
 }
 
-// Define the interface for calendar events
 interface CalendarEvent {
   id?: string;
   title: string;
@@ -42,7 +40,7 @@ export class GlobalSettingsCalendarComponent implements OnInit {
     headerToolbar: {
       left: 'prev,next today',
       center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+      right: 'dayGridMonth,dayGridWeek,dayGridDay,listWeek' // Changé timeGridWeek/Day en dayGridWeek/Day
     },
     buttonText: {
       today: 'Aujourd\'hui',
@@ -62,10 +60,27 @@ export class GlobalSettingsCalendarComponent implements OnInit {
     eventClick: this.gestionClicEvenement.bind(this),
     select: this.gestionSelectionDate.bind(this),
     eventDisplay: 'block',
-    eventTimeFormat: {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false
+    // Configuration pour masquer les heures
+    allDaySlot: false,
+    slotMinTime: '00:00:00',
+    slotMaxTime: '24:00:00',
+    // Forcer tous les événements à être sur toute la journée
+    defaultAllDay: true,
+    // Configuration des vues
+    views: {
+      dayGridMonth: {
+        // Configuration de la vue mois
+      },
+      dayGridWeek: {
+        type: 'dayGrid',
+        duration: { weeks: 1 },
+        titleFormat: { year: 'numeric', month: 'short', day: 'numeric' }
+      },
+      dayGridDay: {
+        type: 'dayGrid',
+        duration: { days: 1 },
+        titleFormat: { year: 'numeric', month: 'short', day: 'numeric', weekday: 'long' }
+      }
     }
   };
 
@@ -84,15 +99,13 @@ export class GlobalSettingsCalendarComponent implements OnInit {
     const defaultEvents: CalendarEvent[] = [];
     
     for (let date = new Date(startDate); date <= endDate; date.setDate(date.getDate() + 1)) {
-      const dayOfWeek = date.getDay(); // 0 = Sunday, 6 = Saturday
+      const dayOfWeek = date.getDay();
       const formattedDate = this.formaterDate(date.toISOString());
       
-      // Skip weekends (Saturday = 6, Sunday = 0)
       if (dayOfWeek === 0 || dayOfWeek === 6) {
-        continue; // Don't add any status for weekends
+        continue;
       }
       
-      // Add available status for weekdays
       defaultEvents.push({
         title: '✅ Télétravail autorisé',
         date: formattedDate,
