@@ -1,0 +1,53 @@
+<div class="container">
+  <h2 class="requests-title">
+    <i class="fas fa-laptop-house"></i> Demandes de Télétravail
+  </h2>
+  
+  <div *ngIf="loading" class="loading-indicator">
+    <i class="fas fa-spinner fa-spin"></i> Chargement en cours...
+  </div>
+
+  <div *ngIf="!loading" class="card">
+    <div *ngIf="requests.length > 0" class="table-container">
+      <table class="table">
+        <thead>
+          <tr>
+            <th><i class="fas fa-user"></i> Employé</th>
+            <th><i class="fas fa-building"></i> Département</th>
+            <th><i class="fas fa-calendar-alt"></i> Date</th>
+            <th><i class="fas fa-comment"></i> Raison</th>
+            <th><i class="fas fa-info-circle"></i> Statut</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let request of requests" class="request-item">
+            <td>{{ request.user?.name }}</td>
+            <td>{{ request.user?.department?.name || 'N/A' }}</td>
+            <td>{{ request.date }}</td>
+            <td>{{ request.reason }}</td>
+            <td class="status-cell">
+              <div class="action-select">
+                <select 
+                class="action-dropdown" 
+                [disabled]="(request.status !== 'pending' && !isAdmin) || request.user.id === currentUserId || (isManager && request.user.role === 'manager')"
+                [class.status-pending]="request.status === 'pending'"
+                [class.status-approved]="request.status === 'approved'"
+                [class.status-rejected]="request.status === 'rejected'"
+                (change)="onStatusChange(request, $event)"> <option [value]="request.status" selected>
+                    {{ translateStatus(request.status) }}
+                  </option>
+                  <option *ngIf="request.status === 'pending'" class="status-approved" value="accept">Accepter</option>
+                  <option *ngIf="request.status === 'pending'" class="status-rejected" value="reject">Refuser</option>
+                </select>
+                <span *ngIf="request.status === 'pending'" class="pending-badge"></span>
+              </div>
+            </td>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="requests.length === 0" class="no-requests">
+      <div class="ff">Aucune demande de télétravail trouvée.</div> 
+    </div>
+  </div>
+</div>

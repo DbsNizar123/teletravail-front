@@ -1,0 +1,56 @@
+<div class="container">
+  <div class="button-container">
+    <button class="user-button" routerLink="../add-user">
+      <i class="fas fa-plus"></i> Ajouter un Utilisateur
+    </button>
+  </div>
+  <h2 class="user-list-title">
+    <i class="fas fa-users"></i> Liste des Utilisateurs
+  </h2>
+
+  <!-- Search Bar -->
+  <div class="search-container">
+    <input 
+      type="text" 
+      class="search-input" 
+      placeholder="Rechercher par nom..." 
+      [(ngModel)]="searchTerm" 
+      (ngModelChange)="filterUsers()"
+    >
+    <button class="search-btn">
+      <i class="fas fa-search"></i>
+    </button>
+  </div>
+
+  <div class="user-card">
+    <div *ngFor="let user of filteredUsers" class="user-item">
+      <details>
+        <summary>
+          <i class="fas fa-user"></i> <b>{{ user.name }}</b>
+        </summary>
+        <p><i class="fas fa-envelope"></i> <b>Email:</b> {{ user.email }}</p>
+        <p><i class="fas fa-user-tag"></i> <b>Rôle:</b> {{ user.roles[0]?.name || 'N/A' }}</p>
+      </details>
+      <div class="user-actions">
+        <button class="btn-edit" (click)="updateUser(user)">
+          <i class="fas fa-edit"></i> Modifier
+        </button>
+        <button class="btn-delete" (click)="deleteUser(user)">
+          <i class="fas fa-trash-alt"></i> Supprimer
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="pagination-controls">
+    <button (click)="previousPage()" [disabled]="currentPage === 1">
+      <i class="fas fa-chevron-left"></i> Précédent
+    </button>
+    <span>Page {{ currentPage }} sur {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+      Suivant <i class="fas fa-chevron-right"></i>
+    </button>
+  </div>
+  <div *ngIf="filteredUsers.length === 0" class="no-users">
+    <i class="fas fa-user-slash"></i> Aucun utilisateur trouvé.
+  </div>
+</div>
