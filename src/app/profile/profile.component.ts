@@ -26,7 +26,7 @@ export class ProfileComponent implements OnInit {
         this.loading = false;
       },
       error => {
-        console.error('Error fetching profile:', error);
+        console.error('Erreur lors de la récupération du profil :', error);
         this.loading = false;
       }
     );
@@ -35,10 +35,10 @@ export class ProfileComponent implements OnInit {
   updateProfile() {
     this.authService.updateProfile(this.user).subscribe(
       response => {
-        Swal.fire('Success!', response.message, 'success');
+        Swal.fire('Success!', response.message || 'Profil mis à jour avec succès.', 'success');
       },
       error => {
-        Swal.fire('Error!', 'Failed to update profile.', 'error');
+        Swal.fire('Erreur !', 'Échec de la mise à jour du profil.', 'error');
         console.error('Error updating profile:', error);
       }
     );

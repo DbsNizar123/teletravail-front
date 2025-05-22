@@ -134,6 +134,7 @@
 .status-rejected {
   color: #ef4444;
   background: rgba(239, 68, 68, 0.1);
+  width: 103px;
 }
 
 .pending-badge {
@@ -186,6 +187,11 @@
     padding: 6px 10px;
     font-size: 0.8rem;
   }
+  .status-rejected {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+  width: 78px;
+}
 }
 
 @media (max-width: 480px) {

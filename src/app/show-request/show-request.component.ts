@@ -28,23 +28,29 @@ export class ShowRequestComponent implements OnInit {
 
   loadRequests() {
     this.loading = true; // Activer l'indicateur de chargement
+
+    // Définir un délai minimum de 3 secondes pour le chargement
+    const loadingTimeout = setTimeout(() => {
+        this.loading = false; // Désactiver l'indicateur de chargement après 3 secondes
+    }, 2500);
+
     this.teletravailRequestService.getRequests(this.currentPage, this.limit).subscribe({
-      next: (response) => {
-        this.requests = response.requests.data;
-        this.totalPages = response.requests.last_page;
-        this.loading = false; // Désactiver l'indicateur de chargement
-      },
-      error: (error) => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Erreur...',
-          text: 'Erreur lors du chargement des demandes.',
-        });
-        console.error(error);
-        this.loading = false; // Désactiver l'indicateur en cas d'erreur
-      },
+        next: (response) => {
+            this.requests = response.requests.data;
+            this.totalPages = response.requests.last_page;
+            // Si la requête est terminée avant 3 secondes, le timeout gère this.loading = false
+            // Si la requête prend plus de 3 secondes, désactiver immédiatement après la réponse
+            if (this.loading === false) {
+                // Timeout déjà exécuté, désactiver immédiatement
+                clearTimeout(loadingTimeout);
+            } else {
+                // Timeout pas encore exécuté, le laisser gérer this.loading = false
+                this.loading = false;
+                clearTimeout(loadingTimeout);
+            }
+        },
     });
-  }
+}
   translateStatus(status: string): string {
     const statusMap: { [key: string]: string } = {
       'pending': 'En attente',

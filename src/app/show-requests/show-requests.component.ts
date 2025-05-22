@@ -66,15 +66,6 @@ export class ShowRequestsComponent implements OnInit {
         this.requests = response.data;
         this.loading = false;
       },
-      error => {
-        console.error('Error loading requests:', error);
-        this.loading = false;
-        Swal.fire({
-          icon: 'error',
-          title: 'Erreur',
-          text: error.message || 'Une erreur est survenue lors du chargement des demandes.'
-        });
-      }
     );
   }
 
