@@ -1,0 +1,41 @@
+<!-- update-user.component.html -->
+<div class="container">
+    <h2 class="page-title">
+      <i class="fas fa-user-edit"></i> Mettre à jour l'utilisateur
+    </h2>
+    <form (ngSubmit)="updateUser()" class="update-form">
+      <div class="form-group">
+        <label for="name"><i class="fas fa-user"></i> Nom :</label>
+        <input type="text" id="name" [(ngModel)]="user.name" name="name" required class="form-control" placeholder="Entrez le nom">
+      </div>
+      
+      <div class="form-group">
+        <label for="email"><i class="fas fa-envelope"></i> Email :</label>
+        <input type="email" id="email" [(ngModel)]="user.email" name="email" required class="form-control" placeholder="Entrez l'email">
+      </div>
+      
+      <div class="form-group">
+        <label for="role"><i class="fas fa-user-tag"></i> Rôle :</label>
+        <select id="role" [(ngModel)]="user.role" name="role" required class="form-control">
+          <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="password"><i class="fas fa-lock"></i> Mot de passe :</label>
+        <input type="password" id="password" [(ngModel)]="user.password" name="password" class="form-control" placeholder="Nouveau mot de passe">
+        <small class="form-text">
+          <i class="fas fa-info-circle"></i> Laissez vide pour conserver le mot de passe actuel
+        </small>
+      </div>
+      
+      <div class="button-group">
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-save"></i> Mettre à jour
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="router.navigate(['/admin/user-list'])">
+          <i class="fas fa-times"></i> Annuler
+        </button>
+      </div>
+    </form>
+  </div>

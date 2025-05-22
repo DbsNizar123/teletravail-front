@@ -1,0 +1,52 @@
+<div class="chatbot-container" [class.open]="showChatbot">
+  <button class="chatbot-toggle" (click)="toggleChatbot()">
+    <span *ngIf="!showChatbot">Besoin d'aide ?</span>
+    <i class="fas" [ngClass]="{'fa-comments': !showChatbot, 'fa-times': showChatbot}"></i>
+  </button>
+
+  <div class="chatbot-content" *ngIf="showChatbot">
+    <div class="chatbot-header">
+      <div class="chatbot-avatar">
+        <i class="fas fa-robot"></i>
+      </div>
+      <div class="chatbot-title">
+        <h3>Assistant Virtuel</h3>
+        <p>Comment puis-je vous aider aujourd'hui ?</p>
+      </div>
+      <button class="close-btn" (click)="toggleChatbot()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <div class="chatbot-messages">
+      <div class="message-bot" *ngIf="answer">
+        <div class="message-content">
+          <p>{{ answer }}</p>
+        </div>
+      </div>
+      <div class="loading-indicator" *ngIf="isLoading">
+        <i class="fas fa-spinner fa-spin"></i> Chargement...
+      </div>
+      <div class="quick-questions" *ngIf="!answer && !isLoading">
+        <p>Questions fréquentes :</p>
+        <div class="question-list">
+          <button *ngFor="let q of questions" 
+                  class="question-btn" 
+                  (click)="selectQuestion(q.question)">
+            {{ q.question }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="chatbot-input">
+      <select [(ngModel)]="selectedQuestion" class="form-control">
+        <option value="">Sélectionnez une question...</option>
+        <option *ngFor="let q of questions" [value]="q.question">{{ q.question }}</option>
+      </select>
+      <button (click)="getAnswer()" class="send-btn" [disabled]="!selectedQuestion">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+</div>

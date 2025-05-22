@@ -1,0 +1,230 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.requests-title {
+  color: #2c3e50;
+  font-size: 1.8rem;
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+  font-weight: 600;}
+
+.requests-title i {
+  margin-right: 12px;
+  color: #667eea;
+}
+
+.loading-indicator {
+  text-align: center;
+  padding: 40px;
+  color: #718096;
+  font-size: 1.1rem;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.loading-indicator i {
+  margin-right: 10px;
+  font-size: 1.5rem;
+  color: #667eea;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table thead {
+  background: rgba(102, 126, 234, 0.05);
+}
+
+.table th {
+  background-color: #667eea; /* Fond d'en-tête anthracite */
+  color: #f7fafc; /* Texte en-tête clair */
+  position: sticky;
+  top: 0;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+
+.table th i {
+  margin-right: 8px;
+  color: #ffffff;
+}
+
+.table td {
+  padding: 15px;
+  color: #4a5568;
+  font-size: 0.9rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.request-item:hover {
+  background: rgba(102, 126, 234, 0.03);
+}
+
+.status-cell {
+  position: relative;
+}
+
+.action-select {
+  display: flex;
+  align-items: center;
+}
+.action-dropdown {
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232c3e50' width='18px' height='18px'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 10px;
+  padding-right: 30px;
+}
+
+.action-dropdown:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+}
+
+.action-dropdown:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.status-pending {
+  color: #d69e2e;
+  background: rgba(214, 158, 46, 0.1);
+}
+
+.status-approved {
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.status-rejected {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.pending-badge {
+  position: absolute;
+  top: 50%;
+  right: -10px;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  background: #d69e2e;
+  border-radius: 50%;
+}
+
+.no-requests {
+  text-align: center;
+  padding: 40px;
+  color: #718096;
+  font-size: 1.1rem;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 12px;
+  margin: 20px;
+}
+
+.ff {
+  margin: 0;
+}
+
+.no-requests i {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #a0aec0;
+  display: block;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+
+  .requests-title {
+    font-size: 1.5rem;
+  }
+
+  .table th, .table td {
+    padding: 10px;
+    font-size: 0.85rem;
+  }
+  .action-dropdown {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .requests-title {
+    font-size: 1.3rem;
+  }
+
+  .table th, .table td {
+    font-size: 0.8rem;
+  }
+
+  .table th {
+    padding: 8px;
+  }
+
+  .no-requests {
+    padding: 20px;
+    font-size: 1rem;
+  }
+}
+
+/* Animation for request items */
+.request-item {
+  animation: slideUp 0.4s ease-out forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+@keyframes slideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Delay animations for each item */
+.request-item:nth-child(1) { animation-delay: 0.1s; }
+.request-item:nth-child(2) { animation-delay: 0.2s; }
+.request-item:nth-child(3) { animation-delay: 0.3s; }
+.request-item:nth-child(4) { animation-delay: 0.4s; }
+.request-item:nth-child(5) { animation-delay: 0.5s; }
+.request-item:nth-child(n+6) { animation-delay: 0.6s; }
