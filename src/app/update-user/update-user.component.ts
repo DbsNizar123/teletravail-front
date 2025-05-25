@@ -50,11 +50,11 @@ export class UpdateUserComponent implements OnInit {
   updateUser() {
     this.authService.updateUser(this.userId, this.user).subscribe(
       (response) => {
-        Swal.fire('Success!', 'User updated successfully.', 'success');
+        Swal.fire('succès!', 'utilisateur mis à jour avec succès.', 'success');
         this.router.navigate(['/admin/user-list']);
       },
       (error) => {
-        console.error('Error updating user', error);
+        console.error('Erreur lors de la mise à jour', error);
         Swal.fire('Error!', 'Failed to update user.', 'error');
       }
     );

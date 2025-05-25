@@ -57,7 +57,7 @@ export class ResetPasswordComponent implements OnInit {
           // Affichage d'une alerte de succès avec SweetAlert2
           Swal.fire({
             title: 'Succès!',
-            text: response.message,
+            text: "Votre mot de passe a été réinitialisé",
             icon: 'success',
             confirmButtonText: 'OK'
           }).then(() => {
