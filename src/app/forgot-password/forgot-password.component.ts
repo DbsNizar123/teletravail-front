@@ -19,7 +19,7 @@ export class ForgotPasswordComponent {
         (response: any) => {
           Swal.fire({
             title: 'Succès!',
-            text: response.message,
+            text: "Nous vous avons envoyé par e-mail votre lien de réinitialisation de mot de passe.",
             icon: 'success',
             confirmButtonText: 'OK'
           }).then(() => {

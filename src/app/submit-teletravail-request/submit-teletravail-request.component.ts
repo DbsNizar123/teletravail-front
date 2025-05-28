@@ -57,7 +57,7 @@ onSubmit() {
             title: 'Succès',
             html: `Demande soumise avec succès!<br>
                   Statut: <strong>En attente d'approbation</strong><br>
-                  Places restantes: ${response.remaining_slots}/${response.absolute_limit}`,
+                  `,
             icon: 'success'
           });
           this.resetForm();

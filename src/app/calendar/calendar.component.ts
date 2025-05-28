@@ -123,7 +123,7 @@ export class CalendarComponent implements OnInit {
         ${
           setting.isDefault
             ? '<p><em></em></p>'
-            : '<p><em>Ceci est un paramètre personnalisé.</em></p>'
+            : '<p><em></em></p>'
         }
       </div>
     `;
