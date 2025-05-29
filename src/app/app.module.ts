@@ -1,7 +1,8 @@
+// src/app/app.module.ts
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -30,6 +31,8 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { TeletravailCalendarComponent } from './teletravail-calendar/teletravail-calendar.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { ChatbotComponent } from './chatbot/chatbot.component';
+import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
+import { HomeComponent } from './home/home.component'; // Add this
 
 @NgModule({
   declarations: [
@@ -56,6 +59,8 @@ import { ChatbotComponent } from './chatbot/chatbot.component';
     TeletravailCalendarComponent,
     StatisticsComponent,
     ChatbotComponent,
+    UnauthorizedComponent,
+    HomeComponent, // Declare the component
   ],
   imports: [
     BrowserModule,
