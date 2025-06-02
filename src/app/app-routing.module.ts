@@ -1,4 +1,3 @@
-// src/app/app-routing.module.ts
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router'; 
 import { LoginComponent } from './login/login.component';
@@ -22,7 +21,7 @@ import { GlobalSettingsCalendarComponent } from './global-settings-calendar/glob
 import { CalendarComponent } from './calendar/calendar.component';
 import { TeletravailCalendarComponent } from './teletravail-calendar/teletravail-calendar.component';
 import { StatisticsComponent } from './statistics/statistics.component';
-import { ChatbotComponent } from './chatbot/chatbot.component';// Create this component
+import { ChatbotComponent } from './chatbot/chatbot.component';
 import { AuthGuard } from './auth.guard';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { HomeComponent } from './home/home.component';
@@ -31,14 +30,13 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'reset-password/:token', component: ResetPasswordComponent },
-  { path: 'unauthorized', component: UnauthorizedComponent }, // Add unauthorized route
+  { path: 'unauthorized', component: UnauthorizedComponent },
 
-  // Admin routes
   {
     path: 'admin',
     component: AdminComponent,
     canActivate: [AuthGuard],
-    data: { roles: ['admin'] }, // Restrict to admin role
+    data: { roles: ['admin'] }, 
     children: [
       { path: 'add-user', component: AddUserComponent },
       { path: 'user-list', component: UserListComponent },
@@ -55,12 +53,11 @@ const routes: Routes = [
     ],
   },
 
-  // Manager routes
   {
     path: 'manager',
     component: ManagerComponent,
     canActivate: [AuthGuard],
-    data: { roles: ['manager'] }, // Restrict to manager role
+    data: { roles: ['manager'] },
     children: [
       { path: 'profile', component: ProfileComponent },
       { path: 'ajouterdemande', component: SubmitTeletravailRequestComponent },
@@ -74,12 +71,11 @@ const routes: Routes = [
     ],
   },
 
-  // Employee routes
   {
     path: 'employee',
     component: EmployeComponent,
     canActivate: [AuthGuard],
-    data: { roles: ['employee'] }, // Restrict to employee role
+    data: { roles: ['employee'] },
     children: [
       { path: 'profile', component: ProfileComponent },
       { path: 'ajouterdemande', component: SubmitTeletravailRequestComponent },
@@ -90,7 +86,6 @@ const routes: Routes = [
     ],
   },
 
-  // Redirect to login by default
   { path: '', component: HomeComponent },
 ];
 

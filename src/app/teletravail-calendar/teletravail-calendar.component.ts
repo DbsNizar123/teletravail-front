@@ -64,7 +64,7 @@ export class TeletravailCalendarComponent implements OnInit {
           date: request.date,
           backgroundColor: this.getEventColor(request.status),
           borderColor: this.getBorderColor(request.status),
-          classNames: [request.status], // Add status class for CSS
+          classNames: [request.status],
           extendedProps: {
             status: request.status,
             reason: request.reason,
@@ -132,7 +132,7 @@ export class TeletravailCalendarComponent implements OnInit {
   }
 
   getEventTitle(request: TeletravailRequest): string {
-    return request.user.name; // Display only the user's name
+    return request.user.name;
   }
 
   getStatusText(status: RequestStatus): string {

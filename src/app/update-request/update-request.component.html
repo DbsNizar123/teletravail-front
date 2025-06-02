@@ -7,7 +7,6 @@
     </div>
     <div class="card-body">
       <form (ngSubmit)="onSubmit()" #requestForm="ngForm">
-        <!-- Champ Date -->
         <div class="form-group">
           <label for="date" class="form-label">
             <i class="fas fa-calendar-day"></i> Date
@@ -21,7 +20,7 @@
             class="form-control"
             (change)="checkAvailability()"
           />
-          <!-- Indicateur de disponibilité -->
+
           <div *ngIf="availabilityStatus" class="mt-2">
             <span class="badge" 
                   [ngClass]="{
@@ -37,7 +36,6 @@
           </div>
         </div>
 
-        <!-- Champ Raison -->
         <div class="form-group">
           <label for="reason" class="form-label">
             <i class="fas fa-comment-alt"></i> Raison
@@ -52,7 +50,6 @@
           ></textarea>
         </div>
 
-        <!-- Bouton de soumission -->
         <div class="form-group">
           <button type="submit" class="btn btn-primary" [disabled]="requestForm.invalid">
             <i class="fas fa-save"></i> Mettre à Jour
@@ -60,7 +57,6 @@
         </div>
       </form>
 
-      <!-- Message d'erreur -->
       <div *ngIf="errorMessage" class="alert-error">
         <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
       </div>

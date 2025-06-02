@@ -7,12 +7,12 @@ import interactionPlugin from '@fullcalendar/interaction';
 import frLocale from '@fullcalendar/core/locales/fr';
 
 interface CalendarSetting {
-  id?: string; // Made optional for default events
+  id?: string;
   date: string;
   status: 'blocked' | 'limited' | 'available';
   daily_limit?: number | null;
   description?: string;
-  isDefault?: boolean; // Added to distinguish default events
+  isDefault?: boolean;
 }
 
 @Component({
@@ -55,9 +55,9 @@ export class CalendarComponent implements OnInit {
     const defaultEvents: CalendarSetting[] = [];
   
     for (let date = new Date(startDate); date <= endDate; date.setDate(date.getDate() + 1)) {
-      const dayOfWeek = date.getDay(); // 0 = Sunday, 6 = Saturday
+      const dayOfWeek = date.getDay();
       if (dayOfWeek === 0 || dayOfWeek === 6) {
-        continue; // Skip Saturdays and Sundays
+        continue;
       }
       const formattedDate = this.formatDate(date.toISOString());
       defaultEvents.push({
@@ -105,11 +105,7 @@ export class CalendarComponent implements OnInit {
   handleEventClick(clickInfo: EventClickArg): void {
     const event = clickInfo.event;
     const setting = event.extendedProps as CalendarSetting;
-  
-    // Format the date
     const formattedDate = this.formatDate(event.startStr);
-  
-    // Prepare the details HTML
     const detailsHtml = `
       <div class="text-start">
         <p><strong>Date:</strong> ${formattedDate}</p>
@@ -127,8 +123,7 @@ export class CalendarComponent implements OnInit {
         }
       </div>
     `;
-  
-    // Show the details in a SweetAlert2 popup
+
     Swal.fire({
       title: 'Détails de l’événement',
       html: detailsHtml,

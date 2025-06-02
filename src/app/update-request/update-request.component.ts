@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TeletravailRequestService } from '../services/teletravail-request.service';
-import { GlobalSettingService } from '../services/global-setting.service'; // Import GlobalSettingService
+import { GlobalSettingService } from '../services/global-setting.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -15,13 +15,13 @@ export class UpdateRequestComponent implements OnInit {
     reason: ''
   };
   errorMessage: string | null = null;
-  availabilityStatus: string | null = null; // Add availability status
+  availabilityStatus: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private teletravailRequestService: TeletravailRequestService,
-    private globalSettingService: GlobalSettingService // Inject GlobalSettingService
+    private globalSettingService: GlobalSettingService
   ) {}
 
   ngOnInit(): void {
@@ -33,8 +33,8 @@ export class UpdateRequestComponent implements OnInit {
     if (id) {
       this.teletravailRequestService.getRequestById(id).subscribe({
         next: (response) => {
-          this.request = response.request; // Assumes response has a 'request' property
-          this.checkAvailability(); // Check availability when loading the request
+          this.request = response.request;
+          this.checkAvailability();
         },
         error: (error) => {
           Swal.fire({
@@ -55,13 +55,12 @@ export class UpdateRequestComponent implements OnInit {
     }
   }
 
-  // Check availability when the date changes or on load
   checkAvailability() {
     if (!this.request.date) return;
 
     this.globalSettingService.checkAvailability(this.request.date).subscribe({
       next: (response) => {
-        this.availabilityStatus = response.status; // Store the availability status
+        this.availabilityStatus = response.status;
       },
       error: (error) => {
         console.error('Error checking availability:', error);
@@ -82,7 +81,6 @@ export class UpdateRequestComponent implements OnInit {
       return;
     }
 
-    // Verify availability before updating
     this.globalSettingService.checkAvailability(this.request.date).subscribe({
       next: (response) => {
         if (response.status === 'blocked') {
@@ -94,8 +92,7 @@ export class UpdateRequestComponent implements OnInit {
           Swal.fire('Limite atteinte', 'Le quota de télétravail est atteint pour cette date', 'warning');
           return;
         }
-
-        // If available, proceed with the update
+        
         this.teletravailRequestService.updateRequest(id, this.request).subscribe({
           next: (response) => {
             Swal.fire('Succès', 'Demande mise à jour avec succès', 'success');

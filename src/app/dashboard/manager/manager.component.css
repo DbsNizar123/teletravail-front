@@ -1,7 +1,7 @@
 .dashboard-container {
   display: flex;
   min-height: 100vh;
-  background: linear-gradient(135deg, #f4f6f9 0%, #e9ecef 100%); /* Matches admin background */
+  background: linear-gradient(135deg, #f4f6f9 0%, #e9ecef 100%);
   position: relative;
   overflow: hidden;
   animation: fadeIn 0.5s ease-out;
@@ -26,7 +26,7 @@
 
 .sidebar {
   width: 250px;
-  background: linear-gradient(180deg, #667eea 0%, #5a67d8 100%); /* Matches admin sidebar */
+  background: linear-gradient(180deg, #667eea 0%, #5a67d8 100%);
   color: #ffffff;
   box-shadow: 2px 0 20px rgba(0, 0, 0, 0.2);
   transition: width 0.3s ease;
@@ -93,7 +93,7 @@
 }
 
 .sidebar a:hover, .sidebar .logout-button:hover {
-  background: linear-gradient(135deg, #5a67d8 0%, #4c51bf 100%); /* Matches admin hover */
+  background: linear-gradient(135deg, #5a67d8 0%, #4c51bf 100%);
   color: #ffffff;
 }
 

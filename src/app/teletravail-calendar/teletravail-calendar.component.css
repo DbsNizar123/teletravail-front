@@ -1,11 +1,9 @@
-/* Container Styling */
 .container {
     max-width: 1400px;
     margin: 2rem auto;
     padding: 0 1.5rem;
   }
   
-  /* Card Styling */
   .card {
     border-radius: 12px;
     background: linear-gradient(145deg, #ffffff, #f8fafc);
@@ -20,8 +18,7 @@
     box-shadow: 0 14px 40px rgba(0, 0, 0, 0.1),
                 0 6px 16px rgba(0, 0, 0, 0.06);
   }
-  
-  /* Card Header */
+
   .card-header {
     background: linear-gradient(90deg, #4b6cb7, #182848);
     padding: 1.5rem 2rem;
@@ -62,14 +59,12 @@
     font-size: 1.5rem;
     color: #e3e7ff;
   }
-  
-  /* Card Body */
+
   .card-body {
     padding: 2rem;
     background: #ffffff;
   }
   
-  /* Calendar Styling */
   :host ::ng-deep .fc {
     --fc-border-color: #e2e8f0;
     --fc-button-bg-color: #4b6cb7;
@@ -111,8 +106,7 @@
   :host ::ng-deep .fc-daygrid-day:hover {
     background: rgba(75, 108, 183, 0.05);
   }
-  
-  /* Event Icon Styling */
+
   :host ::ng-deep .fc-event {
     width: 90px;
     height: 38px;
@@ -143,8 +137,7 @@
     margin-right: 4px;
     flex-shrink: 0;
   }
-  
-  /* Event Title Styling */
+
   :host ::ng-deep .fc-event-title {
     font-size: 13px;
     font-weight: 500;
@@ -154,15 +147,14 @@
     text-overflow: ellipsis;
     flex-grow: 1;
   }
-  
-  /* Event Status Icons and Colors */
+
   :host ::ng-deep .fc-event.pending {
     background: #ffbb33;
     border: 1px solid #ff8800;
   }
   
   :host ::ng-deep .fc-event.pending .fc-event-icon::before {
-    content: '\f017'; /* Font Awesome clock icon for pending */
+    content: '\f017';
   }
   
   :host ::ng-deep .fc-event.approved {
@@ -171,7 +163,7 @@
   }
   
   :host ::ng-deep .fc-event.approved .fc-event-icon::before {
-    content: '\f00c'; /* Font Awesome check icon for approved */
+    content: '\f00c';
   }
   
   :host ::ng-deep .fc-event.rejected {
@@ -180,10 +172,9 @@
   }
   
   :host ::ng-deep .fc-event.rejected .fc-event-icon::before {
-    content: '\f00d'; /* Font Awesome times icon for rejected */
+    content: '\f00d';
   }
-  
-  /* Loading and No-Data States */
+
   .loading-state {
     display: flex;
     flex-direction: column;
@@ -200,8 +191,6 @@
     min-height: 200px;
   }
   
- 
-  /* Responsive Design - Optimisation améliorée */
   @media (max-width: 1440px) {
     .container {
       max-width: 1200px;

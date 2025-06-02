@@ -99,7 +99,7 @@ export class ShowRequestsComponent implements OnInit {
           this.teletravailRequestService.updateRequestStatus(request.id, updatedStatus).subscribe(
             (response) => {
               request.status = updatedStatus;
-              this.requests = [...this.requests]; // Trigger change detection
+              this.requests = [...this.requests];
               Swal.fire({
                 icon: 'success',
                 title: 'Succès',
@@ -108,7 +108,7 @@ export class ShowRequestsComponent implements OnInit {
             },
             (error) => {
               console.error('Error updating request status:', error);
-              selectElement.value = request.status; // Revert dropdown
+              selectElement.value = request.status;
               Swal.fire({
                 icon: 'error',
                 title: 'Erreur',
@@ -117,7 +117,7 @@ export class ShowRequestsComponent implements OnInit {
             }
           );
         } else {
-          selectElement.value = request.status; // Revert dropdown on cancel
+          selectElement.value = request.status; 
         }
       });
     }

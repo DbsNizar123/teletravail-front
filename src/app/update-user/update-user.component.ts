@@ -25,7 +25,7 @@ export class UpdateUserComponent implements OnInit {
 
   ngOnInit(): void {
     const idParam = this.route.snapshot.paramMap.get('id');
-    this.userId = idParam ? +idParam : 0; // Convert to number
+    this.userId = idParam ? +idParam : 0; 
     this.loadUser();
   }
 
@@ -33,7 +33,7 @@ export class UpdateUserComponent implements OnInit {
     if (this.userId) {
       this.authService.getUserById(this.userId).subscribe(
         (data) => {
-          this.user = data; // Populate the user object with existing data
+          this.user = data;
         },
         (error) => {
           console.error('Error fetching user', error);

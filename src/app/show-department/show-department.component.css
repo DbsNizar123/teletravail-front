@@ -252,7 +252,6 @@
   display: block;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .container {
     padding: 15px;
@@ -279,7 +278,6 @@
   }
 }
 
-/* Animation for department items */
 .department-item {
   animation: slideUp 0.4s ease-out forwards;
   opacity: 0;
@@ -293,7 +291,6 @@
   }
 }
 
-/* Delay animations for each item */
 .department-item:nth-child(1) { animation-delay: 0.1s; }
 .department-item:nth-child(2) { animation-delay: 0.2s; }
 .department-item:nth-child(3) { animation-delay: 0.3s; }

@@ -10,19 +10,17 @@ import { Router } from '@angular/router';
 export class AuthService {
   private apiUrl = 'http://localhost:8000/api';
   private userRoles: string[] = [];
-  private rolesSubject = new BehaviorSubject<string[]>([]); // To emit roles updates
+  private rolesSubject = new BehaviorSubject<string[]>([]); 
 
   constructor(private http: HttpClient, private router: Router) {
-    // Load roles from local storage or API on initialization
+
     this.loadUserRoles();
   }
 
-  // Check if the user is logged in
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
   }
 
-  // Load user roles (call API or retrieve from local storage)
   private loadUserRoles(): void {
     const token = localStorage.getItem('token');
     const cachedRoles = localStorage.getItem('userRoles');
@@ -34,7 +32,7 @@ export class AuthService {
       this.getUserRoles().subscribe(
         (roles) => {
           this.userRoles = roles;
-          localStorage.setItem('userRoles', JSON.stringify(roles)); // Cache roles
+          localStorage.setItem('userRoles', JSON.stringify(roles));
           this.rolesSubject.next(roles);
         },
         (error) => {
@@ -47,7 +45,6 @@ export class AuthService {
     }
   }
 
-  // Get user roles from API
   getUserRoles(): Observable<string[]> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -59,35 +56,30 @@ export class AuthService {
     );
   }
 
-  // Get roles as an Observable (for async handling in AuthGuard)
   getCurrentUserRolesAsync(): Observable<string[]> {
     return this.rolesSubject.asObservable();
   }
 
-  // Check if the user has a specific role
   hasRole(role: string): boolean {
     return this.userRoles.includes(role);
   }
 
-  // Get the current user's roles (synchronous, for non-critical use)
   getCurrentUserRoles(): string[] {
     return this.userRoles;
   }
 
-  // Login method
   login(credentials: { email: string; password: string }): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
       map((response: any) => {
         if (response.success && response.token) {
           localStorage.setItem('token', response.token);
-          this.loadUserRoles(); // Fetch roles after login
+          this.loadUserRoles();
         }
         return response;
       })
     );
   }
 
-  // Logout method
   logout(): Observable<any> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -95,7 +87,7 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/logout`, {}, { headers }).pipe(
       map((response) => {
         localStorage.removeItem('token');
-        localStorage.removeItem('userRoles'); // Clear cached roles
+        localStorage.removeItem('userRoles'); 
         this.userRoles = [];
         this.rolesSubject.next([]);
         this.router.navigate(['/login']);
@@ -104,7 +96,6 @@ export class AuthService {
     );
   }
 
-  // Add a new user
   addUser(userData: {
     name: string;
     email: string;
@@ -118,7 +109,6 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/addUser`, userData, { headers });
   }
 
-  // Get all users with pagination
   getAllUsers(page: number, limit: number): Observable<any> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -126,7 +116,6 @@ export class AuthService {
     return this.http.get(`${this.apiUrl}/users?page=${page}&limit=${limit}`, { headers });
   }
 
-  // Update a user
   updateUser(userId: number, userData: any): Observable<any> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -134,7 +123,6 @@ export class AuthService {
     return this.http.put(`${this.apiUrl}/users/${userId}`, userData, { headers });
   }
 
-  // Delete a user
   deleteUser(userId: number): Observable<any> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -142,7 +130,6 @@ export class AuthService {
     return this.http.delete(`${this.apiUrl}/users/${userId}`, { headers });
   }
 
-  // Get user profile
   getProfile(): Observable<any> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -150,7 +137,6 @@ export class AuthService {
     return this.http.get(`${this.apiUrl}/profile`, { headers });
   }
 
-  // Update user profile
   updateProfile(data: any): Observable<any> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -158,7 +144,6 @@ export class AuthService {
     return this.http.put(`${this.apiUrl}/profile`, data, { headers });
   }
 
-  // Get user by ID
   getUserById(userId: number): Observable<any> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -166,12 +151,10 @@ export class AuthService {
     return this.http.get(`${this.apiUrl}/users/${userId}`, { headers });
   }
 
-  // Send password reset link
   sendResetLinkEmail(email: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/forgot-password`, { email });
   }
 
-  // Reset password
   resetPassword(data: {
     token: string;
     email: string;

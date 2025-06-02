@@ -3,17 +3,14 @@
 
 <div class="login-container">
   <div class="login-card">
-    <!-- En-tête -->
     <div class="card-header">
       <i class="fas fa-user-lock"></i>
       <h2>Connexion</h2>
       <p>Accédez à votre espace professionnel</p>
     </div>
 
-    <!-- Corps -->
     <div class="card-body">
       <form (ngSubmit)="login()">
-        <!-- Email -->
         <div class="form-group">
           <input 
             type="email" 
@@ -25,7 +22,6 @@
           >
         </div>
 
-        <!-- Mot de passe -->
         <div class="form-group password-group">
           <div class="password-wrapper">
             <input 
@@ -45,14 +41,11 @@
           </a>
         </div>
 
-        <!-- Bouton de connexion -->
         <button type="submit" class="btn btn-login">
           <i class="fas fa-sign-in-alt"></i> Se connecter
         </button>
       </form>
     </div>
-
-    <!-- Pied de page -->
-   
+    
   </div>
 </div>

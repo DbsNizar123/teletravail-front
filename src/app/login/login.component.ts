@@ -1,8 +1,6 @@
-// src/app/components/login/login.component.ts
-
 import { Component } from '@angular/core';
 import { AuthService } from '../auth.service';
-import { Router } from '@angular/router'; // Import Router pour la navigation
+import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -11,12 +9,11 @@ import Swal from 'sweetalert2';
   styleUrls: ['./login.component.css'] 
 })
 export class LoginComponent {
-  credentials = { email: '', password: '' }; // Initialisation des champs email et password
-  token: string | null = null; // Initialisation du token
+  credentials = { email: '', password: '' };
+  token: string | null = null;
 
   constructor(private authService: AuthService, private router: Router) {}
   onForgotPassword() {
-    // Rediriger vers la page de réinitialisation de mot de passe
     this.router.navigate(['/forgot-password']);
   }
   togglePasswordVisibility(input: HTMLInputElement) {
@@ -32,7 +29,6 @@ export class LoginComponent {
     }
   }
   login() {
-    // Vérifier que les champs email et password ne sont pas vides
     if (!this.credentials.email || !this.credentials.password) {
       Swal.fire({
         title: 'Erreur!',
@@ -40,20 +36,16 @@ export class LoginComponent {
         icon: 'error',
         confirmButtonText: 'OK'
       });
-      return; // Arrêter l'exécution de la fonction
+      return;
     }
 
-    // Appeler le service d'authentification
     this.authService.login(this.credentials).subscribe(
       (response) => {
-        // Stocker le token dans le localStorage
         localStorage.setItem('token', response.token);
-
-        // Récupérer les rôles de l'utilisateur pour la redirection
         this.authService.getUserRoles().subscribe(
           (roles) => {
             if (roles.includes('admin')) {
-              this.router.navigate(['/admin/global-settings']); // Rediriger vers la page d'administration
+              this.router.navigate(['/admin/global-settings']);
             } else if (roles.includes('manager')) {
               this.router.navigate(['/manager/calendar']); 
             } else if (roles.includes('employee')) { 

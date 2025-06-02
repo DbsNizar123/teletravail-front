@@ -1,4 +1,3 @@
-/* Import Font Awesome pour les icônes */
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
 
 .chatbot-container {
@@ -237,13 +236,11 @@
   cursor: not-allowed;
 }
 
-/* Animation pour les messages et questions */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Responsive Design */
 @media (max-width: 400px) {
   .chatbot-container {
     width: 90%;

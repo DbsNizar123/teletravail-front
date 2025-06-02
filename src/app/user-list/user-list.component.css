@@ -1,9 +1,8 @@
-/* User List Component - Modern Background Design */
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  background: linear-gradient(135deg, #f4f6f9 0%, #e9ecef 100%); /* Subtle modern gradient */
+  background: linear-gradient(135deg, #f4f6f9 0%, #e9ecef 100%);
   min-height: 100vh;
   animation: fadeIn 0.5s ease-out;
   position: relative;
@@ -15,7 +14,6 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Optional: Add a subtle noise texture overlay */
 .container::before {
   content: '';
   position: absolute;
@@ -144,7 +142,7 @@
 }
 
 .user-item:hover {
-  background: linear-gradient(135deg, #f7fafc 0%, #e9ecef 100%); /* Subtle gradient on hover */
+  background: linear-gradient(135deg, #f7fafc 0%, #e9ecef 100%); 
 }
 
 .user-item details {
@@ -294,7 +292,6 @@
   display: block;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .container {
     padding: 15px;
@@ -325,7 +322,6 @@
   }
 }
 
-/* Animation for user items */
 .user-item {
   animation: slideUp 0.4s ease-out forwards;
   opacity: 0;
@@ -339,7 +335,6 @@
   }
 }
 
-/* Delay animations for each item */
 .user-item:nth-child(1) { animation-delay: 0.1s; }
 .user-item:nth-child(2) { animation-delay: 0.2s; }
 .user-item:nth-child(3) { animation-delay: 0.3s; }

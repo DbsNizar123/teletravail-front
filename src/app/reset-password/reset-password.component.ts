@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
-import Swal from 'sweetalert2'; // Importation de SweetAlert2
+import Swal from 'sweetalert2';
 
-// Interface pour la réponse de l'API
 interface ResetPasswordResponse {
   message: string;
 }
@@ -24,7 +23,6 @@ export class ResetPasswordComponent implements OnInit {
     private authService: AuthService,
     private router: Router
   ) {
-    // Initialisation du formulaire avec validation
     this.resetPasswordForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
@@ -33,11 +31,9 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Récupération du token depuis l'URL
     this.token = this.route.snapshot.paramMap.get('token') || '';
   }
 
-  // Validation personnalisée pour vérifier que les mots de passe correspondent
   checkPasswords(group: FormGroup) {
     const password = group.get('password')?.value;
     const passwordConfirmation = group.get('password_confirmation')?.value;
@@ -50,11 +46,8 @@ export class ResetPasswordComponent implements OnInit {
         token: this.token,
         ...this.resetPasswordForm.value
       };
-
-      // Appel du service pour réinitialiser le mot de passe
       this.authService.resetPassword(formData).subscribe(
         (response: ResetPasswordResponse) => {
-          // Affichage d'une alerte de succès avec SweetAlert2
           Swal.fire({
             title: 'Succès!',
             text: "Votre mot de passe a été réinitialisé",
