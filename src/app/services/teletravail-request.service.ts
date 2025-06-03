@@ -63,10 +63,8 @@ export class TeletravailRequestService {
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = 'Une erreur est survenue lors de la communication avec le serveur.';
     if (error.error instanceof ErrorEvent) {
-      // Client-side error
       errorMessage = `Erreur client: ${error.error.message}`;
     } else {
-      // Server-side error
       if (error.status === 403) {
         errorMessage = error.error.message || 'Action non autorisée.';
       } else if (error.status === 400) {

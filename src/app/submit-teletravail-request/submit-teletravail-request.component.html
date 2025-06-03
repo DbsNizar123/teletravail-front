@@ -8,7 +8,6 @@
    
     <div class="card-body">
       <form (ngSubmit)="onSubmit()">
-        <!-- Champ Date -->
         <div class="form-group">
           <label for="date" class="form-label">
             <i class="fas fa-calendar-day"></i> Date
@@ -44,7 +43,6 @@
     </div>
         </div>
 
-        <!-- Champ Raison -->
         <div class="form-group">
           <label for="reason" class="form-label">
             <i class="fas fa-comment-alt"></i> Raison
@@ -57,8 +55,7 @@
             required
           ></textarea>
         </div>
-
-        <!-- Bouton Soumettre -->
+        
         <button type="submit" class="btn btn-primary" [disabled]="!requestData.date || !requestData.reason">
           <i class="fas fa-paper-plane"></i> Soumettre
         </button>

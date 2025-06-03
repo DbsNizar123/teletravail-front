@@ -44,7 +44,6 @@ export class ManagerComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Load profile, notifications, and check screen size if authorized
     this.loadProfile();
     this.loadNotifications();
     this.checkScreenSize();

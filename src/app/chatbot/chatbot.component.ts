@@ -41,7 +41,7 @@ export class ChatbotComponent implements OnInit {
   getAnswer(): void {
     if (!this.selectedQuestion) return;
 
-    this.answer = ''; // Reset answer for animation
+    this.answer = '';
     this.isLoading = true;
     this.chatbotService.getAnswer(this.selectedQuestion).subscribe(
       (response) => {

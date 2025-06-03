@@ -10,14 +10,14 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./user-list.component.css']
 })
 export class UserListComponent implements OnInit {
-  users: any[] = []; // Current page's users
-  filteredUsers: any[] = []; // Filtered list for display
-  cachedUsers: any[] = []; // Cache of all visited pages
+  users: any[] = []; 
+  filteredUsers: any[] = []; 
+  cachedUsers: any[] = []; 
   currentPage: number = 1;
   totalPages: number = 0;
   limit: number = 6;
   searchTerm: string = '';
-  visitedPages: Set<number> = new Set(); // Track visited pages
+  visitedPages: Set<number> = new Set();
 
   constructor(
     private authService: AuthService,
@@ -31,7 +31,6 @@ export class UserListComponent implements OnInit {
 
   loadUsers(): void {
     if (this.visitedPages.has(this.currentPage)) {
-      // If page is already cached, just filter and display
       this.users = this.cachedUsers.filter(u => 
         Math.floor((this.cachedUsers.indexOf(u) / this.limit) + 1) === this.currentPage
       );
@@ -45,7 +44,6 @@ export class UserListComponent implements OnInit {
         this.totalPages = data.last_page;
         this.visitedPages.add(this.currentPage);
 
-        // Add new users to cache, avoiding duplicates
         data.data.forEach((newUser: any) => {
           if (!this.cachedUsers.some(u => u.id === newUser.id)) {
             this.cachedUsers.push(newUser);
@@ -61,15 +59,13 @@ export class UserListComponent implements OnInit {
   }
 
   filterUsers(): void {
-  const allowedRoles = ['manager', 'employee']; // Define allowed roles
+  const allowedRoles = ['manager', 'employee']; 
 
   if (!this.searchTerm) {
-    // No search term: show current page users with allowed roles
     this.filteredUsers = this.users.filter(user =>
       user.roles && user.roles.some((role: any) => allowedRoles.includes(role.name))
     );
   } else {
-    // With search term: filter across all cached users by name and allowed roles
     this.filteredUsers = this.cachedUsers.filter(user =>
       user.name.toLowerCase().includes(this.searchTerm.toLowerCase()) &&
       user.roles && user.roles.some((role: any) => allowedRoles.includes(role.name))
@@ -95,7 +91,6 @@ export class UserListComponent implements OnInit {
         this.authService.deleteUser(user.id).subscribe(
           () => {
             Swal.fire('Supprimé!', 'L\'utilisateur a été supprimé.', 'success');
-            // Remove from all arrays
             this.users = this.users.filter(u => u.id !== user.id);
             this.cachedUsers = this.cachedUsers.filter(u => u.id !== user.id);
             this.filterUsers();

@@ -12,7 +12,7 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./statistics.component.css'],
 })
 export class StatisticsComponent implements OnInit, AfterViewInit {
-  // Définir les interfaces pour les statistiques afin d'assurer la sécurité des types
+
   requestStats: { pending?: number; approved?: number; rejected?: number } = {};
   roleStats: { admin?: number; manager?: number; employee?: number } = {};
   departmentStats: { [key: string]: number } = {};
@@ -28,7 +28,7 @@ export class StatisticsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // Assurez-vous que les graphiques sont rendus après l'initialisation de la vue
+
     if (Object.keys(this.requestStats).length) {
       this.renderCharts();
     }
@@ -41,7 +41,6 @@ export class StatisticsComponent implements OnInit, AfterViewInit {
         this.roleStats = data.role_stats || {};
         this.departmentStats = data.department_stats || {};
         this.trendStats = data.trend_stats || {};
-        // Déclencher le rendu des graphiques après le chargement des données
         this.renderCharts();
       },
       error: (error) => {
@@ -52,14 +51,12 @@ export class StatisticsComponent implements OnInit, AfterViewInit {
   }
 
   renderCharts(): void {
-    // Détruire les graphiques existants pour éviter la duplication
     ['requestChart', 'roleChart', 'departmentChart', 'trendChart'].forEach((chartId) => {
       if (this.charts[chartId]) {
         this.charts[chartId].destroy();
       }
     });
 
-    // Graphique circulaire pour le statut des demandes
     this.charts['requestChart'] = new Chart('requestChart', {
       type: 'pie',
       data: {
@@ -85,7 +82,6 @@ export class StatisticsComponent implements OnInit, AfterViewInit {
       },
     });
 
-    // Graphique circulaire pour la répartition des rôles
     this.charts['roleChart'] = new Chart('roleChart', {
       type: 'pie',
       data: {
@@ -111,7 +107,6 @@ export class StatisticsComponent implements OnInit, AfterViewInit {
       },
     });
 
-    // Graphique en barres pour les demandes par département
     this.charts['departmentChart'] = new Chart('departmentChart', {
       type: 'bar',
       data: {
@@ -135,7 +130,6 @@ export class StatisticsComponent implements OnInit, AfterViewInit {
       },
     });
 
-    // Graphique linéaire pour les tendances des demandes
     this.charts['trendChart'] = new Chart('trendChart', {
       type: 'line',
       data: {
@@ -169,7 +163,6 @@ export class StatisticsComponent implements OnInit, AfterViewInit {
       const margin = 15;
       let yOffset = 30;
 
-      // En-tête
       const addHeader = () => {
         doc.setFillColor(63, 81, 181);
         doc.rect(0, 0, pageWidth, 20, 'F');
@@ -179,7 +172,6 @@ export class StatisticsComponent implements OnInit, AfterViewInit {
         doc.setTextColor(0, 0, 0);
       };
 
-      // Pied de page
       const addFooter = (pageNum: number, totalPages: number) => {
         doc.setFontSize(10);
         doc.setTextColor(100);
@@ -191,7 +183,6 @@ export class StatisticsComponent implements OnInit, AfterViewInit {
         );
       };
 
-      // Titre
       addHeader();
       doc.setFontSize(18);
       doc.setTextColor(0, 0, 0);
@@ -206,13 +197,11 @@ export class StatisticsComponent implements OnInit, AfterViewInit {
       );
       yOffset += 15;
 
-      // Résumé des statistiques
       doc.setFontSize(14);
       doc.text('Résumé des Statistiques', margin, yOffset);
       yOffset += 8;
       doc.setFontSize(11);
 
-      // Calculer le total des demandes
       const totalRequests = Object.values(this.requestStats).reduce((a, b) => a + (b || 0), 0);
       doc.text(`Total demandes : ${totalRequests}`, margin, yOffset);
       yOffset += 6;
@@ -223,7 +212,6 @@ export class StatisticsComponent implements OnInit, AfterViewInit {
       doc.text(`Rejetées : ${this.requestStats.rejected || 0}`, margin, yOffset);
       yOffset += 10;
 
-      // Calculer le total des utilisateurs
       const totalUsers = Object.values(this.roleStats).reduce((a, b) => a + (b || 0), 0);
       doc.text(`Total utilisateurs : ${totalUsers}`, margin, yOffset);
       yOffset += 6;
@@ -234,7 +222,6 @@ export class StatisticsComponent implements OnInit, AfterViewInit {
       doc.text(`Employés : ${this.roleStats.employee || 0}`, margin, yOffset);
       yOffset += 15;
 
-      // Graphiques
       const chartIds = ['requestChart', 'roleChart', 'departmentChart', 'trendChart'];
       const chartTitles = [
         'Statut des demandes',
@@ -249,38 +236,33 @@ export class StatisticsComponent implements OnInit, AfterViewInit {
           console.warn(`Canvas ${chartId} not found`);
           continue;
         }
-        // Capture le graphique avec une qualité supérieure
+
         const canvasImg = await html2canvas(canvas, { scale: 2 });
         const imgData = canvasImg.toDataURL('image/png');
         const imgProps = doc.getImageProperties(imgData);
         const imgWidth = pageWidth - 2 * margin;
         const imgHeight = (imgProps.height * imgWidth) / imgProps.width;
 
-        // Vérifier si une nouvelle page est nécessaire
         if (yOffset + imgHeight + 30 > pageHeight - 20) {
           doc.addPage();
           addHeader();
           yOffset = 30;
         }
 
-        // Ajouter le titre du graphique
         doc.setFontSize(14);
         doc.text(chartTitles[index], margin, yOffset);
         yOffset += 10;
 
-        // Ajouter l'image du graphique
         doc.addImage(imgData, 'PNG', margin, yOffset, imgWidth, imgHeight);
         yOffset += imgHeight + 15;
       }
 
-      // Ajouter le pied de page à toutes les pages
       const totalPages = doc.getNumberOfPages();
       for (let i = 1; i <= totalPages; i++) {
         doc.setPage(i);
         addFooter(i, totalPages);
       }
 
-      // Sauvegarder le PDF
       doc.save(`statistics-report-${new Date().toISOString().slice(0, 10)}.pdf`);
     } catch (error) {
       console.error('Erreur lors de la génération du PDF:', error);
@@ -289,10 +271,8 @@ export class StatisticsComponent implements OnInit, AfterViewInit {
   }
 
   exportToExcel(): void {
-    // Créer un workbook avec une feuille
     const workbook = XLSX.utils.book_new();
 
-    // Préparer les données pour chaque feuille Excel
     const sheets = [
       { name: 'Statut Demandes', data: this.prepareRequestStats() },
       { name: 'Répartition Rôles', data: this.prepareRoleStats() },
@@ -300,14 +280,12 @@ export class StatisticsComponent implements OnInit, AfterViewInit {
       { name: 'Tendances', data: this.prepareTrendStats() },
     ];
 
-    // Ajouter une feuille pour le résumé des statistiques
     const summarySheetData = this.prepareSummaryStats();
     if (summarySheetData.length > 0) {
       const summaryWorksheet = XLSX.utils.json_to_sheet(summarySheetData);
       XLSX.utils.book_append_sheet(workbook, summaryWorksheet, 'Résumé des Statistiques');
     }
 
-    // Ajouter chaque jeu de données comme une feuille séparée
     sheets.forEach(sheet => {
       if (sheet.data.length > 0) {
         const worksheet = XLSX.utils.json_to_sheet(sheet.data);
@@ -315,11 +293,9 @@ export class StatisticsComponent implements OnInit, AfterViewInit {
       }
     });
 
-    // Générer le fichier Excel
     XLSX.writeFile(workbook, `statistiques_teletravail_${new Date().toISOString().slice(0, 10)}.xlsx`);
   }
 
-  // Méthodes utilitaires pour préparer les données
   private prepareRequestStats(): any[] {
     return [
       { Statut: 'En attente', Nombre: this.requestStats.pending || 0 },

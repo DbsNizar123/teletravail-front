@@ -13,7 +13,7 @@ export class DepartmentUpdateComponent implements OnInit {
   departmentId!: string;
   errorMessage: string | null = null;
   successMessage: string | null = null;
-  submitted: boolean = false; // To track if the form is submitted
+  submitted: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -22,18 +22,17 @@ export class DepartmentUpdateComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.departmentId = this.route.snapshot.paramMap.get('id') || ''; // Récupérer l'ID depuis l'URL
+    this.departmentId = this.route.snapshot.paramMap.get('id') || '';
     this.loadDepartmentDetails();
   }
 
-  // Charger les détails du département existant
   loadDepartmentDetails(): void {
     if (this.departmentId) {
       this.departmentService.getDepartmentById(this.departmentId).subscribe({
         next: (response) => {
           this.department = {
             name: response.department.name,
-            description: response.department.description || '', // Ensure description is a string
+            description: response.department.description || '', 
           };
         },
         error: (err) => {
@@ -44,13 +43,11 @@ export class DepartmentUpdateComponent implements OnInit {
     }
   }
 
-  // Mettre à jour le département
   onSubmit(): void {
-    this.submitted = true; // Mark the form as submitted
-    if (this.department.name) { // Basic validation
+    this.submitted = true;
+    if (this.department.name) {
       this.departmentService.updateDepartment(this.departmentId, this.department).subscribe({
         next: () => {
-          // Afficher une SweetAlert de succès
           Swal.fire({
             icon: 'success',
             title: 'Succès !',
@@ -58,7 +55,6 @@ export class DepartmentUpdateComponent implements OnInit {
             confirmButtonText: 'OK',
           }).then((result) => {
             if (result.isConfirmed) {
-              // Rediriger vers la liste des départements après avoir cliqué sur "OK"
               this.router.navigate(['/admin/show-department']);
             }
           });
@@ -71,7 +67,6 @@ export class DepartmentUpdateComponent implements OnInit {
     }
   }
 
-  // Annuler et retourner à la liste des départements
   cancel(): void {
     this.router.navigate(['/departments']);
   }

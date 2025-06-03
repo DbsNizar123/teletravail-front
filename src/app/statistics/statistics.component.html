@@ -3,7 +3,6 @@
     <i class="fas fa-chart-bar"></i> Statistiques
   </h2>
 
-  <!-- Export Button -->
   <div class="export-container">
     <button class="export-btn" (click)="exportToPDF()">
       <i class="fas fa-file-pdf"></i> Exporter en PDF
@@ -14,25 +13,21 @@
   </div>
 
   <div class="charts-container">
-    <!-- Request Status Chart -->
     <div class="chart-card">
       <h3>Statut des demandes</h3>
       <canvas id="requestChart" height="200"></canvas>
     </div>
 
-    <!-- Role Distribution Chart -->
     <div class="chart-card">
       <h3>Répartition des rôles</h3>
       <canvas id="roleChart" height="200"></canvas>
     </div>
 
-    <!-- Department Chart -->
     <div class="chart-card">
       <h3>Demandes par département</h3>
       <canvas id="departmentChart" height="200"></canvas>
     </div>
 
-    <!-- Trend Chart -->
     <div class="chart-card">
       <h3>Tendances des demandes</h3>
       <canvas id="trendChart" height="200"></canvas>

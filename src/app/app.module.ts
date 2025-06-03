@@ -1,4 +1,3 @@
-// src/app/app.module.ts
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
@@ -32,7 +31,7 @@ import { TeletravailCalendarComponent } from './teletravail-calendar/teletravail
 import { StatisticsComponent } from './statistics/statistics.component';
 import { ChatbotComponent } from './chatbot/chatbot.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
-import { HomeComponent } from './home/home.component'; // Add this
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +59,7 @@ import { HomeComponent } from './home/home.component'; // Add this
     StatisticsComponent,
     ChatbotComponent,
     UnauthorizedComponent,
-    HomeComponent, // Declare the component
+    HomeComponent,
   ],
   imports: [
     BrowserModule,

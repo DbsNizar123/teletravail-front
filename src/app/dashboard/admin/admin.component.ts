@@ -42,7 +42,6 @@ export class AdminComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Load profile, notifications, and theme if authorized
     this.loadProfile();
     this.loadNotifications();
     this.checkScreenSize();
@@ -97,7 +96,6 @@ export class AdminComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error fetching profile:', error);
-        // ErrorInterceptor handles HTTP errors
       }
     });
   }
@@ -120,7 +118,6 @@ export class AdminComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error fetching notifications:', error);
-        // ErrorInterceptor handles HTTP errors
       }
     });
   }
@@ -136,7 +133,6 @@ export class AdminComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error marking notification as read:', error);
-        // ErrorInterceptor handles HTTP errors
       }
     });
   }
@@ -149,7 +145,6 @@ export class AdminComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error marking all notifications as read:', error);
-        // ErrorInterceptor handles HTTP errors
       }
     });
   }
@@ -175,7 +170,6 @@ export class AdminComponent implements OnInit {
           },
           error: (error) => {
             console.error('Error deleting notification:', error);
-            // ErrorInterceptor handles HTTP errors
           }
         });
       }
@@ -234,7 +228,6 @@ export class AdminComponent implements OnInit {
       },
       error: (error) => {
         console.error('Échec de la déconnexion :', error);
-        // ErrorInterceptor handles HTTP errors
       }
     });
   }

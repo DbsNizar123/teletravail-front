@@ -9,13 +9,12 @@ import { DepartmentService } from '../services/department.service';
   styleUrls: ['./add-user.component.css']
 })
 export class AddUserComponent implements OnInit {
-  // Allow department_id to be undefined for admins
   userData = { 
     name: '', 
     email: '', 
     password: '', 
     role: '',
-    department_id: undefined as number | undefined // Allow undefined
+    department_id: undefined as number | undefined
   };
   
   departments: any[] = [];
@@ -48,19 +47,17 @@ export class AddUserComponent implements OnInit {
   }
   
   addUser() {
-    // Validate required fields
+
     if (!this.userData.name || !this.userData.email || !this.userData.password || !this.userData.role) {
       Swal.fire('Erreur !', 'Veuillez remplir tous les champs obligatoires', 'error');
       return;
     }
 
-    // Require department_id only for non-admin roles
     if (this.userData.role !== 'admin' && (!this.userData.department_id || this.userData.department_id <= 0)) {
       Swal.fire('Erreur !', 'Veuillez sélectionner un département valide', 'error');
       return;
     }
-  
-    // Create user object, exclude department_id if admin
+
     const userToCreate: any = {
       name: this.userData.name,
       email: this.userData.email,
@@ -99,7 +96,7 @@ export class AddUserComponent implements OnInit {
       email: '', 
       password: '', 
       role: '',
-      department_id: undefined // Reset to undefined
+      department_id: undefined
     };
   }
 }

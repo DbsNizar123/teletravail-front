@@ -14,7 +14,7 @@ export class ShowRequestComponent implements OnInit {
   currentPage: number = 1;
   totalPages: number = 0;
   limit: number = 10;
-  loading: boolean = true; // Ajout de la propriété loading
+  loading: boolean = true;
 
   constructor(
     private teletravailRequestService: TeletravailRequestService,
@@ -27,24 +27,18 @@ export class ShowRequestComponent implements OnInit {
   }
 
   loadRequests() {
-    this.loading = true; // Activer l'indicateur de chargement
-
-    // Définir un délai minimum de 3 secondes pour le chargement
+    this.loading = true;
     const loadingTimeout = setTimeout(() => {
-        this.loading = false; // Désactiver l'indicateur de chargement après 3 secondes
+        this.loading = false;
     }, 2500);
 
     this.teletravailRequestService.getRequests(this.currentPage, this.limit).subscribe({
         next: (response) => {
             this.requests = response.requests.data;
             this.totalPages = response.requests.last_page;
-            // Si la requête est terminée avant 3 secondes, le timeout gère this.loading = false
-            // Si la requête prend plus de 3 secondes, désactiver immédiatement après la réponse
             if (this.loading === false) {
-                // Timeout déjà exécuté, désactiver immédiatement
                 clearTimeout(loadingTimeout);
             } else {
-                // Timeout pas encore exécuté, le laisser gérer this.loading = false
                 this.loading = false;
                 clearTimeout(loadingTimeout);
             }

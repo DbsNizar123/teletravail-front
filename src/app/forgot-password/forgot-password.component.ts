@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import Swal from 'sweetalert2'; // Importation de SweetAlert2
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-forgot-password',

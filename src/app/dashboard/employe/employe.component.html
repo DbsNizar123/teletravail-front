@@ -28,7 +28,7 @@
       <div class="container-fluid">
         <h4 class="welcome-message">Bienvenue {{ user?.name || 'Utilisateur' }}</h4>
         <div class="navbar-right-items">
-          <!-- Notification icon -->
+          
           <div class="notification-icon" (click)="toggleNotifications($event)">
             <i class="fas fa-bell"></i>
             <span *ngIf="unreadNotificationCount > 0" class="notification-badge">{{ unreadNotificationCount }}</span>
@@ -59,7 +59,6 @@
             </div>
           </div>
 
-          <!-- Settings icon with Profile -->
           <div class="settings-icon" (click)="toggleSettingsMenu($event)">
             <img *ngIf="user?.profile_photo_url" [src]="user?.profile_photo_url" class="profile-photo">
             <div *ngIf="!user?.profile_photo_url" class="default-profile-photo">{{ getInitials(user?.name) }}</div>

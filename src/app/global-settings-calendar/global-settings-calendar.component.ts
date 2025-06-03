@@ -40,7 +40,7 @@ export class GlobalSettingsCalendarComponent implements OnInit {
     headerToolbar: {
       left: 'prev,next today',
       center: 'title',
-      right: 'dayGridMonth,dayGridWeek,dayGridDay,listWeek' // Changé timeGridWeek/Day en dayGridWeek/Day
+      right: 'dayGridMonth,dayGridWeek,dayGridDay,listWeek'
     },
     buttonText: {
       today: 'Aujourd\'hui',
@@ -60,16 +60,12 @@ export class GlobalSettingsCalendarComponent implements OnInit {
     eventClick: this.gestionClicEvenement.bind(this),
     select: this.gestionSelectionDate.bind(this),
     eventDisplay: 'block',
-    // Configuration pour masquer les heures
     allDaySlot: false,
     slotMinTime: '00:00:00',
     slotMaxTime: '24:00:00',
-    // Forcer tous les événements à être sur toute la journée
     defaultAllDay: true,
-    // Configuration des vues
     views: {
       dayGridMonth: {
-        // Configuration de la vue mois
       },
       dayGridWeek: {
         type: 'dayGrid',

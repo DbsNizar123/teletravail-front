@@ -1,4 +1,3 @@
-// add-department.component.ts
 import { Component, OnInit } from '@angular/core';
 import { DepartmentService } from '../services/department.service';
 import Swal from 'sweetalert2';
